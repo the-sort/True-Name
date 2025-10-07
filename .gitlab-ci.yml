@@ -5,7 +5,7 @@
 # If that happens you need to restore the original content of this file.
 
 image:
-  name: $CI_REGISTRY/bi-pyt/grading-pipeline-ci:python312
+  name: $CI_REGISTRY/bi-pyt/grading-pipeline-ci:python312_vB251
   entrypoint: [ '/bin/bash', '-c', 'ln -snf /bin/bash /bin/sh && /bin/bash -c $0' ]
 
 variables:
@@ -23,8 +23,8 @@ test-homework01:
     - bi-pyt-assignment
   script:
     - cd homework01
-    - "gitlab-runner-secrets verify-file-signatures test_*.py"
-    - sudo -u nobody pytest -c /etc/config/pytest.ini -s test_trees.py
+    - "gitlab-runner-secrets verify-file-signatures test_*.py districts/*.txt"
+    - sudo -u nobody pytest -c /etc/config/pytest.ini -s test_mcp_server.py
   only:
     - homework01
 
@@ -33,7 +33,7 @@ test-homework01-private:
   tags:
     - bi-pyt-assignment-private
   script:
-    - sudo -u nobody pytest -c /etc/config/pytest.ini -v --tb=no --no-summary -rN test_trees_private.py
+    - sudo -u nobody pytest -c /etc/config/pytest.ini -v --tb=no --no-summary -rN test_mcp_server_private.py
   only:
     - homework01
   allow_failure: true
@@ -88,7 +88,7 @@ test-homework02-private:
 validate-homework02:
   stage: validate
   variables:
-    ASSIGNMENT_DEADLINE: "2025-11-16T23:59:59"
+    ASSIGNMENT_DEADLINE: "2025-04-13T23:59:59"
   tags:
     - bi-pyt-assignment-validate
   script:
@@ -130,7 +130,7 @@ test-homework03-private:
 validate-homework03:
   stage: validate
   variables:
-    ASSIGNMENT_DEADLINE: "2025-11-30T23:59:59"
+    ASSIGNMENT_DEADLINE: "2025-04-27T23:59:59"
   tags:
     - bi-pyt-assignment-validate
   script:

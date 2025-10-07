@@ -1,0 +1,11 @@
+[
+    ["Oak Ave", "1st/Oak", "Oak Ave", "Oak Ave", "Oak/3rd", "Oak Ave", "Oak Ave", "XXXXXXX", "XXXXXXX"],
+    ["XXXXXXX", "1st Ave", "XXXXXXX", "XXXXXXX", "3rd Ave", "XXXXXXX", "XXXXXXX", "XXXXXXX", "Storage"],
+    ["Kungpao", "1st Ave", "XXXXXXX", "XXXXXXX", "3rd Ave", "XXXXXXX", "5th/6th", "6th Ave", "6th Ave"],
+    ["XXXXXXX", "1st Ave", "XXXXXXX", "XXXXXXX", "3rd Ave", "XXXXXXX", "5th Ave", "XXXXXXX", "XXXXXXX"],
+    ["XXXXXXX", "1st Ave", "Waffles", "XXXXXXX", "4th/3rd", "4th Ave", "4th/5th", "XXXXXXX", "XXXXXXX"],
+    ["XXXXXXX", "1st Ave", "XXXXXXX", "XXXXXXX", "3rd Ave", "XXXXXXX", "XXXXXXX", "XXXXXXX", "XXXXXXX"],
+    ["XXXXXXX", "1st Ave", "XXXXXXX", "XXXXXXX", "3rd Ave", "XXXXXXX", "XXXXXXX", "Brewery", "XXXXXXX"],
+    ["2nd Ave", "2nd/1st", "2nd Ave", "2nd Ave", "2nd/3rd", "2nd Ave", "2nd Ave", "2nd Ave", "2nd Ave"],
+    ["XXXXXXX", "XXXXXXX", "XXXXXXX", "XXXXXXX", "XXXXXXX", "XXXXXXX", "XXXXXXX", "XXXXXXX", "XXXXXXX"],
+]
