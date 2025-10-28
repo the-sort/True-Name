@@ -9,8 +9,10 @@ from utils import DISTRICTS_FOLDER, HOST, PORT, TRANSPORT, find_best_path_bfs, N
 server = FastMCP("Path Finder", host=HOST, port=PORT)
 
 # Prompt
+@server.prompt()
 def sample_prompt():
-    return ...
+    """Creates a new prompt to find best path."""
+    return "Find best path from Waffles to Storage in the Maple district."
 
 # Resource
 def district_resource(district_name):
