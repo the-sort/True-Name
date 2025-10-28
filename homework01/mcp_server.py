@@ -3,20 +3,20 @@
 from mcp.server.fastmcp import FastMCP
 from mcp.server.fastmcp.exceptions import FastMCPError
 
-from utils import DISTRICTS_FOLDER, HOST, PORT, TRANSPORT, find_best_path_bfs, NameNotInDistrictError, Node, load_district
+from utils import DISTRICTS_FOLDER, HOST, PORT, TRANSPORT, find_best_path_bfs, NameNotInDistrictError, Node
 
 # Create an MCP server
 server = FastMCP("Path Finder", host=HOST, port=PORT)
 
 def check_availability(district_name):
-    """Checks if resource is available"""
+    """Checks if resource is available, when true returns opened file"""
     try:
-        open(f"{DISTRICTS_FOLDER}/{district_name}.txt", "r", encoding="utf-8")
-        return True
+        file = open(f"{DISTRICTS_FOLDER}/{district_name}.txt", "r", encoding="utf-8")
+        return file
     except FileNotFoundError:
-        return f"{DISTRICTS_FOLDER}/{district_name}.txt does not exist"
+        return False
     except PermissionError:
-        return f"Inssuficient permision to acces {DISTRICTS_FOLDER}/{district_name}.txt"
+        return False
 
 def validate_district_name(district_name):
     """ Valid district name contains only:
@@ -26,8 +26,7 @@ def validate_district_name(district_name):
                     char == "'"     or
                     char == "_"
                 ):
-            return False
-    return True
+            raise FastMCPError("District name contains invalid characters")
 
 
 # Prompt
@@ -40,12 +39,13 @@ def sample_prompt():
 @server.resource("district://{district_name}")
 def district_resource(district_name):
     """"Get a desired district resource."""
-    if isinstance(check_availability(district_name), str):
+    content = ""
+    validate_district_name(district_name)
+    if not(file:=check_availability(district_name)):
         return
-    if not validate_district_name(district_name):
-        return
-
-    return ...
+    for line in file.readlines():
+        content += line
+    return content
 
 # Tool
 def find_best_path_tool(building_from, building_to, district_name):
