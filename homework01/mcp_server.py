@@ -71,17 +71,36 @@ def parse_file(district_name) -> list[list[str]]:
             parsed_line[it] = word.removesuffix("\"")
             it += 1
         out.append(parsed_line)
-    for word in out:
-        print(word)
     return out
 
-# def create_minimap(district_name, building_from, building_to):
-#     """Parses district file, creates minimap and highlights from/to buildings"""
-#     parsed_file = parse_file(district_name)
-#     width = parsed_file
-
-#     out = "Minimap:\n"
-
+#   width = len(parsed_file[0]) * 10 - 1
+def create_minimap(district_name, building_from = "", building_to = ""):
+    """Parses district file, creates minimap and highlights from/to buildings"""
+    out = ""
+    parsed_file = parse_file(district_name)
+    am_partitions = len(parsed_file[0]) - 1
+    partion_up = ("─" * 9) + "┬"
+    partion_middle = ("─" * 9) + "┼"
+    partion_down = ("─" * 9) + "┴"
+    suffix_up = ("─" * 9) + "┐" + "\n"
+    suffix_middle = ("─" * 9) + "┤" + "\n"
+    suffix_down = ("─" * 9) + "┘" + "\n"
+    out += "Minimap:\n"
+    out += " " * 4 + "┌" + partion_up * am_partitions + suffix_up
+    for line in parsed_file:
+        out += " " * 4 + "│"
+        for word in line:
+            if word == building_from or word == building_to :
+                out += ">" + word + "<" "│"
+            else :
+                out += " " + word + " " "│"
+        out += "\n"
+        if line == parsed_file[-1] :
+            break
+        out += " " *4 + "├" +partion_middle * am_partitions + suffix_middle
+    out += " " * 4 + "└" + partion_down * am_partitions + suffix_down
+    print(out)
+    return out
 
 
 # Prompt
