@@ -51,6 +51,7 @@ def format_path(path : list[Node]) -> str:
             out += node.name
             break
         out += f"{node.name} -> "
+    out +="\n"
     return out
 
 def parse_file(district_name) -> list[list[str]]:
@@ -74,7 +75,7 @@ def parse_file(district_name) -> list[list[str]]:
     return out
 
 #   width = len(parsed_file[0]) * 10 - 1
-def create_minimap(district_name, building_from = "", building_to = ""):
+def create_minimap(building_from, building_to, district_name):
     """Parses district file, creates minimap and highlights from/to buildings"""
     out = ""
     parsed_file = parse_file(district_name)
@@ -99,7 +100,7 @@ def create_minimap(district_name, building_from = "", building_to = ""):
             break
         out += " " *4 + "├" +partion_middle * am_partitions + suffix_middle
     out += " " * 4 + "└" + partion_down * am_partitions + suffix_down
-    print(out)
+    out += "\n"
     return out
 
 
@@ -130,10 +131,10 @@ def find_best_path_tool(building_from, building_to, district_name):
     validate_building_name(building_from)
     validate_building_name(building_to)
     validate_district_name(district_name)
-    if not(file:=check_availability(district_name)):
-        return None
     path : tuple = find_best_path_bfs(building_from, building_to, district_name)
     out += format_path(path[1])
+    out += create_minimap(building_from, building_to, district_name)
+    out += "Instructions:\n"
     return out
 
 
