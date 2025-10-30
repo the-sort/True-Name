@@ -50,7 +50,7 @@ def format_path(path : list[Node]) -> str:
         if node == path[-1] :
             out += node.name
             break
-        out += f"{node.name} -> "
+        out += f"{node.name} → "
     out +="\n"
     return out
 
@@ -123,6 +123,7 @@ def district_resource(district_name):
     return content
 
 # Tool
+@server.tool()
 def find_best_path_tool(building_from, building_to, district_name):
     """ Find the optimal path between two buildings in a district and 
         return both the path and a minimap showing the path steps.
