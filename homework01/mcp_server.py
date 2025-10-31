@@ -43,6 +43,34 @@ def validate_building_name(building_name):
             raise FastMCPError("Building name contains invalid characters")
         am_of_chars += 1
 
+def validate_avenue(avenue):
+    """Valid avenue contains only:
+        alphanumerical values and is in format:\n
+        1)"XXX Ave"\n
+        2"XXX/YYY"
+    """
+    for char in avenue[:3]:
+        if not char.isalnum() :
+            raise FastMCPError("Avenue prefix contains non alphanumerical values")
+    if avenue[3] == " " :
+        if "Ave" in avenue[-3:-1]:
+            raise FastMCPError("In format 'XXX Ave' Ave suffix is missing")
+    elif avenue[3] == "\\" :
+        for char in avenue[:3]:
+            if not char.isalnum() :
+                raise FastMCPError("In format 'XXX/YYY' suffix contains non alphanumerical values")
+    raise FastMCPError("None of valid formats were satysfied")
+
+def avenue_or_building(param):
+    """Differing between building or avenue"""
+    if len(param) >= 7 :
+        raise FastMCPError("avenue or building name is too long")
+    if param[3] == " " or param[3] == "\\":
+        validate_avenue(param)
+    else :
+        validate_building_name(param)
+
+
 def format_path(path : list[Node]) -> str:
     """Reconstructs the path and returns in proper format"""
     out = "Found path:\n    "
@@ -132,7 +160,10 @@ def find_best_path_tool(building_from, building_to, district_name):
     validate_building_name(building_from)
     validate_building_name(building_to)
     validate_district_name(district_name)
-    path : tuple = find_best_path_bfs(building_from, building_to, district_name)
+    try:
+        path : tuple = find_best_path_bfs(building_from, building_to, district_name)
+    except NameNotInDistrictError as e:
+        raise FastMCPError(e) from e
     out += format_path(path[1])
     out += create_minimap(building_from, building_to, district_name)
     out += "Instructions:\n"
