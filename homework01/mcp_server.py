@@ -38,9 +38,9 @@ def validate_building_name(building_name):
         if am_of_chars >= 7:
             raise FastMCPError("Building name contains more than 7 characters")
         if not (char.isalnum()  or
-                char == "'"
+                char == " "
                 ):
-            raise FastMCPError("Building name contains invalid characters")
+            raise FastMCPError(f"Building name: {building_name} contains invalid characters")
         am_of_chars += 1
 
 def validate_avenue(avenue):
@@ -53,19 +53,18 @@ def validate_avenue(avenue):
         if not char.isalnum() :
             raise FastMCPError("Avenue prefix contains non alphanumerical values")
     if avenue[3] == " " :
-        if "Ave" in avenue[-3:-1]:
+        if not "Ave" in avenue:
             raise FastMCPError("In format 'XXX Ave' Ave suffix is missing")
-    elif avenue[3] == "\\" :
+    elif avenue[3] == "/" :
         for char in avenue[:3]:
             if not char.isalnum() :
                 raise FastMCPError("In format 'XXX/YYY' suffix contains non alphanumerical values")
-    raise FastMCPError("None of valid formats were satysfied")
 
 def avenue_or_building(param):
     """Differing between building or avenue"""
-    if len(param) >= 7 :
+    if len(param) > 7 :
         raise FastMCPError("avenue or building name is too long")
-    if param[3] == " " or param[3] == "\\":
+    if param[3] == " " or param[3] == "/":
         validate_avenue(param)
     else :
         validate_building_name(param)
@@ -74,11 +73,12 @@ def avenue_or_building(param):
 def format_path(path : list[Node]) -> str:
     """Reconstructs the path and returns in proper format"""
     out = "Found path:\n    "
+    buff = list()
     for node in path:
-        if node == path[-1] :
-            out += node.name
-            break
-        out += f"{node.name} → "
+        if node.name in buff or "/" in node.name:
+            continue
+        buff.append(node.name)
+    out += " → ".join(buff)
     out +="\n"
     return out
 
@@ -98,6 +98,8 @@ def parse_file(district_name) -> list[list[str]]:
         for word in parsed_line :
             word = word.removeprefix("\"")
             parsed_line[it] = word.removesuffix("\"")
+            # print(parsed_line[it])
+            avenue_or_building(parsed_line[it])
             it += 1
         out.append(parsed_line)
     return out
@@ -128,7 +130,6 @@ def create_minimap(building_from, building_to, district_name):
             break
         out += " " *4 + "├" +partion_middle * am_partitions + suffix_middle
     out += " " * 4 + "└" + partion_down * am_partitions + suffix_down
-    out += "\n"
     return out
 
 
@@ -167,6 +168,7 @@ def find_best_path_tool(building_from, building_to, district_name):
     out += format_path(path[1])
     out += create_minimap(building_from, building_to, district_name)
     out += "Instructions:\n"
+    out += " "*4 + "Copy the 'Found path' and 'Minimap' outputs to the user in Markdown."
     return out
 
 
