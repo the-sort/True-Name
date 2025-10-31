@@ -60,7 +60,7 @@ def validate_avenue(avenue):
             if not char.isalnum() :
                 raise FastMCPError("In format 'XXX/YYY' suffix contains non alphanumerical values")
 
-def avenue_or_building(param):
+def valid_avenue_or_building(param):
     """Differing between building or avenue"""
     if len(param) > 7 :
         raise FastMCPError("avenue or building name is too long")
@@ -73,7 +73,7 @@ def avenue_or_building(param):
 def format_path(path : list[Node]) -> str:
     """Reconstructs the path and returns in proper format"""
     out = "Found path:\n    "
-    buff = list()
+    buff = []
     for node in path:
         if node.name in buff or "/" in node.name:
             continue
@@ -98,18 +98,28 @@ def parse_file(district_name) -> list[list[str]]:
         for word in parsed_line :
             word = word.removeprefix("\"")
             parsed_line[it] = word.removesuffix("\"")
-            # print(parsed_line[it])
-            avenue_or_building(parsed_line[it])
+            valid_avenue_or_building(parsed_line[it])
             it += 1
         out.append(parsed_line)
     return out
 
-#   width = len(parsed_file[0]) * 10 - 1
-def create_minimap(building_from, building_to, district_name):
+def replace_nodes(node_array, path):
+    """Replace node with number when was visited"""
+    path = path[1:-1]
+    for row in node_array:
+        for node in row:
+            valid_avenue_or_building(node.name)
+            if node in path:
+                digits = len(str(path.index(node) + 1))
+                left_pad = (7 - digits) // 2
+                right_pad = 7 - digits - left_pad
+                node.name = " " * left_pad + str(path.index(node) + 1) + " " * right_pad
+
+def create_minimap(building_from, building_to, path):
     """Parses district file, creates minimap and highlights from/to buildings"""
     out = ""
-    parsed_file = parse_file(district_name)
-    am_partitions = len(parsed_file[0]) - 1
+    replace_nodes(path[0], path[1])
+    am_partitions = len(path[0][0]) - 1
     partion_up = ("─" * 9) + "┬"
     partion_middle = ("─" * 9) + "┼"
     partion_down = ("─" * 9) + "┴"
@@ -118,15 +128,15 @@ def create_minimap(building_from, building_to, district_name):
     suffix_down = ("─" * 9) + "┘" + "\n"
     out += "Minimap:\n"
     out += " " * 4 + "┌" + partion_up * am_partitions + suffix_up
-    for line in parsed_file:
+    for line in path[0]:
         out += " " * 4 + "│"
-        for word in line:
-            if word == building_from or word == building_to :
-                out += ">" + word + "<" "│"
+        for node in line:
+            if node.name in building_from or node.name in building_to :
+                out += ">" + node.name + "<" "│"
             else :
-                out += " " + word + " " "│"
+                out += " " + node.name + " " "│"
         out += "\n"
-        if line == parsed_file[-1] :
+        if line == path[0][-1] :
             break
         out += " " *4 + "├" +partion_middle * am_partitions + suffix_middle
     out += " " * 4 + "└" + partion_down * am_partitions + suffix_down
@@ -166,9 +176,9 @@ def find_best_path_tool(building_from, building_to, district_name):
     except NameNotInDistrictError as e:
         raise FastMCPError(e) from e
     out += format_path(path[1])
-    out += create_minimap(building_from, building_to, district_name)
+    out += create_minimap(building_from, building_to, path)
     out += "Instructions:\n"
-    out += " "*4 + "Copy the 'Found path' and 'Minimap' outputs to the user in Markdown."
+    out += " "*4 + "Copy the 'Found path' and 'Minimap' outputs to the user in Markdown.\n"
     return out
 
 
