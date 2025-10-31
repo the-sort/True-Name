@@ -8,16 +8,6 @@ from utils import DISTRICTS_FOLDER, HOST, PORT, TRANSPORT, find_best_path_bfs, N
 # Create an MCP server
 server = FastMCP("Path Finder", host=HOST, port=PORT)
 
-def check_availability(district_name):
-    """Checks if resource is available, when true returns opened file"""
-    try:
-        file = open(f"{DISTRICTS_FOLDER}/{district_name}.txt", "r", encoding="utf-8")
-        return file
-    except FileNotFoundError:
-        return False
-    except PermissionError:
-        return False
-
 def validate_district_name(district_name):
     """ Valid district name contains only:
         alphanumerical values, spaces, single quotes and underscores
@@ -82,27 +72,6 @@ def format_path(path : list[Node]) -> str:
     out +="\n"
     return out
 
-def parse_file(district_name) -> list[list[str]]:
-    """Removes first and last line and parse all lines"""
-    out : list[list[str]] = []
-    parsed_line : list[str] = ["1","1","1"]
-    if not (file := check_availability(district_name)) :
-        return None
-    lines = file.readlines()
-    lines = lines[1:-1]
-    for line in lines:
-        line = line.removeprefix("    [")
-        line = line.removesuffix("],\n")
-        parsed_line = line.split(", ")
-        it = 0
-        for word in parsed_line :
-            word = word.removeprefix("\"")
-            parsed_line[it] = word.removesuffix("\"")
-            valid_avenue_or_building(parsed_line[it])
-            it += 1
-        out.append(parsed_line)
-    return out
-
 def replace_nodes(node_array, path):
     """Replace node with number when was visited"""
     path = path[1:-1]
@@ -155,11 +124,16 @@ def district_resource(district_name):
     """"Get a desired district resource."""
     content = ""
     validate_district_name(district_name)
-    if not(file:=check_availability(district_name)):
+    try:
+        with open(f"{DISTRICTS_FOLDER}/{district_name}.txt", "r", encoding="utf-8") as file:
+            for line in file.readlines():
+                content += line
+            return content
+    except FileNotFoundError:
         return None
-    for line in file.readlines():
-        content += line
-    return content
+    except PermissionError:
+        return None
+
 
 # Tool
 @server.tool()
