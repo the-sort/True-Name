@@ -25,7 +25,7 @@ try:
                     continue
                 if int(separeted[1]) < 15:
                     break
-                new_file.write(separeted[0]+"\n")
+                new_file.write((separeted[0]+"\n").upper())
         if args.delete:
             remove(args.file)
             print("File: ", args.file, " was deleted")
