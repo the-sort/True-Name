@@ -21,7 +21,10 @@ try:
         with open(new_file_name, mode ="wt+", encoding="utf-8") as new_file:
             for line in file:
                 separeted = line.split("\t")
-                if len(separeted[0]) <= 2 or not separeted[0].isalpha():
+                if  (   len(separeted[0]) <= 2      or
+                        not separeted[0].isalpha()  or
+                        len(separeted[0]) > 15
+                    ):
                     continue
                 if int(separeted[1]) < 15:
                     break
