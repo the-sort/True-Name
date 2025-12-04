@@ -20,15 +20,33 @@ class CTable:
 
         self.__read_dict(language)
         self.__solution = self.__fill_table()
+        for line in self.__table:
+            print(line)
+        # print(self.__table)
+        # print(self.__solution)
 
-    def check_solution(self, guessed_word) -> bool:
-        ...
+    def check_solution(self, guessed_word) -> tuple:
+        """
+        Compares guessed word with generated
+        returns True if they are same
+        else returns amount of same characters
+        """
+        if self.__solution == guessed_word:
+            return (True, 0)
+
+        likeness = 0
+        word_len = min(len(self.__solution), len(guessed_word))
+
+        for i in range(word_len):
+            if self.__solution[i] == guessed_word[i]:
+                likeness += 1
+        return (False, likeness)
 
     def __read_dict(self, language) -> None:
         """
         Reads content of desired dictionary
         """
-        path = "./dictionaries/" + language + "_edited.txt"
+        path = "../dictionaries/" + language + "_edited.txt"
         try:
             with open(path, mode = "rt", encoding = "utf-8") as source:
                 for line in source.readlines():
@@ -36,7 +54,7 @@ class CTable:
                     self.__dictionary[len(line)].append(line)
         except FileNotFoundError:
             warnings.warn("Desired language was not found. Language set to English")
-            with open("./dictionaries/ENG_edited.txt", mode = "rt", encoding = "utf-8") as source:
+            with open("../dictionaries/ENG_edited.txt", mode = "rt", encoding = "utf-8") as source:
                 for line in source.readlines():
                     line = line.removesuffix("\n")
                     self.__dictionary[len(line)].append(line)
@@ -49,10 +67,11 @@ class CTable:
         for row in self.__table:
             index = 0
             while index < self.__cols:
+                num = random.randint(0,10)
                 if self.__cols - index < 3:
                     index = self.__put_chars(row, index, self.__cols - index)
                     break
-                if random.randint(0,2) % 2 == 0:
+                if num  % 2 == 0 or num % 3 == 0:
                     index = self.__put_word(row, possible_solutions, index)
                 else:
                     index = self.__put_chars(row, index)
@@ -64,7 +83,10 @@ class CTable:
         """
         puts word into given row
         """
-        word_len = random.randint(MIN_WORD_LEN, self.__cols - index)
+        try:
+            word_len = random.randint(MIN_WORD_LEN,  self.__cols - index - 1)
+        except ValueError:
+            word_len = 3
         word = self.__dictionary[word_len][random.randint(0, len(self.__dictionary[word_len]) - 1)]
         possible_solutions.append(word)
         for char in word:
@@ -89,4 +111,10 @@ class CTable:
 
 
 if __name__ == "__main__":
-    table = CTable(10, 10, "SK")
+    table = CTable(16, 16, "ENG")
+    while True:
+        guess = input("Guess word in table: ")
+        alike = table.check_solution(guess)
+        if alike[0]:
+            break
+        print(guess, " , likness: ", alike[1])
