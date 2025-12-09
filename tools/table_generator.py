@@ -20,8 +20,8 @@ class CTable:
 
         self.__read_dict(language)
         self.__solution = self.__fill_table()
-        for line in self.__table:
-            print(line)
+        # for line in self.__table:
+        #     print(line)
         # print(self.__table)
         # print(self.__solution)
 
@@ -46,7 +46,7 @@ class CTable:
         """
         Reads content of desired dictionary
         """
-        path = "../dictionaries/" + language + "_edited.txt"
+        path = "dictionaries/" + language + "_edited.txt"
         try:
             with open(path, mode = "rt", encoding = "utf-8") as source:
                 for line in source.readlines():
@@ -54,7 +54,7 @@ class CTable:
                     self.__dictionary[len(line)].append(line)
         except FileNotFoundError:
             warnings.warn("Desired language was not found. Language set to English")
-            with open("../dictionaries/ENG_edited.txt", mode = "rt", encoding = "utf-8") as source:
+            with open("dictionaries/ENG_edited.txt", mode = "rt", encoding = "utf-8") as source:
                 for line in source.readlines():
                     line = line.removesuffix("\n")
                     self.__dictionary[len(line)].append(line)
@@ -84,7 +84,7 @@ class CTable:
         puts word into given row
         """
         try:
-            word_len = random.randint(MIN_WORD_LEN,  self.__cols - index - 1)
+            word_len = random.randint(MIN_WORD_LEN,  min(self.__cols - index - 1, MAX_WORD_LEN))
         except ValueError:
             word_len = 3
         word = self.__dictionary[word_len][random.randint(0, len(self.__dictionary[word_len]) - 1)]
