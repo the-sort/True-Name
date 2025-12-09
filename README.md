@@ -5,3 +5,5 @@ Describe a function of developed application, necessary dependencies (e.g. utili
 sources:
     SK_words(edited): https://korpus.juls.savba.sk/
     EN_words(edited): https://wortschatz.uni-leipzig.de/en/download/eng
+dependecies:
+    pygames: https://www.pygame.org/wiki/GettingStarted
