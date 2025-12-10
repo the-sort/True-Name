@@ -7,3 +7,5 @@ sources:
     EN_words(edited): https://wortschatz.uni-leipzig.de/en/download/eng
 dependecies:
     pygames: https://www.pygame.org/wiki/GettingStarted
+font:
+    Gothic_pixel_font (edited): https://osadam.itch.io/gothic-pixelart-font
