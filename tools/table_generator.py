@@ -4,26 +4,28 @@ and fill it with random words from dictionary
 """
 import warnings
 import random
+import pygame
+from tools.utils import percetage
 
 MAX_WORD_LEN = 15
 MIN_WORD_LEN = 3
+FONT_SIZE    = 40 # + magic constant 4 for better readability
 
 class CTable:
     """
     table filled with random words
     """
-    def __init__(self, cols, rows, language):
-        self.__cols = cols
-        self.__rows = rows
+    def __init__(self, screen, difficultie, language):
+        self.__set_difficultie(difficultie)
+
+        self.__screen = screen
         self.__table = [["" for j in range(self.__cols)] for i in range(self.__rows)]
         self.__dictionary = [[] for _ in range(MAX_WORD_LEN + 1)]
 
         self.__read_dict(language)
         self.__solution = self.__fill_table()
-        # for line in self.__table:
-        #     print(line)
-        # print(self.__table)
-        # print(self.__solution)
+        for line in self.__table:
+            print(line)
 
     def check_solution(self, guessed_word) -> tuple:
         """
@@ -41,6 +43,51 @@ class CTable:
             if self.__solution[i] == guessed_word[i]:
                 likeness += 1
         return (False, likeness)
+
+    # def display_windows(self):
+
+
+    def __set_difficultie(self, difficultie):
+        """
+        Sets difficultie of table
+        """
+        match difficultie:
+            case "EASY":
+                self.__cols  = 6
+                self.__rows  = 5
+                self.__scale = 5.5
+                return
+            case "MEDIUM":
+                self.__cols  = 8
+                self.__rows  = 6
+                self.__scale = 4
+                return
+            case "HARD":
+                self.__cols  = 16
+                self.__rows  = 12
+                self.__scale = 2
+                return
+
+    def generate_windows(self):
+        """
+        generates_windows into scene
+        """
+        screen_center = pygame.Rect (
+                            percetage(self.__screen.get_width(), 5),
+                            0,
+                            self.__screen.get_width() - 2 * percetage(self.__screen.get_width(), 5),
+                            self.__screen.get_height() -  percetage(self.__screen.get_height(), 5)
+                                    )
+        window = pygame.image.load("window.png")
+        window = pygame.transform.scale(window, (   window.get_width() * self.__scale,
+                                                    window.get_height() * self.__scale ))
+        y = screen_center.centery - (window.get_height() * self.__rows // 2)
+        for _i in range(self.__rows):
+            x = screen_center.centerx - (window.get_width() * self.__cols //2)
+            for _j in range(self.__cols):
+                self.__screen.blit(window,(x,y))
+                x += window.get_width()
+            y += window.get_height()
 
     def __read_dict(self, language) -> None:
         """
@@ -111,7 +158,10 @@ class CTable:
 
 
 if __name__ == "__main__":
-    table = CTable(16, 16, "ENG")
+    SCREEN_W = 1024 # 4 x 3
+    SCREEN_H = 768
+    buff = pygame.display.set_mode((SCREEN_W, SCREEN_H))
+    table = CTable(buff, "HARD", "ENG")
     while True:
         guess = input("Guess word in table: ")
         alike = table.check_solution(guess)
