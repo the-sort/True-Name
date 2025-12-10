@@ -44,28 +44,6 @@ class CTable:
                 likeness += 1
         return (False, likeness)
 
-    def generate_windows(self):
-        """
-        generates_windows into scene
-        """
-        screen_center = pygame.Rect (
-                            percetage(self.__screen.get_width(), 5),
-                            0,
-                            self.__screen.get_width() - 2 * percetage(self.__screen.get_width(), 5),
-                            self.__screen.get_height() -  percetage(self.__screen.get_height(), 5)
-                                    )
-        window = pygame.image.load("window.png")
-        window = pygame.transform.scale(window, (   window.get_width() * self.__scale,
-                                                    window.get_height() * self.__scale ))
-        y = screen_center.centery - (window.get_height() * self.__rows // 2)
-        for _i in range(self.__rows):
-            x = screen_center.centerx - (window.get_width() * self.__cols //2)
-            for _j in range(self.__cols):
-                self.__screen.blit(window,(x,y))
-                x += window.get_width()
-            y += window.get_height()
-        return (window.get_width(), window.get_height())
-
     def display_table(self):
         """
         Metod used to display table
@@ -76,19 +54,24 @@ class CTable:
                             self.__screen.get_width() - 2 * percetage(self.__screen.get_width(), 5),
                             self.__screen.get_height() -  percetage(self.__screen.get_height(), 5)
                                     )
-        window_dim = self.generate_windows()
+        window = pygame.image.load("window.png")
+        window = pygame.transform.scale (window, (   window.get_width() * self.__scale,
+                                                    window.get_height() * self.__scale )
+                                        )
 
         font = pygame.font.Font("./dictionaries/Gothic_pixel_font_fixed.ttf", self.__font_size)
-        y = screen_center.centery - (window_dim[1] * self.__rows // 2)
+
+        y = screen_center.centery - (window.get_height() * self.__rows // 2)
         for line in self.__table:
-            x = screen_center.centerx - (window_dim[0] * self.__cols //2)
+            x = screen_center.centerx - (window.get_width() * self.__cols //2)
             for col in line:
                 col_surface = font.render(col, True, (255,255,255))
-                x_off = (window_dim[0] - col_surface.get_width()) // 2
-                y_off = (window_dim[1] - col_surface.get_height()) //2
+                x_off = (window.get_width() - col_surface.get_width()) // 2
+                y_off = (window.get_height() - col_surface.get_height()) //2
+                self.__screen.blit(window,(x,y))
                 self.__screen.blit(col_surface, (x + x_off ,y + y_off))
-                x += window_dim[0]
-            y += window_dim[1]
+                x += window.get_width()
+            y += window.get_height()
 
     def __set_difficultie(self, difficultie):
         """
