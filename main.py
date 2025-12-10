@@ -24,7 +24,8 @@ if __name__ == "__main__":
     left_place_holder  = pygame.Rect(0, 0, percetage(SCREEN_W, 5), SCREEN_H)
     right_place_holder  = pygame.Rect(SCREEN_W - percetage(SCREEN_W, 5), 0, percetage(SCREEN_W, 5), SCREEN_H)
 
-    table.generate_windows()
+    # table.generate_windows()
+    table.display_table()
 
     while RUNNING:
         pygame.draw.rect(screen, (255,255,255), bottom_place_holder)
