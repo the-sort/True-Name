@@ -24,8 +24,8 @@ class CTable:
 
         self.__read_dict(language)
         self.__solution = self.__fill_table()
-        for line in self.__table:
-            print(line)
+        # for line in self.__table:
+        #     print(line)
 
     def check_solution(self, guessed_word) -> tuple:
         """
@@ -44,7 +44,7 @@ class CTable:
                 likeness += 1
         return (False, likeness)
 
-    def display_table(self):
+    def display_table(self, global_x = 0, global_y = 0):
         """
         Metod used to display table
         """
@@ -61,9 +61,9 @@ class CTable:
 
         font = pygame.font.Font("./dictionaries/Gothic_pixel_font_fixed.ttf", self.__font_size)
 
-        y = screen_center.centery - (window.get_height() * self.__rows // 2)
+        y = (screen_center.centery - (window.get_height() * self.__rows // 2)) + global_y
         for line in self.__table:
-            x = screen_center.centerx - (window.get_width() * self.__cols //2)
+            x = (screen_center.centerx - (window.get_width() * self.__cols //2)) + global_x 
             for col in line:
                 col_surface = font.render(col, True, (255,255,255))
                 x_off = (window.get_width() - col_surface.get_width()) // 2
