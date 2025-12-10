@@ -44,30 +44,6 @@ class CTable:
                 likeness += 1
         return (False, likeness)
 
-    # def display_windows(self):
-
-
-    def __set_difficultie(self, difficultie):
-        """
-        Sets difficultie of table
-        """
-        match difficultie:
-            case "EASY":
-                self.__cols  = 6
-                self.__rows  = 5
-                self.__scale = 5.5
-                return
-            case "MEDIUM":
-                self.__cols  = 8
-                self.__rows  = 6
-                self.__scale = 4
-                return
-            case "HARD":
-                self.__cols  = 16
-                self.__rows  = 12
-                self.__scale = 2
-                return
-
     def generate_windows(self):
         """
         generates_windows into scene
@@ -88,6 +64,56 @@ class CTable:
                 self.__screen.blit(window,(x,y))
                 x += window.get_width()
             y += window.get_height()
+        return (window.get_width(), window.get_height())
+
+    def display_table(self):
+        """
+        Metod used to display table
+        """
+        screen_center = pygame.Rect (
+                            percetage(self.__screen.get_width(), 5),
+                            0,
+                            self.__screen.get_width() - 2 * percetage(self.__screen.get_width(), 5),
+                            self.__screen.get_height() -  percetage(self.__screen.get_height(), 5)
+                                    )
+        window_dim = self.generate_windows()
+
+        font = pygame.font.Font("./dictionaries/Gothic_pixel_font_fixed.ttf", self.__font_size)
+        y = screen_center.centery - (window_dim[1] * self.__rows // 2)
+        for line in self.__table:
+            x = screen_center.centerx - (window_dim[0] * self.__cols //2)
+            for col in line:
+                col_surface = font.render(col, True, (255,255,255))
+                x_off = (window_dim[0] - col_surface.get_width()) // 2
+                y_off = (window_dim[1] - col_surface.get_height()) //2
+                self.__screen.blit(col_surface, (x + x_off ,y + y_off))
+                x += window_dim[0]
+            y += window_dim[1]
+
+    def __set_difficultie(self, difficultie):
+        """
+        Sets difficultie of table
+        """
+        match difficultie:
+            case "EASY":
+                self.__cols       = 6
+                self.__rows       = 5
+                self.__scale      = 5
+                self.__font_size  = 35
+                return
+            case "MEDIUM":
+                self.__cols       = 8
+                self.__rows       = 6
+                self.__scale      = 4
+                self.__font_size  = 30
+                return
+            case "HARD":
+                self.__cols       = 16
+                self.__rows       = 12
+                self.__scale      = 2
+                self.__font_size  = 15
+                return
+
 
     def __read_dict(self, language) -> None:
         """
@@ -146,7 +172,7 @@ class CTable:
         puts chars into given row
         """
         # chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZÁÄČĎÉÍĹĽŇÓÔŔŠŤÚÝŽ"
-        chars = "()~!@#$%^&*()_+/*-{}|:<>?`"
+        chars = "()~!@#$%&()_+/-{}|:<>?"
         if am_chars == 0:
             am_chars = random.randint(1, self.__cols - index)
         for _ in range(am_chars):
