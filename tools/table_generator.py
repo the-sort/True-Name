@@ -1,9 +1,9 @@
 """
 Tool designed to generate table of custom dimension
 and fill it with random words from dictionary
-HARD   =  32 x 32
-MEDIUM =  16 x 16
-EASY   =  8 x 8
+HARD   =  16 x 12
+MEDIUM =  8  x 6
+EASY   =  6  x 5
 """
 import warnings
 import random
