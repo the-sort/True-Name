@@ -1,6 +1,9 @@
 """
 Tool designed to generate table of custom dimension
 and fill it with random words from dictionary
+HARD   =  32 x 32
+MEDIUM =  16 x 16
+EASY   =  8 x 8
 """
 import warnings
 import random
@@ -9,7 +12,8 @@ from tools.utils import percetage
 
 MAX_WORD_LEN = 15
 MIN_WORD_LEN = 3
-FONT_SIZE    = 40 # + magic constant 4 for better readability
+
+
 
 class CTable:
     """
@@ -63,7 +67,7 @@ class CTable:
 
         y = (screen_center.centery - (window.get_height() * self.__rows // 2)) + global_y
         for line in self.__table:
-            x = (screen_center.centerx - (window.get_width() * self.__cols //2)) + global_x 
+            x = (screen_center.centerx - (window.get_width() * self.__cols //2)) + global_x
             for col in line:
                 col_surface = font.render(col, True, (255,255,255))
                 x_off = (window.get_width() - col_surface.get_width()) // 2
