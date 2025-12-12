@@ -1,0 +1,111 @@
+"""
+Script creates level 
+"""
+import pygame
+from tools.utils import percetage
+import tools.table_generator as tg
+
+SCREEN_W = 1024 # 4 x 3
+SCREEN_H = 768
+
+
+class CLevel:
+    """
+    Metods for handling level
+    """
+    def __init__(self, difficultie, language = "ENG"):
+        self.__screen = pygame.display.set_mode((SCREEN_W, SCREEN_H))
+        self.__table  = tg.CTable(self.__screen, difficultie, language)
+
+        self.__x_pos    = 0
+        self.__y_pos    = 0
+        self.__x_off    = 0
+        self.__y_off    = 0
+
+    def display_level(self):
+        """
+        Metod called in game loop
+        """
+
+        self.__screen.fill((0,0,0))
+        self.__table.display_table(self.__x_pos, self.__y_pos)
+
+        center_collider  = pygame.Rect  (   percetage(SCREEN_W, 10) + self.__x_pos            ,
+                                            SCREEN_H - percetage(SCREEN_H, 5) + self.__y_pos  ,
+                                            SCREEN_W - 2 * percetage(SCREEN_W, 10)            ,
+                                            percetage(SCREEN_H, 5)
+                                            )
+        left_collider    = pygame.Rect  (   0 + self.__x_pos        ,
+                                            0 + self.__y_pos        ,
+                                            percetage(SCREEN_W, 5)  ,
+                                            SCREEN_H
+                                            )
+        right_collider   = pygame.Rect  (   SCREEN_W - percetage(SCREEN_W, 5) + self.__x_pos ,
+                                            0 + self.__y_pos                                 ,
+                                            percetage(SCREEN_W, 5)                           ,
+                                            SCREEN_H
+                                            )
+
+        pygame.draw.rect(self.__screen, (255,255,255),center_collider)
+        pygame.draw.rect(self.__screen, (255,255,255),left_collider)
+        pygame.draw.rect(self.__screen, (255,255,255),right_collider)
+
+        continue_looping = self.__event_handler(center_collider, left_collider, right_collider)
+
+        self.__x_pos += self.__x_off
+        self.__y_pos += self.__y_off
+
+        if  self.__y_pos <= -SCREEN_H + percetage(SCREEN_H, 5) or self.__y_pos >= 0:
+            self.__y_off = 0
+
+        if  (   self.__x_pos <= -SCREEN_W + percetage(SCREEN_W, 5)  or
+                self.__x_pos >= SCREEN_W - percetage(SCREEN_W, 5)   or
+                self.__x_pos == 0
+            ):
+            self.__x_off = 0
+
+
+        return continue_looping
+
+    def __event_handler(self, center_collider, left_collider, right_collider):
+        """
+        Metod handling all inputs and events
+        """
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                return False
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if center_collider.collidepoint(event.pos):
+                    if self.__y_pos >= 0:
+                        self.__y_off = -8
+                    else:
+                        self.__y_off = 8
+                elif right_collider.collidepoint(event.pos):
+                    if self.__x_pos >= 0:
+                        self.__x_off = -8
+                    else:
+                        self.__x_off = 8
+                elif left_collider.collidepoint(event.pos):
+                    if self.__x_pos <= 0:
+                        self.__x_off = 8
+                    else:
+                        self.__x_off = -8
+        return True
+
+
+if __name__ == "__main__":
+    RUNNING  = True
+    DELTA_TIME = 0.1
+
+    pygame.init()
+    level = CLevel("MEDIUM")
+    clock = pygame.time.Clock()
+
+    while RUNNING:
+        RUNNING = level.display_level()
+
+        pygame.display.flip()
+
+        DELTA_TIME = clock.tick(60) / 1000 #tick is in ms
+        DELTA_TIME = max(0.1, min(0.1, DELTA_TIME))
+    pygame.quit()
