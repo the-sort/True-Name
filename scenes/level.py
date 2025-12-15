@@ -6,6 +6,7 @@ from tools.utils import percetage
 import tools.table_generator as tg
 import tools.brush as brush
 import tools.canvas as canvas
+from tools.evaluator import CEvaluator
 
 SCREEN_W = 1024 # 4 x 3
 SCREEN_H = 768
@@ -26,7 +27,8 @@ class CLevel:
 
         self.__canvases = canvas.CCanvases(SCREEN_H)
         self.__brush = brush.CBrush()
-
+        self.__evaluator = CEvaluator()
+        
     def display_level(self):
         """
         Metod called in game loop
@@ -107,10 +109,18 @@ class CLevel:
                     self.__brush.up()
                     # last_pos = event.pos
             if event.type == pygame.MOUSEMOTION and self.__brush.is_down():
-                # print(self.__canvas.get_rect().collidepoint)
                 if (a_canvas := self.__canvases.get_active(event.pos)) is None:
                     continue
                 self.__brush.draw(a_canvas[0], a_canvas[1], event.pos)
+            if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
+                self.__canvases.save()
+                answer = self.__evaluator.make_string()
+                if (likness := self.__table.check_solution(answer))[0]:
+                    print("GOOD JOB!")
+                else:
+                    self.__canvases = canvas.CCanvases(SCREEN_H)
+                    print(likness[1])
+
 
         return True
 
