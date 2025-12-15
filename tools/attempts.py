@@ -23,7 +23,7 @@ class CAttempts:
                 attempt[1] int
         """
         self.__attempts.append(attempt)
-    
+
     def display_attempts(self, global_x, global_y):
         """
         Display users attempts
@@ -43,7 +43,7 @@ class CAttempts:
             text = str(attempt[0])
             text_surface = font.render(text, True, color)
 
-            self.__screen.blit  (text_surface, (x_off + global_x + self.__screen_width, 
+            self.__screen.blit  (text_surface, (x_off + global_x + self.__screen_width,
                                                 y_off + global_y)
                                 )
             text = "LIKNESS  =  " + str(attempt[1])
