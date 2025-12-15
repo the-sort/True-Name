@@ -62,6 +62,15 @@ class CCanvases:
                 return (i[1], self.__canvases_rect[i[0]], i[0])
         return None
 
+    def make_blank(self, pos):
+        """
+        Resets canva to blank
+        """
+        if (canva := self.get_active(pos)) is None:
+            return
+        canva[0].fill(self.__background)
+        pygame.image.save(canva[0], f"profile/input/char{canva[2]}.png")
+
     def save(self):
         """
         Saves users answer
