@@ -7,7 +7,7 @@ class CBrush:
     """
     class that represents brush
     """
-    def __init__(self, color = (255, 0, 0), size = 4):
+    def __init__(self, color = (255, 0, 0), size = 8):
         self.__down  = False
         self.__color = color
         self.__size  = size
@@ -34,9 +34,5 @@ class CBrush:
         """
         Puts a pixel on canvas
         """
-        pixel = pygame.Rect (   pos[0] - canvas_rect.x  ,
-                                pos[1] - canvas_rect.y  ,
-                                self.__size             ,
-                                self.__size
-                            )
-        pygame.draw.rect(canvas, self.__color, pixel)
+        center = (pos[0]- canvas_rect.x,  pos[1] - canvas_rect.y)
+        pygame.draw.circle(canvas, self.__color, center, self.__size)
