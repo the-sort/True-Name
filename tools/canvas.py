@@ -23,6 +23,7 @@ class CCanvases:
         for canvas in self.__canvases:
             canvas.fill(self.__background)
 
+
     def display_canvases(self, screen, global_x, global_y):
         """
         Metod used for displaying canvases
@@ -54,11 +55,11 @@ class CCanvases:
         Metod that returns canvas with 
         which player interacts
         Return None if interacts with nothing
-        Return Surface and rect when found
+        Return Surface, rect and index when found
         """
         for i in enumerate(self.__canvases):
             if self.__canvases_rect[i[0]].collidepoint(pos):
-                return (i[1],self.__canvases_rect[i[0]])
+                return (i[1], self.__canvases_rect[i[0]], i[0])
         return None
 
     def save(self):
@@ -69,6 +70,7 @@ class CCanvases:
         for canvas in self.__canvases:
             pygame.image.save(canvas, "profile/input/char" + str(x) + ".png")
             x += 1
+        print("SAVING CANVAS")
 
 
     def is_blank(self, canvas):
@@ -76,7 +78,3 @@ class CCanvases:
         Controls if canvas is blank
         """
         return np.all(pygame.surfarray.array3d(canvas) == self.__background)
-
-
-    def __del__(self):
-        self.save()

@@ -73,7 +73,8 @@ class CLevel:
         self.__end_slider.display_slider(self.__x_pos, self.__y_pos)
 
         continue_looping = self.__event_handler(self.__x_pos, self.__y_pos)
-
+        
+        self.__evaluator.guess(self.__screen, self.__x_pos, self.__y_pos)
 
         self.__x_pos += self.__x_off
         self.__y_pos += self.__y_off
@@ -123,14 +124,16 @@ class CLevel:
             if event.type == pygame.MOUSEBUTTONUP:
                 if event.button == 1:   # left click
                     self.__brush.up()
-                    # last_pos = event.pos
+                    # answer = self.__evaluator.make_string(False)
+                    self.__evaluator.changed()
             if event.type == pygame.MOUSEMOTION and self.__brush.is_down():
                 if (a_canvas := self.__canvases.get_active(event.pos)) is None:
                     continue
                 self.__brush.draw(a_canvas[0], a_canvas[1], event.pos)
+                pygame.image.save(a_canvas[0], "profile/input/char" + str(a_canvas[2]) + ".png") #Preanswer guessing
             if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
                 self.__canvases.save()
-                answer = self.__evaluator.make_string()
+                answer = self.__evaluator.make_string(True) #Finall Answer guessing
                 if (likness := self.__table.check_solution(answer))[0]:
                     self.__end_slider.activate()
                 else:
