@@ -2,6 +2,7 @@
 Tool for displaying and handling canvas
 """
 import pygame
+import numpy as np
 
 class CCanvases:
     """
@@ -15,8 +16,12 @@ class CCanvases:
         self.__canvases         = [pygame.Surface((self.__width,self.__height)) for _ in range(10)]
         self.__canvases_rect    = [canvas.get_rect() for canvas in self.__canvases]
 
+        self.__frame = pygame.image.load("frame.png")
+
+        self.__background = (255,255,255)
+
         for canvas in self.__canvases:
-            canvas.fill((255,255,255))
+            canvas.fill(self.__background)
 
     def display_canvases(self, screen, global_x, global_y):
         """
@@ -30,6 +35,7 @@ class CCanvases:
                         )
 
             screen.blit(self.__canvases[i], l_corner)
+            screen.blit(self.__frame, l_corner)
             self.__canvases_rect[i] = self.__canvases[i].get_rect(topleft = l_corner)
             x_offset += 175
 
@@ -40,6 +46,7 @@ class CCanvases:
                         (self.__screen_height//2) + self.__screen_height + global_y
                         )
             screen.blit(self.__canvases[i], l_corner)
+            screen.blit(self.__frame, l_corner)
             self.__canvases_rect[i] = self.__canvases[i].get_rect(topleft = l_corner)
             x_offset += 175
     def get_active(self, pos):
@@ -53,3 +60,23 @@ class CCanvases:
             if self.__canvases_rect[i[0]].collidepoint(pos):
                 return (i[1],self.__canvases_rect[i[0]])
         return None
+
+    def save(self):
+        """
+        Saves users answer
+        """
+        x = 0
+        for canvas in self.__canvases:
+            pygame.image.save(canvas, "profile/input/char" + str(x) + ".png")
+            x += 1
+
+
+    def is_blank(self, canvas):
+        """
+        Controls if canvas is blank
+        """
+        return np.all(pygame.surfarray.array3d(canvas) == self.__background)
+
+
+    def __del__(self):
+        self.save()
