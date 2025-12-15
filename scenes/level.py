@@ -49,7 +49,12 @@ class CLevel:
                                             SCREEN_H                                          ,
                                             active = True
                                         )
-
+        self.__end_slider     = Slider  (   self.__screen, percetage(SCREEN_W, 10)      ,
+                                            (SCREEN_H * 2) - percetage(2 * SCREEN_H, 5) ,
+                                            SCREEN_W - 2 * percetage(SCREEN_W, 10)      ,
+                                            percetage(2 * SCREEN_H, 5)                  ,
+                                            active = False
+                                        )
     def display_level(self):
         """
         Metod called in game loop
@@ -65,6 +70,7 @@ class CLevel:
         self.__center_collider.display_slider(self.__x_pos, self.__y_pos)
         self.__left_collider.display_slider(self.__x_pos, self.__y_pos)
         self.__right_collider.display_slider(self.__x_pos, self.__y_pos)
+        self.__end_slider.display_slider(self.__x_pos, self.__y_pos)
 
         continue_looping = self.__event_handler(self.__x_pos, self.__y_pos)
 
@@ -90,11 +96,14 @@ class CLevel:
         """
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                return False
+                return False #END GAME
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if event.button == 1:   # left click
                     self.__brush.down()
-                    # last_pos = event.pos
+                    if  (   self.__end_slider.is_active() and
+                            self.__end_slider.collidepoint(global_x, global_y, event.pos)
+                        ):
+                        return False #END GAME
 
                 if self.__center_collider.collidepoint(global_x, global_y, event.pos):
                     if self.__y_pos >= 0:
@@ -123,11 +132,10 @@ class CLevel:
                 self.__canvases.save()
                 answer = self.__evaluator.make_string()
                 if (likness := self.__table.check_solution(answer))[0]:
-                    print("GOOD JOB!")
+                    self.__end_slider.activate()
                 else:
                     self.__canvases = canvas.CCanvases(SCREEN_H)
                     self.__attempts.add((answer, likness[1]))
-                    print(likness[1])
 
 
         return True
