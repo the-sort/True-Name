@@ -18,6 +18,7 @@ class CEvaluator:
 
     def __init__(self):
         self.__set_model()
+        self.__images = []
 
         self.__class_to_index = {v: k for k, v in
                                     ImageFolder("dictionaries/letters/train/").class_to_idx.items()
@@ -37,7 +38,6 @@ class CEvaluator:
         """
         Preproces users drawing for model
         """
-        self.__images = []
         transform = transforms.Compose  ([
                                             transforms.Resize((128, 128)),
                                             transforms.ToTensor()
