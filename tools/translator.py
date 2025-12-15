@@ -14,8 +14,8 @@ class CLettersDataset(Dataset):
     """
     Dataset of letters
     """
-    def __init__(self, data_dir, transform = None):
-        self.__data = ImageFolder(data_dir, transform = transform)
+    def __init__(self, data_dir, transformation = None):
+        self.__data = ImageFolder(data_dir, transform = transformation)
 
     def __len__(self):
         return len(self.__data)
@@ -42,8 +42,8 @@ class CSimpleLetterClassifier(nn.Module):
         Defines how will data pass throught network
         """
         x = self.features(x)
-        output = self.classifier(x)
-        return output
+        out = self.classifier(x)
+        return out
 
 
 if __name__ == "__main__":
@@ -51,18 +51,18 @@ if __name__ == "__main__":
     transform = transforms.Compose  ([  transforms.Resize((128,128)),
                                         transforms.ToTensor()
                                     ])
-    train_foler = "dictionaries/letters/train/"
-    valid_foler = "dictionaries/letters/validate/"
+    TRAIN_FOLDER = "dictionaries/letters/train/"
+    VALID_FOLDER = "dictionaries/letters/validate/"
 
-    train_dataset = CLettersDataset(train_foler, transform)
-    valid_dataset = CLettersDataset(valid_foler, transform)
+    train_dataset = CLettersDataset(TRAIN_FOLDER, transform)
+    valid_dataset = CLettersDataset(VALID_FOLDER, transform)
 
     train_loader = DataLoader(train_dataset, batch_size=32, shuffle= True)
     valid_loader = DataLoader(valid_dataset, batch_size=32, shuffle= False)
 
     device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
-    num_epoch = 5
+    NUM_EPOCHS = 5
     train_losses = []
     valid_losses = []
 
@@ -72,9 +72,9 @@ if __name__ == "__main__":
     criterion = nn.CrossEntropyLoss()# Loss function
     optimizer = optim.Adam(model.parameters(), lr=0.001)
 
-    for epoch in range(num_epoch):
+    for epoch in range(NUM_EPOCHS):
         model.train()
-        running_loss = 0.0
+        RUNNING_LOSS = 0.0
         for images, labels in tqdm(train_loader, desc = "Train loop"):
             images = images.to(device)
             labels = labels.to(device)
@@ -84,13 +84,13 @@ if __name__ == "__main__":
             loss = criterion(output, labels)
             loss.backward()
             optimizer.step()
-            running_loss += loss.item() * labels.size(0)
-        train_loss = running_loss / len(train_loader.dataset)
+            RUNNING_LOSS += loss.item() * labels.size(0)
+        train_loss = RUNNING_LOSS / len(train_loader.dataset)
         train_losses.append(train_loss)
 
         # Validation phase
         model.eval()
-        running_loss = 0.0
+        RUNNING_LOSS = 0.0
         with torch.no_grad():
             for images, labels in tqdm(valid_loader, desc = "Validation loop"):
                 images = images.to(device)
@@ -98,8 +98,8 @@ if __name__ == "__main__":
 
                 outputs = model(images)
                 loss = criterion(outputs, labels)
-                running_loss += loss.item() * labels.size(0)
-        valid_loss = running_loss / len(valid_loader.dataset)
+                RUNNING_LOSS += loss.item() * labels.size(0)
+        valid_loss = RUNNING_LOSS / len(valid_loader.dataset)
         valid_losses.append(valid_loss)
-
-        print(f"Epoch {epoch + 1}/{num_epoch} - Train loss : {train_losses}, Validation loss : {valid_losses}")
+        print(f"""Epoch {epoch + 1}/{NUM_EPOCHS} - Train loss : {train_loss}, Validation loss : {valid_loss}""")
+    torch.save(model.state_dict(), "model.pth")
