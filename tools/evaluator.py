@@ -10,6 +10,7 @@ from PIL import Image
 from torchvision.datasets import ImageFolder
 from tools.translator import CSimpleLetterClassifier
 from tools.utils import is_blank
+import pygame
 
 class CEvaluator:
     """
@@ -19,10 +20,13 @@ class CEvaluator:
     def __init__(self):
         self.__set_model()
         self.__images = []
+        self.__guess = ""
+        self.__changed = False
 
         self.__class_to_index = {v: k for k, v in
                                     ImageFolder("dictionaries/letters/train/").class_to_idx.items()
                                 }
+        self.__clean_input()
 
 
     def __set_model(self):
@@ -45,12 +49,26 @@ class CEvaluator:
                                         ])
 
         for i in range(10):
-            img = Image.open(f"profile/input/char{i}.png").convert("L").convert("RGB")
+            try:
+                img = Image.open(f"profile/input/char{i}.png").convert("L").convert("RGB")
+            except FileNotFoundError:
+                img = Image.open("profile/input/blank.png").convert("L").convert("RGB")
             if is_blank(image = img, background = (255, 255, 255)):
                 continue
             self.__images.append(transform(img).unsqueeze(0))
 
-    def make_string(self) -> str:
+    def __clean_input(self):
+        """
+        Saves all chars in profile/input as blanks
+        """
+        img = Image.open("profile/input/blank.png").convert("L").convert("RGB")
+        for i in range(10):
+            img.save(f"profile/input/char{i}.png")
+        print("Saving Evaluator")
+        self.__guess = ""
+
+
+    def make_string(self, cleanup = True) -> str:
         """
         Checks if users word matches given word
         """
@@ -64,8 +82,32 @@ class CEvaluator:
                 pred_idx = probabilities.argmax(dim=1).item()
                 class_name = self.__class_to_index[pred_idx]
                 answer += class_name.capitalize()
-        print(answer)
+        if cleanup:
+            self.__clean_input()
         return answer
+
+    def changed(self):
+        """
+        Indicates that player added new letter
+        to string
+        """
+        self.__changed = True
+
+    def guess(self, screen, global_x, global_y):
+        """
+        Displays what has model temporarly
+        evaluated
+        """
+        if self.__changed:
+            self.__guess = self.make_string(False)
+            self.__changed = False
+        font_size = 25
+        color   = (255, 255, 255)
+        font = pygame.font.Font("./dictionaries/Gothic_pixel_font_fixed.ttf", font_size)
+        guess_surface = font.render(self.__guess, True, color)
+        screen.blit(guess_surface, ((screen.get_width()//2) - (guess_surface.get_width()/2) + global_x, screen.get_height() + guess_surface.get_height() + global_y))
+
+
 
 
 
