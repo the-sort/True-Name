@@ -6,6 +6,7 @@ from tools.utils import percetage
 import tools.table_generator as tg
 import tools.brush as brush
 import tools.canvas as canvas
+import tools.attempts as attempts
 from tools.evaluator import CEvaluator
 
 SCREEN_W = 1024 # 4 x 3
@@ -18,7 +19,7 @@ class CLevel:
     def __init__(self, difficultie, language = "ENG"):
         self.__screen = pygame.display.set_mode((SCREEN_W, SCREEN_H))
         self.__table  = tg.CTable(self.__screen, difficultie, language)
-        # self.__canvas = pygame.Surface((175,175))
+        self.__attempts = attempts.CAttempts(self.__screen)
 
         self.__x_pos    = 0
         self.__y_pos    = 0
@@ -28,7 +29,7 @@ class CLevel:
         self.__canvases = canvas.CCanvases(SCREEN_H)
         self.__brush = brush.CBrush()
         self.__evaluator = CEvaluator()
-        
+
     def display_level(self):
         """
         Metod called in game loop
@@ -38,6 +39,7 @@ class CLevel:
         self.__table.display_table(self.__x_pos, self.__y_pos)
 
         self.__canvases.display_canvases(self.__screen, self.__x_pos, self.__y_pos)
+        self.__attempts.display_attempts(self.__x_pos, self.__y_pos)
 
         center_collider  = pygame.Rect  (   percetage(SCREEN_W, 10) + self.__x_pos            ,
                                             SCREEN_H - percetage(SCREEN_H, 5) + self.__y_pos  ,
@@ -119,6 +121,7 @@ class CLevel:
                     print("GOOD JOB!")
                 else:
                     self.__canvases = canvas.CCanvases(SCREEN_H)
+                    self.__attempts.add((answer, likness[1]))
                     print(likness[1])
 
 

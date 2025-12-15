@@ -38,6 +38,7 @@ class CEvaluator:
         """
         Preproces users drawing for model
         """
+        self.__images = []
         transform = transforms.Compose  ([
                                             transforms.Resize((128, 128)),
                                             transforms.ToTensor()
