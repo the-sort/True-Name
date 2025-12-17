@@ -16,7 +16,7 @@ class CCanvases:
         self.__canvases         = [pygame.Surface((self.__width,self.__height)) for _ in range(10)]
         self.__canvases_rect    = [canvas.get_rect() for canvas in self.__canvases]
 
-        self.__frame = pygame.image.load("frame.png")
+        self.__frame = pygame.image.load("assets/frame.png")
 
         self.__background = (255,255,255)
 
@@ -87,3 +87,9 @@ class CCanvases:
         Controls if canvas is blank
         """
         return np.all(pygame.surfarray.array3d(canvas) == self.__background)
+
+    def size_of_one(self) -> tuple:
+        """
+        Return size of one canvas window
+        """
+        return (self.__width, self.__height)

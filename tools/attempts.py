@@ -32,7 +32,7 @@ class CAttempts:
         font_size = 25
         color   = (255, 255, 255)
         font = pygame.font.Font("./dictionaries/Gothic_pixel_font_fixed.ttf", font_size)
-        x_off = font_size
+        x_off = font_size + 10
         y_off = font_size
         for attempt in self.__attempts:
             text = str(attempt[0])

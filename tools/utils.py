@@ -3,6 +3,71 @@ helper functions
 """
 import PIL
 
+class CDificulties:
+    """
+    Class for handling difficulties
+    """
+    def __init__(self, difficultie):
+        self.__set_difficultie(difficultie)
+
+    def cols(self):
+        """
+        Returns am of cols
+        """
+        return  self.__cols
+
+    def rows(self):
+        """
+        Returns am of rows
+        """
+        return  self.__rows
+
+    def scale(self):
+        """
+        Returns am of table window scale
+        """
+        return  self.__scale
+
+    def font_size(self):
+        """
+        Returns am of table font size
+        """
+        return self.__font_size
+
+    def health_drain(self):
+        """
+        Returns health drain when writing
+        """
+        return self.__health_drain
+
+    def __set_difficultie(self, difficultie):
+        """
+        Sets difficultie of table
+        """
+        match difficultie:
+            case "EASY":
+                self.__cols       = 6
+                self.__rows       = 5
+                self.__scale      = 5
+                self.__font_size  = 35
+                self.__health_drain = -0.25
+                return
+            case "MEDIUM":
+                self.__cols       = 8
+                self.__rows       = 6
+                self.__scale      = 4
+                self.__font_size  = 30
+                self.__health_drain = -0.5
+                return
+            case "HARD":
+                self.__cols       = 16
+                self.__rows       = 12
+                self.__scale      = 2
+                self.__font_size  = 15
+                self.__health_drain = -1
+                return
+
+
 
 def percetage(number, percent) -> int:
     """
