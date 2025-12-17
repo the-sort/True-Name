@@ -68,16 +68,15 @@ class CLevel:
         self.__screen.fill((0,0,0))
         self.__table.display_table(self.__x_pos, self.__y_pos)
 
-        self.__canvases.display_canvases(self.__screen, self.__x_pos, self.__y_pos)
-        self.__attempts.display_attempts(self.__x_pos, self.__y_pos)
-
-
         self.__center_collider.display_slider(self.__x_pos, self.__y_pos)
         self.__left_collider.display_slider(self.__x_pos, self.__y_pos)
         self.__right_collider.display_slider(self.__x_pos, self.__y_pos)
         self.__end_slider.display_slider(self.__x_pos, self.__y_pos)
 
         continue_looping = self.__event_handler(self.__x_pos, self.__y_pos, delta_time)
+
+        self.__canvases.display_canvases(self.__screen, self.__x_pos, self.__y_pos)
+        self.__attempts.display_attempts(self.__x_pos, self.__y_pos)
 
         self.__evaluator.guess(self.__screen, self.__x_pos, self.__y_pos)
 
@@ -139,6 +138,7 @@ class CLevel:
                     continue
                 self.__brush.draw(a_canvas[0], a_canvas[1], event.pos)
                 self.__player.deacrease_health(amount = self.__difficultie.health_drain() * delta_time)
+                self.__player.display_dripping(self.__screen, delta_time, self.__x_pos, self.__y_pos) #deffinietly not 30FPS but looks dope
                 print(self.__player.health())
                 pygame.image.save(a_canvas[0], "profile/input/char" + str(a_canvas[2]) + ".png") #Preanswer guessing
             if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
