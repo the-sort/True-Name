@@ -9,6 +9,7 @@ import warnings
 import random
 import pygame
 from tools.utils import percetage
+from tools.utils import CDificulties
 
 MAX_WORD_LEN = 15
 MIN_WORD_LEN = 3
@@ -19,8 +20,8 @@ class CTable:
     """
     table filled with random words
     """
-    def __init__(self, screen, difficultie, language):
-        self.__set_difficultie(difficultie)
+    def __init__(self, screen, difficultie : CDificulties, language):
+        self.__set_dim(difficultie)
 
         self.__screen = screen
         self.__table = [["" for j in range(self.__cols)] for i in range(self.__rows)]
@@ -77,29 +78,22 @@ class CTable:
                 x += window.get_width()
             y += window.get_height()
 
-    def __set_difficultie(self, difficultie):
+    def health_drain(self):
         """
-        Sets difficultie of table
+        Metod that returns how much
+        health should be drained
+        from player
         """
-        match difficultie:
-            case "EASY":
-                self.__cols       = 6
-                self.__rows       = 5
-                self.__scale      = 5
-                self.__font_size  = 35
-                return
-            case "MEDIUM":
-                self.__cols       = 8
-                self.__rows       = 6
-                self.__scale      = 4
-                self.__font_size  = 30
-                return
-            case "HARD":
-                self.__cols       = 16
-                self.__rows       = 12
-                self.__scale      = 2
-                self.__font_size  = 15
-                return
+        return self.__health_drain
+
+    def __set_dim(self, difficultie : CDificulties):
+        """
+        Sets dimension and scales of table
+        """
+        self.__cols         = difficultie.cols()
+        self.__rows         = difficultie.rows()
+        self.__scale        = difficultie.scale()
+        self.__font_size    = difficultie.font_size()
 
 
     def __read_dict(self, language) -> None:

@@ -9,6 +9,8 @@ import tools.canvas as canvas
 import tools.attempts as attempts
 from tools.slider import CSlider as Slider
 from tools.evaluator import CEvaluator
+from tools.player import CPlayer
+from tools.utils import  CDificulties
 
 SCREEN_W = 1024 # 4 x 3
 SCREEN_H = 768
@@ -17,10 +19,13 @@ class CLevel:
     """
     Metods for handling level
     """
-    def __init__(self, difficultie, language = "ENG"):
+    def __init__(self, difficultie : str, language = "ENG"):
+        self.__difficultie = CDificulties(difficultie)
+
         self.__screen = pygame.display.set_mode((SCREEN_W, SCREEN_H))
-        self.__table  = tg.CTable(self.__screen, difficultie, language)
+        self.__table  = tg.CTable(self.__screen, self.__difficultie, language)
         self.__attempts = attempts.CAttempts(self.__screen)
+        self.__player  = CPlayer()
 
         self.__x_pos    = 0
         self.__y_pos    = 0
@@ -55,7 +60,7 @@ class CLevel:
                                             percetage(2 * SCREEN_H, 5)                  ,
                                             active = False
                                         )
-    def display_level(self):
+    def display_level(self, delta_time):
         """
         Metod called in game loop
         """
@@ -72,9 +77,11 @@ class CLevel:
         self.__right_collider.display_slider(self.__x_pos, self.__y_pos)
         self.__end_slider.display_slider(self.__x_pos, self.__y_pos)
 
-        continue_looping = self.__event_handler(self.__x_pos, self.__y_pos)
+        continue_looping = self.__event_handler(self.__x_pos, self.__y_pos, delta_time)
 
         self.__evaluator.guess(self.__screen, self.__x_pos, self.__y_pos)
+
+        self.__player.display_health(self.__screen, self.__x_pos, self.__y_pos)
 
         self.__x_pos += self.__x_off
         self.__y_pos += self.__y_off
@@ -88,10 +95,9 @@ class CLevel:
             ):
             self.__x_off = 0
 
-
         return continue_looping
 
-    def __event_handler(self, global_x, global_y):
+    def __event_handler(self, global_x, global_y, delta_time):
         """
         Metod handling all inputs and events
         """
@@ -132,6 +138,8 @@ class CLevel:
                 if (a_canvas := self.__canvases.get_active(event.pos)) is None:
                     continue
                 self.__brush.draw(a_canvas[0], a_canvas[1], event.pos)
+                self.__player.deacrease_health(amount = self.__difficultie.health_drain() * delta_time)
+                print(self.__player.health())
                 pygame.image.save(a_canvas[0], "profile/input/char" + str(a_canvas[2]) + ".png") #Preanswer guessing
             if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
                 self.__canvases.save()
@@ -155,7 +163,7 @@ if __name__ == "__main__":
     clock = pygame.time.Clock()
 
     while RUNNING:
-        RUNNING = level.display_level()
+        RUNNING = level.display_level(DELTA_TIME)
 
         pygame.display.flip()
 
