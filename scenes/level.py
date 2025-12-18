@@ -82,16 +82,12 @@ class CLevel:
 
         self.__player.display_health(self.__screen, self.__x_pos, self.__y_pos)
 
-
-        # print(self.__y_pos)
-        # if  self.__y_pos <= -SCREEN_H + percetage(SCREEN_H, 5) or self.__y_pos >= 0:
-        #     self.__y_off = 0
-        if  (buff := self.__center_collider.arrived(self.__x_pos, self.__y_pos)) or self.__end_slider.arrived(self.__x_pos, self.__y_pos): #or self.__end_slider.arrived(self.__x_pos, self.__y_pos)
+        if  (   (buff := self.__center_collider.arrived(self.__x_pos, self.__y_pos)) or
+                self.__end_slider.arrived(self.__x_pos, self.__y_pos)
+            ):
             self.__x_pos, self.__y_pos = self.__center_collider.center() if  buff else self.__end_slider.center()
             self.__y_off = 0
 
-
-        
         if  (  (buff :=self.__left_collider.arrived(self.__x_pos, self.__y_pos))  or
                 self.__right_collider.arrived(self.__x_pos, self.__y_pos)
             ):
@@ -154,10 +150,15 @@ class CLevel:
                 if (a_canvas := self.__canvases.get_active(event.pos)) is None:
                     continue
                 self.__brush.draw(a_canvas[0], a_canvas[1], event.pos)
-                self.__player.deacrease_health(amount = self.__difficultie.health_drain() * delta_time)
-                self.__player.display_dripping(self.__screen, delta_time, self.__x_pos, self.__y_pos) #deffinietly not 30FPS but looks dope
-                print(self.__player.health())
-                pygame.image.save(a_canvas[0], "profile/input/char" + str(a_canvas[2]) + ".png") #Preanswer guessing
+                self.__player.deacrease_health(self.__difficultie.health_drain() * delta_time)
+                self.__player.display_dripping(self.__screen,
+                                               delta_time,
+                                               self.__x_pos,
+                                               self.__y_pos
+                                               ) #deffinietly not 30FPS but looks dope
+                pygame.image.save   (   a_canvas[0],
+                                        f"profile/input/char{a_canvas[2]}.png"
+                                    ) #Preanswer guessing
             if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
                 self.__canvases.save()
                 answer = self.__evaluator.make_string(True) #Finall Answer guessing
