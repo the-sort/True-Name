@@ -58,7 +58,7 @@ class CLevel:
                                             (SCREEN_H * 2) - percetage(2 * SCREEN_H, 5) ,
                                             SCREEN_W - 2 * percetage(SCREEN_W, 10)      ,
                                             percetage(2 * SCREEN_H, 5)                  ,
-                                            active = False
+                                            active = True
                                         )
     def display_level(self, delta_time):
         """
@@ -82,18 +82,24 @@ class CLevel:
 
         self.__player.display_health(self.__screen, self.__x_pos, self.__y_pos)
 
-        self.__x_pos += self.__x_off
-        self.__y_pos += self.__y_off
 
-        if  self.__y_pos <= -SCREEN_H + percetage(SCREEN_H, 5) or self.__y_pos >= 0:
+        # print(self.__y_pos)
+        # if  self.__y_pos <= -SCREEN_H + percetage(SCREEN_H, 5) or self.__y_pos >= 0:
+        #     self.__y_off = 0
+        if  (buff := self.__center_collider.arrived(self.__x_pos, self.__y_pos)) or self.__end_slider.arrived(self.__x_pos, self.__y_pos): #or self.__end_slider.arrived(self.__x_pos, self.__y_pos)
+            self.__x_pos, self.__y_pos = self.__center_collider.center() if  buff else self.__end_slider.center()
             self.__y_off = 0
 
-        if  (   self.__x_pos <= -SCREEN_W + percetage(SCREEN_W, 5)  or
-                self.__x_pos >= SCREEN_W - percetage(SCREEN_W, 5)   or
-                self.__x_pos == 0
+
+        
+        if  (  (buff :=self.__left_collider.arrived(self.__x_pos, self.__y_pos))  or
+                self.__right_collider.arrived(self.__x_pos, self.__y_pos)
             ):
+            self.__x_pos, self.__y_pos = self.__left_collider.center() if  buff else self.__right_collider.center()
             self.__x_off = 0
 
+        self.__x_pos += self.__x_off
+        self.__y_pos += self.__y_off
         return continue_looping
 
     def __event_handler(self, global_x, global_y, delta_time):
@@ -109,23 +115,34 @@ class CLevel:
                     if  (   self.__end_slider.is_active() and
                             self.__end_slider.collidepoint(global_x, global_y, event.pos)
                         ):
-                        return False #END GAME
+                        if self.__y_pos <= -SCREEN_H * 2 + percetage(SCREEN_H, 5):
+                            self.__end_slider.move_to("CANVAS", 8)
+                            self.__y_off = 8
+                        else :
+                            self.__end_slider.move_to("END", -8)
+                            self.__y_off = -8
 
                 if self.__center_collider.collidepoint(global_x, global_y, event.pos):
                     if self.__y_pos >= 0:
                         self.__y_off = -8
+                        self.__center_collider.move_to("CANVAS", -8)
                     else:
                         self.__y_off = 8
+                        self.__center_collider.move_to("TABLE", 8)
                 elif self.__right_collider.collidepoint(global_x, global_y, event.pos):
                     if self.__x_pos >= 0:
                         self.__x_off = -8
+                        self.__right_collider.move_to("ATTEMPTS", -8)
                     else:
                         self.__x_off = 8
+                        self.__right_collider.move_to("TABLE", 8)
                 elif self.__left_collider.collidepoint(global_x, global_y, event.pos):
                     if self.__x_pos <= 0:
                         self.__x_off = 8
+                        self.__left_collider.move_to("INVENTAR", 8)
                     else:
                         self.__x_off = -8
+                        self.__left_collider.move_to("TABLE", -8)
             if event.type == pygame.MOUSEBUTTONUP:
                 if event.button == 1:   # left click
                     self.__brush.up()
