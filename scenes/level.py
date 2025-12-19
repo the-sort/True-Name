@@ -47,7 +47,7 @@ class CLevel:
                                         )
         self.__left_collider = Slider  (    screen  = self.__screen         ,
                                             left    = 0                     ,
-                                            top     = SCREEN_H // 2                     ,
+                                            top     = SCREEN_H // 2 - 20                     ,
                                             rotation = 90,
                                             active  = True,
                                             center_x= False,
@@ -55,7 +55,7 @@ class CLevel:
                                         )
         self.__right_collider = Slider (    screen  = self.__screen                     ,
                                             left    = SCREEN_W - SLIDER_H ,
-                                            top     = SCREEN_H // 2                                  ,
+                                            top     = SCREEN_H // 2 - 20                                  ,
                                             scale_x = 1            ,
                                             scale_y = 1                         ,
                                             rotation= -90,
@@ -63,19 +63,22 @@ class CLevel:
                                             center_y= True
                                         )
         self.__end_slider     = Slider  (   screen  = self.__screen                               ,
-                                            left    = percetage(SCREEN_W, 10)                     ,
-                                            top     = (SCREEN_H * 2) - percetage(2 * SCREEN_H, 5) ,
+                                            left    = SCREEN_W // 2                     ,
+                                            top     = (SCREEN_H * 2) - 2*SLIDER_H,
                                             scale_x = 1    ,
                                             scale_y =  1                 ,
-                                            active  = False
+                                            rotation= 180,
+                                            active  = False,
+                                            center_x = True,
+                                            center_y= False
                                         )
         self.__deactivated_sliders = False
 
         self.__exit = CButton   (   idle = "assets/exit/exit_door_idle.png",
                                     hovered="assets/exit/exit_door_hovered.png",
-                                    position = (SCREEN_W // 2, SCREEN_H * 3 - SCREEN_H//2),
-                                    width =  77*7,
-                                    height = 99*7
+                                    position = (SCREEN_W // 2, SCREEN_H * 3 - SCREEN_H//2 - 1.4*SLIDER_H),
+                                    width =  77*6.5,
+                                    height = 99*6.5
                                 )
         self.__exit.center()
     def display_level(self, delta_time):
@@ -136,7 +139,7 @@ class CLevel:
                     if  (   self.__end_slider.is_active() and
                             self.__end_slider.collidepoint(global_x, global_y, event.pos)
                         ):
-                        if self.__y_pos <= -SCREEN_H * 2 + percetage(SCREEN_H, 5):
+                        if self.__y_pos <= -SCREEN_H * 2 + 2 * SLIDER_H:
                             self.__end_slider.move_to("CANVAS", 8)
                             self.__y_off = 8
                         else :
