@@ -24,25 +24,34 @@ class CButton:
         self.__position = position
 
 
-    def display (self,  screen : pygame.Surface, 
-                        event : pygame.Event,
+    def display (self,  screen : pygame.Surface,
                         global_x,
                         global_y
                 ):
         """
         Metod for displaying button in scene
         """
-        pos = (self.__position[0] + global_x, self.__position[1] + global_y)
+        global_pos = (self.__position[0] + global_x, self.__position[1] + global_y)
+        mouse_pos   = pygame.mouse.get_pos()
+        l_click     = pygame.mouse.get_pressed()[0]
 
-        if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1 and self.__pressed(event.pos):
-            screen.blit(self.__pressed_img, pos)
+        if l_click  and self.__pressed(mouse_pos, global_pos):
+            screen.blit(self.__pressed_img, global_pos)
             return
-        if event.type == pygame.MOUSEMOTION and self.__hovered(event.pos):
-            screen.blit(self.__hovered_img, pos)
+        if self.__hovered(mouse_pos, global_pos):
+            screen.blit(self.__hovered_img, global_pos)
             return
-        screen.blit(self.__idle_img, pos)
+        screen.blit(self.__idle_img, global_pos)
 
-
+    def center(self):
+        """
+        Centers Image according to
+        possition cordinates
+        """
+        img_size = self.__idle_img.get_rect().size
+        self.__position =   (self.__position[0] - img_size[0] // 2,
+                             self.__position[1] - img_size[1] // 2
+                            )
 
     def __load_image(self, path, width, height):
         """
@@ -54,21 +63,21 @@ class CButton:
         img = pygame.image.load(path)
         return self.__transform(img, width, height)
 
-    def __hovered(self, pos : tuple) -> bool:
+    def __hovered(self, mouse_pos : tuple, global_pos : tuple) -> bool:
         """
         Checks if player hovers over button
         """
         if self.__hovered_img is None:
             return False
-        return self.__hovered_img.get_rect().collidepoint(pos)
+        return self.__hovered_img.get_rect(topleft = global_pos).collidepoint(mouse_pos)
 
-    def __pressed(self, pos : tuple) -> bool:
+    def __pressed(self, mouse_pos : tuple, global_pos : tuple) -> bool:
         """
         Checks if player pressed button
         """
         if self.__pressed_img is None:
             return False
-        return self.__pressed_img.get_rect().collidepoint(pos)
+        return self.__pressed_img.get_rect(topleft = global_pos).collidepoint(mouse_pos)
 
     def __transform(self, img : pygame.Surface, width, height):
         """
