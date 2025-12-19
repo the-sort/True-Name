@@ -106,7 +106,7 @@ class CEvaluator:
         font = pygame.font.Font("./dictionaries/Gothic_pixel_font_fixed.ttf", font_size)
         guess_surface = font.render(self.__guess, True, color)
         screen.blit(guess_surface, ((screen.get_width()//2) - (guess_surface.get_width()/2) + global_x, 
-                                    2 * screen.get_height() - 2.5 * guess_surface.get_height() + global_y))
+                                    2 * screen.get_height() - 3 * guess_surface.get_height() + global_y))
 
 
 

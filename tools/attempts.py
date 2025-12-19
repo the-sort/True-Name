@@ -4,6 +4,7 @@ all users answers and their likness
 on right side of level
 """
 import pygame
+from tools.slider import SLIDER_H
 
 
 
@@ -29,21 +30,21 @@ class CAttempts:
         Display users attempts
         Expected to be called in game_loop
         """
-        font_size = 25
+        font_size = 20
         color   = (255, 255, 255)
         font = pygame.font.Font("./dictionaries/Gothic_pixel_font_fixed.ttf", font_size)
-        x_off = font_size + 10
+        x_off = SLIDER_H + font_size
         y_off = font_size
         for attempt in self.__attempts:
             text = str(attempt[0])
             text_surface = font.render(text, True, color)
 
-            self.__screen.blit  (text_surface, (x_off + global_x + self.__screen_width,
+            self.__screen.blit  (text_surface, (x_off + global_x + self.__screen_width - SLIDER_H,
                                                 y_off + global_y)
                                 )
             text = "LIKNESS  =  " + str(attempt[1])
             text_surface = font.render(text, True, color)
-            self.__screen.blit  (text_surface, ((2 * self.__screen_width - (text_surface.get_width() + 2.5*font_size)) + global_x,
+            self.__screen.blit  (text_surface, ((2 * self.__screen_width - (text_surface.get_width() + font_size + SLIDER_H)) + global_x,
                                                 y_off + global_y))
             y_off += font_size + font.get_height()
 
