@@ -7,10 +7,11 @@ and compare it to given string
 import torch
 import torchvision.transforms as transforms
 from PIL import Image
+import pygame
 from torchvision.datasets import ImageFolder
 from tools.translator import CSimpleLetterClassifier
 from tools.utils import is_blank
-import pygame
+from tools.slider import SLIDER_H
 
 class CEvaluator:
     """
@@ -106,7 +107,7 @@ class CEvaluator:
         font = pygame.font.Font("./dictionaries/Gothic_pixel_font_fixed.ttf", font_size)
         guess_surface = font.render(self.__guess, True, color)
         screen.blit(guess_surface, ((screen.get_width()//2) - (guess_surface.get_width()/2) + global_x, 
-                                    2 * screen.get_height() - 3 * guess_surface.get_height() + global_y))
+                                    screen.get_height() + SLIDER_H  -guess_surface.get_height()//1.5 + global_y))
 
 
 
