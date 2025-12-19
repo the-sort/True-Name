@@ -11,6 +11,7 @@ from tools.slider import CSlider as Slider
 from tools.evaluator import CEvaluator
 from tools.player import CPlayer
 from tools.utils import  CDificulties
+from tools.button import CButton
 
 SCREEN_W = 1024 # 4 x 3
 SCREEN_H = 768
@@ -60,6 +61,14 @@ class CLevel:
                                             percetage(2 * SCREEN_H, 5)                  ,
                                             active = True
                                         )
+
+        self.__exit = CButton   (   idle = "assets/exit/exit_door_idle.png",
+                                    hovered="assets/exit/exit_door_hovered.png",
+                                    position = (SCREEN_W // 2, SCREEN_H * 3 - SCREEN_H//2),
+                                    width =  77*7,
+                                    height = 99*7
+                                )
+        self.__exit.center()
     def display_level(self, delta_time):
         """
         Metod called in game loop
@@ -67,6 +76,8 @@ class CLevel:
 
         self.__screen.fill((0,0,0))
         self.__table.display_table(self.__x_pos, self.__y_pos)
+
+        self.__exit.display(self.__screen, self.__x_pos, self.__y_pos)
 
         self.__center_collider.display_slider(self.__x_pos, self.__y_pos)
         self.__left_collider.display_slider(self.__x_pos, self.__y_pos)
