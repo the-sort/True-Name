@@ -38,6 +38,7 @@ class CButton:
         if l_click  and self.__pressed(mouse_pos, global_pos):
             screen.blit(self.__pressed_img, global_pos)
             return
+
         if self.__hovered(mouse_pos, global_pos):
             screen.blit(self.__hovered_img, global_pos)
             return
@@ -52,6 +53,14 @@ class CButton:
         self.__position =   (self.__position[0] - img_size[0] // 2,
                              self.__position[1] - img_size[1] // 2
                             )
+
+    def is_pressed(self, mouse_pos : tuple, global_off : tuple) -> bool:
+        """
+        Checks wheter button was pressed
+        """
+        pos = (self.__position[0] + global_off[0], self.__position[1] + global_off[1])
+        return self.__idle_img.get_rect(topleft = pos).collidepoint(mouse_pos)
+
 
     def __load_image(self, path, width, height):
         """

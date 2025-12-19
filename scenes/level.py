@@ -59,7 +59,7 @@ class CLevel:
                                             (SCREEN_H * 2) - percetage(2 * SCREEN_H, 5) ,
                                             SCREEN_W - 2 * percetage(SCREEN_W, 10)      ,
                                             percetage(2 * SCREEN_H, 5)                  ,
-                                            active = True
+                                            active = False
                                         )
 
         self.__exit = CButton   (   idle = "assets/exit/exit_door_idle.png",
@@ -77,7 +77,6 @@ class CLevel:
         self.__screen.fill((0,0,0))
         self.__table.display_table(self.__x_pos, self.__y_pos)
 
-        self.__exit.display(self.__screen, self.__x_pos, self.__y_pos)
 
         self.__center_collider.display_slider(self.__x_pos, self.__y_pos)
         self.__left_collider.display_slider(self.__x_pos, self.__y_pos)
@@ -86,6 +85,8 @@ class CLevel:
 
         continue_looping = self.__event_handler(self.__x_pos, self.__y_pos, delta_time)
 
+        self.__exit.display(self.__screen, self.__x_pos, self.__y_pos)
+       
         self.__canvases.display_canvases(self.__screen, self.__x_pos, self.__y_pos)
         self.__attempts.display_attempts(self.__x_pos, self.__y_pos)
 
@@ -118,6 +119,8 @@ class CLevel:
                 return False #END GAME
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if event.button == 1:   # left click
+                    if self.__exit.is_pressed(event.pos, (self.__x_pos, self.__y_pos)):
+                        return False #END GAME
                     self.__brush.down()
                     if  (   self.__end_slider.is_active() and
                             self.__end_slider.collidepoint(global_x, global_y, event.pos)
