@@ -2,29 +2,41 @@
 Tools for working with sliders 
 """
 import pygame
-from tools.utils import percetage
+
+SLIDER_W   = 600
+SLIDER_H   = 100
 
 class CSlider:
     """
     Slider
     """
-    def __init__(self,screen, left, top, width, height, active = True):
+    def __init__(self,  screen          ,
+                        left            ,
+                        top             ,
+                        scale_x = 1     ,
+                        scale_y = 1     ,
+                        rotation = 0    ,
+                        active = True   ,
+                        center_x = True ,
+                        center_y = True
+                ):
         self.__screen = screen
 
         self.__left = left
-        self.__top = top
-        self.__width = width
-        self.__height = height
+        self.__top  = top
 
         self.__stop     = (0,0)
         self.__speed    = 0
 
         self.__active   = active
-        self.__slider   = pygame.Rect   (  self.__left,
-                                           self.__top ,
-                                           self.__width,
-                                           self.__height
-                                        )
+
+        self.__slider = self.__preprocess_img(scale_x, scale_y, rotation) #slider.png (600x100) by default
+
+        if center_x:
+            self.__center_x()
+        if center_y:
+            self.__center_y()
+
 
     def is_active(self) -> bool:
         """
@@ -44,26 +56,23 @@ class CSlider:
         """
         self.__active = False
 
-    def display_slider(self, global_x, global_y):
+    def display_slider  (self, global_x, global_y):
         """
         Display slider into scene
         """
         if not self.__active:
             return
-        self.__slider = pygame.Rect   (    self.__left + global_x,
-                                           self.__top  + global_y,
-                                           self.__width,
-                                           self.__height
-                                        )
-        color = (255, 255, 255)
-        pygame.draw.rect(self.__screen, color, self.__slider)
+
+        global_pos = (self.__left + global_x, self.__top + global_y)
+        self.__screen.blit(self.__slider, global_pos)
 
     def collidepoint(self, global_x, global_y, pos) -> bool:
         """
         Checks for colision using position
         """
-        self.__slider.move((global_x, global_y))
-        return self.__slider.collidepoint(pos)
+        topleft = (self.__left + global_x, self.__top + global_y)
+        rect = self.__slider.get_rect(topleft = topleft)
+        return rect.collidepoint(pos)
 
     def __assign_stop(self, stop : str) -> tuple:
         """
@@ -72,10 +81,10 @@ class CSlider:
         size = self.__screen.get_rect().size
         stops = {
             "TABLE": (0,0),
-            "CANVAS" : (0, -size[1] + percetage(size[1], 5)),
-            "END" : (0, -size[1]*2 + percetage(size[1], 5)),
-            "ATTEMPTS": (-size[0] + percetage(size[0], 5),0), 
-            "INVENTAR" : (size[0] - percetage(size[0], 5),0)
+            "CANVAS" : (0, -size[1] + SLIDER_H),
+            "END" : (0, -size[1]*2 + SLIDER_H),
+            "ATTEMPTS": (-size[0] + SLIDER_H,0), 
+            "INVENTAR" : (size[0] - SLIDER_H,0)
         }
         return stops[stop]
 
@@ -118,6 +127,34 @@ class CSlider:
         Call after scene moved to center 
         """
         return self.__stop
+
+    def __preprocess_img(self, scale_x, scale_y, rotation):
+        """
+        Metod used for img preprocesing
+        """
+        img = pygame.image.load("assets/slider/slider.png")
+
+        width  = img.get_width()  * scale_x
+        height = img.get_height() * scale_y
+
+        img = pygame.transform.scale(img, (width, height))
+        img = pygame.transform.rotate(img, rotation)
+        return img
+
+    def __center_x(self):
+        """
+        Centers slider in x_axis
+        """
+        width = self.__slider.get_width()
+        self.__left -= width // 2
+
+    def __center_y(self):
+        """
+        Centers slider in y_axis
+        """
+        height = self.__slider.get_height()
+        self.__top -= height // 2
+
 
 
 
