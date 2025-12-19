@@ -7,7 +7,7 @@ import tools.table_generator as tg
 import tools.brush as brush
 import tools.canvas as canvas
 import tools.attempts as attempts
-from tools.slider import CSlider as Slider
+from tools.slider import CSlider as Slider, SLIDER_H
 from tools.evaluator import CEvaluator
 from tools.player import CPlayer
 from tools.utils import  CDificulties
@@ -37,29 +37,37 @@ class CLevel:
         self.__brush = brush.CBrush()
         self.__evaluator = CEvaluator()
 
-        self.__center_collider = Slider(    self.__screen, percetage(SCREEN_W, 10)  ,
-                                            SCREEN_H - percetage(SCREEN_H, 5)       ,
-                                            SCREEN_W - 2 * percetage(SCREEN_W, 10)  ,
-                                            percetage(SCREEN_H, 5)                  ,
-                                            active = True
+        self.__center_collider = Slider(    screen  = self.__screen                           ,
+                                            left    = SCREEN_W // 2                ,
+                                            top     = SCREEN_H - SLIDER_H       ,
+                                            rotation = 180 ,
+                                            active  = True,
+                                            center_x= True,
+                                            center_y= False
                                         )
-        self.__left_collider = Slider  (    self.__screen,   0      ,
-                                            0                       ,
-                                            percetage(SCREEN_W, 5)  ,
-                                            SCREEN_H                ,
-                                            active = True
+        self.__left_collider = Slider  (    screen  = self.__screen         ,
+                                            left    = 0                     ,
+                                            top     = SCREEN_H // 2                     ,
+                                            rotation = 90,
+                                            active  = True,
+                                            center_x= False,
+                                            center_y= True
                                         )
-        self.__right_collider = Slider (    self.__screen,  SCREEN_W - percetage(SCREEN_W, 5) ,
-                                            0                                                 ,
-                                            percetage(SCREEN_W, 5)                            ,
-                                            SCREEN_H                                          ,
-                                            active = True
+        self.__right_collider = Slider (    screen  = self.__screen                     ,
+                                            left    = SCREEN_W - SLIDER_H ,
+                                            top     = SCREEN_H // 2                                  ,
+                                            scale_x = 1            ,
+                                            scale_y = 1                         ,
+                                            rotation= -90,
+                                            center_x= False,
+                                            center_y= True
                                         )
-        self.__end_slider     = Slider  (   self.__screen, percetage(SCREEN_W, 10)      ,
-                                            (SCREEN_H * 2) - percetage(2 * SCREEN_H, 5) ,
-                                            SCREEN_W - 2 * percetage(SCREEN_W, 10)      ,
-                                            percetage(2 * SCREEN_H, 5)                  ,
-                                            active = False
+        self.__end_slider     = Slider  (   screen  = self.__screen                               ,
+                                            left    = percetage(SCREEN_W, 10)                     ,
+                                            top     = (SCREEN_H * 2) - percetage(2 * SCREEN_H, 5) ,
+                                            scale_x = 1    ,
+                                            scale_y =  1                 ,
+                                            active  = False
                                         )
 
         self.__exit = CButton   (   idle = "assets/exit/exit_door_idle.png",
