@@ -121,7 +121,7 @@ class CSlider:
 
         if buff[0] and buff[1]:
             self.__speed = 0
-
+            self.__slider = pygame.transform.rotate(self.__slider, 180)
         return buff[0] and buff[1]
 
     def center(self):
@@ -156,6 +156,12 @@ class CSlider:
         """
         height = self.__slider.get_height()
         self.__top -= height // 2
+
+    # def flip(self):
+    #     """
+    #     Flips slider
+    #     """
+    #     self.__slider.get
 
 
 
