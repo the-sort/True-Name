@@ -69,6 +69,7 @@ class CLevel:
                                             scale_y =  1                 ,
                                             active  = False
                                         )
+        self.__deactivated_sliders = False
 
         self.__exit = CButton   (   idle = "assets/exit/exit_door_idle.png",
                                     hovered="assets/exit/exit_door_hovered.png",
@@ -107,12 +108,14 @@ class CLevel:
             ):
             self.__x_pos, self.__y_pos = self.__center_collider.center() if  buff else self.__end_slider.center()
             self.__y_off = 0
+            self.__activate_sliders()
 
         if  (  (buff :=self.__left_collider.arrived(self.__x_pos, self.__y_pos))  or
                 self.__right_collider.arrived(self.__x_pos, self.__y_pos)
             ):
             self.__x_pos, self.__y_pos = self.__left_collider.center() if  buff else self.__right_collider.center()
             self.__x_off = 0
+            self.__activate_sliders()
 
         self.__x_pos += self.__x_off
         self.__y_pos += self.__y_off
@@ -139,28 +142,31 @@ class CLevel:
                         else :
                             self.__end_slider.move_to("END", -8)
                             self.__y_off = -8
-
-                if self.__center_collider.collidepoint(global_x, global_y, event.pos):
-                    if self.__y_pos >= 0:
-                        self.__y_off = -8
-                        self.__center_collider.move_to("CANVAS", -8)
-                    else:
-                        self.__y_off = 8
-                        self.__center_collider.move_to("TABLE", 8)
-                elif self.__right_collider.collidepoint(global_x, global_y, event.pos):
-                    if self.__x_pos >= 0:
-                        self.__x_off = -8
-                        self.__right_collider.move_to("ATTEMPTS", -8)
-                    else:
-                        self.__x_off = 8
-                        self.__right_collider.move_to("TABLE", 8)
-                elif self.__left_collider.collidepoint(global_x, global_y, event.pos):
-                    if self.__x_pos <= 0:
-                        self.__x_off = 8
-                        self.__left_collider.move_to("INVENTAR", 8)
-                    else:
-                        self.__x_off = -8
-                        self.__left_collider.move_to("TABLE", -8)
+                if not self.__deactivated_sliders:
+                    if self.__center_collider.collidepoint(global_x, global_y, event.pos):
+                        if self.__y_pos >= 0:
+                            self.__y_off = -8
+                            self.__center_collider.move_to("CANVAS", -8)
+                        else:
+                            self.__y_off = 8
+                            self.__center_collider.move_to("TABLE", 8)
+                        self.__deactivate_sliders()
+                    elif self.__right_collider.collidepoint(global_x, global_y, event.pos):
+                        if self.__x_pos >= 0:
+                            self.__x_off = -8
+                            self.__right_collider.move_to("ATTEMPTS", -8)
+                        else:
+                            self.__x_off = 8
+                            self.__right_collider.move_to("TABLE", 8)
+                        self.__deactivate_sliders()
+                    elif self.__left_collider.collidepoint(global_x, global_y, event.pos):
+                        if self.__x_pos <= 0:
+                            self.__x_off = 8
+                            self.__left_collider.move_to("INVENTAR", 8)
+                        else:
+                            self.__x_off = -8
+                            self.__left_collider.move_to("TABLE", -8)
+                        self.__deactivate_sliders()
             if event.type == pygame.MOUSEBUTTONUP:
                 if event.button == 1:   # left click
                     self.__brush.up()
@@ -193,6 +199,17 @@ class CLevel:
 
         return True
 
+    def __deactivate_sliders(self):
+        """
+        Deactivates all sliders
+        """
+        self.__deactivated_sliders = True
+
+    def __activate_sliders(self):
+        """
+        activates all sliders
+        """
+        self.__deactivated_sliders = False
 
 if __name__ == "__main__":
     RUNNING  = True
