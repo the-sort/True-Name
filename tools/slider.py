@@ -95,7 +95,7 @@ class CSlider:
         self.__stop = self.__assign_stop(where)
         self.__speed = speed
 
-    def arrived(self, global_x, global_y) -> bool:
+    def arrived(self, global_x, global_y)-> bool:
         """
         Checks if slider moved scene to right position
         """
@@ -118,8 +118,10 @@ class CSlider:
                     self.__stop[1] -self.__speed  <= global_y
                 ):
                 buff[1] = True
+
         if buff[0] and buff[1]:
             self.__speed = 0
+
         return buff[0] and buff[1]
 
     def center(self):
