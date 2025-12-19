@@ -24,31 +24,37 @@ class CPlayer:
         self.__health_vial_animation.rescale(transform)
 
         self.__full_height = self.__health_vial_blood.get_rect().height
-        self.__full_width = self.__health_vial_blood.get_rect().height
+        self.__full_width = self.__health_vial_blood.get_rect().width
         self.__full_health = 200
 
-    def display_health(self, screen, global_x, global_y):
+    def display_health(self, screen : pygame.Surface, global_x, global_y):
         """
         Metod used for displaying
         actual health state of player
         """
 
-        top_left = screen.get_rect().size
-        top_left = ((top_left[0] // 2 - self.__full_width // 2) + global_x, top_left[1] + global_y)
+        size = screen.get_rect().size
 
-        # self.__health_vial_animation.play(screen, delta_time, (top_left[0], top_left[1] + self.__full_height))
+        top_left = (75 + global_x, size[1] + global_y)
+        top_right = (-75 + size[0] + global_x -  self.__full_width, size[1] + global_y)
 
         screen.blit(self.__health_vial_blood, top_left)
+        screen.blit(self.__health_vial_blood, top_right)
+
         screen.blit(self.__health_vial, top_left)
+        screen.blit(self.__health_vial, top_right)
 
     def display_dripping(self, screen, delta_time, global_x, global_y):
         """
         Plays dripping animation
         """
-        top_left = screen.get_rect().size
-        top_left = ((top_left[0] // 2 - self.__full_width // 2) + global_x, top_left[1] + global_y)
+        size = screen.get_rect().size
+
+        top_left = (75 + global_x, size[1] + global_y)
+        top_right = (-75 + size[0] + global_x -  self.__full_width, size[1] + global_y)
 
         self.__health_vial_animation.play(screen, delta_time, (top_left[0], top_left[1] + self.__full_height))
+        self.__health_vial_animation.play(screen, delta_time, (top_right[0], top_right[1] + self.__full_height))
 
     def deacrease_health(self, amount = -1):
         """
