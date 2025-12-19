@@ -85,7 +85,6 @@ class CSlider:
         """
         self.__stop = self.__assign_stop(where)
         self.__speed = speed
-        print(self.__stop, " , ", self.__speed)
 
     def arrived(self, global_x, global_y) -> bool:
         """
@@ -93,7 +92,6 @@ class CSlider:
         """
         buff = [False, False]
         if self.__speed < 0:
-            print("here < ")
             if  (   self.__stop[0]  +self.__speed  <= global_x and
                     self.__stop[0] -self.__speed  >= global_x
                 ):
@@ -103,7 +101,6 @@ class CSlider:
                 ):
                 buff[1] = True
         elif self.__speed > 0:
-            print("here >")
             if  (   self.__stop[0]  +self.__speed >= global_x and
                     self.__stop[0] -self.__speed  <= global_x
                 ):
