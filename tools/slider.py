@@ -82,7 +82,7 @@ class CSlider:
         stops = {
             "TABLE": (0,0),
             "CANVAS" : (0, -size[1] + SLIDER_H),
-            "END" : (0, -size[1]*2 + SLIDER_H),
+            "END" : (0, -size[1]*2 + 2*SLIDER_H),
             "ATTEMPTS": (-size[0] + SLIDER_H,0), 
             "INVENTAR" : (size[0] - SLIDER_H,0)
         }
