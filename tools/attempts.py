@@ -13,7 +13,8 @@ class CAttempts:
     Class for handling and displaying users answers
     """
     def __init__(self, screen):
-        self.__attempts = []
+        self.__attempts = [""] * 11
+        self.__amount = 0
         self.__screen   = screen
         self.__screen_width = self.__screen.get_width()
 
@@ -22,8 +23,12 @@ class CAttempts:
         Adds users attempt
         param:  attempt[0] str
                 attempt[1] int
+        11 fits into screen
         """
-        self.__attempts.append(attempt)
+        self.__amount %= 11
+        self.__attempts[self.__amount] = attempt
+        self.__amount += 1
+
 
     def display_attempts(self, global_x, global_y):
         """
@@ -36,6 +41,8 @@ class CAttempts:
         x_off = SLIDER_H + font_size
         y_off = font_size
         for attempt in self.__attempts:
+            if attempt == "":
+                continue
             text = str(attempt[0])
             text_surface = font.render(text, True, color)
 
