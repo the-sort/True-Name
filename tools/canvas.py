@@ -2,7 +2,6 @@
 Tool for displaying and handling canvas
 """
 import pygame
-import numpy as np
 
 class CCanvases:
     """
@@ -80,13 +79,6 @@ class CCanvases:
             pygame.image.save(canvas, "profile/input/char" + str(x) + ".png")
             x += 1
         print("SAVING CANVAS")
-
-
-    def is_blank(self, canvas):
-        """
-        Controls if canvas is blank
-        """
-        return np.all(pygame.surfarray.array3d(canvas) == self.__background)
 
     def size_of_one(self) -> tuple:
         """
