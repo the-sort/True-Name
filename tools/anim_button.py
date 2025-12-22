@@ -25,8 +25,6 @@ class CAnimButton(CButton):
         self.__hovered_anim = hovered
         self.__pressed_anim = pressed
 
-        self.__position = pos
-
     def display(self,   screen : pygame.Surface,
                         global_x,
                         global_y,
@@ -35,7 +33,7 @@ class CAnimButton(CButton):
         """
         Displays animation to the scene
         """
-        global_pos = (self.__position[0] + global_x, self.__position[1] + global_y)
+        global_pos = (self._CButton__position[0] + global_x, self._CButton__position[1] + global_y)
         mouse_pos  = pygame.mouse.get_pos()
         l_click    = pygame.mouse.get_pressed()[0]
 
