@@ -2,7 +2,6 @@
 Script creates level 
 """
 import pygame
-from tools.utils import percetage
 import tools.table_generator as tg
 import tools.brush as brush
 import tools.canvas as canvas
