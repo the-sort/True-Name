@@ -38,6 +38,19 @@ class CAnimations:
 
         screen.blit(self.__frames[self.__frame_index], cordinates)
 
+    def get_rect(self, top_left = 0):
+        """
+        Return rect of first frame 
+        in animation
+        """
+        return self.__frames[0].get_rect(top_left)
+
+    def get_keyframe(self):
+        """
+        Returns first frame of animation
+        """
+        return self.__frames[0]
+
 
 
 if __name__ == "__main__":
