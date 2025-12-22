@@ -7,11 +7,12 @@ class CButton:
     """
     Class for working and displaying buttons
     """
-    def __init__(self,  idle            ,
-                        position        ,
-                        width      = 0  ,
-                        height     = 0  ,
-                        hovered    = "" ,
+    def __init__(self,  position         ,
+                        idle             ,
+                        action     = None,
+                        width      = 0   ,
+                        height     = 0   ,
+                        hovered    = ""  ,
                         pressed    = ""
                 ):
         """
@@ -21,12 +22,17 @@ class CButton:
         self.__hovered_img     = self.__load_image(hovered, width, height)
         self.__pressed_img     = self.__load_image(pressed, width, height)
 
+        self.__action = action
+
+        self.__state = 0 #1 when button is pressed
+
         self.__position = position
 
 
     def display (self,  screen : pygame.Surface,
                         global_x,
-                        global_y
+                        global_y,
+                        delta_time = None
                 ):
         """
         Metod for displaying button in scene
@@ -35,6 +41,14 @@ class CButton:
         mouse_pos   = pygame.mouse.get_pos()
         l_click     = pygame.mouse.get_pressed()[0]
 
+        if delta_time is not None:
+            raise ValueError("Invalid value delta_time passed")
+
+        if self.is_pressed(mouse_pos, (global_x, global_y)):
+            self.__call()
+        else:
+            self.__released()
+
         if l_click  and self.__pressed(mouse_pos, global_pos):
             screen.blit(self.__pressed_img, global_pos)
             return
@@ -42,6 +56,7 @@ class CButton:
         if self.__hovered(mouse_pos, global_pos):
             screen.blit(self.__hovered_img, global_pos)
             return
+
         screen.blit(self.__idle_img, global_pos)
 
     def center(self):
@@ -59,7 +74,8 @@ class CButton:
         Checks wheter button was pressed
         """
         pos = (self.__position[0] + global_off[0], self.__position[1] + global_off[1])
-        return self.__idle_img.get_rect(topleft = pos).collidepoint(mouse_pos)
+        l_click     = pygame.mouse.get_pressed()[0]
+        return self.__idle_img.get_rect(topleft = pos).collidepoint(mouse_pos) and l_click
 
 
     def __load_image(self, path, width, height):
@@ -69,6 +85,8 @@ class CButton:
         """
         if path == "":
             return None
+        if isinstance(path, pygame.Surface):
+            return path
         img = pygame.image.load(path)
         return self.__transform(img, width, height)
 
@@ -88,6 +106,13 @@ class CButton:
             return False
         return self.__pressed_img.get_rect(topleft = global_pos).collidepoint(mouse_pos)
 
+    def __released(self):
+        """
+        Set state to 0
+        """
+        self.__state = 0
+
+
     def __transform(self, img : pygame.Surface, width, height):
         """
         Transform button to desired scale
@@ -98,6 +123,13 @@ class CButton:
             height = img.get_rect().height
         return pygame.transform.scale(img, (width, height))
 
+    def __call(self):
+        """
+        Calls action
+        """
+        if self.__action is not None and self.__state != 1:
+            self.__action()
+            self.__state = 1
 
 
 if __name__ == "__main__":
