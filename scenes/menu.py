@@ -7,15 +7,23 @@ from tools.anim_button import CAnimButton, CAnimations
 SCREEN_W = 1024 # 4 x 3
 SCREEN_H = 768
 
+#WIZ_IDLE  500x500
+#WIZ_HOVER 500x500
+
+
 class CMenu:
     """
     Class for handling menu
     """
     def __init__(self):
         self.__screen = pygame.display.set_mode((SCREEN_W, SCREEN_H))
-        self.__wizzad = CAnimButton(pos = (SCREEN_W //2, SCREEN_H//2),
+        self.__wizzad = CAnimButton(pos = (SCREEN_W , SCREEN_H),
                                     idle = CAnimations("assets/wiz_idle", fps = 5),
+                                    hovered= CAnimations("assets/wiz_hover", fps = 5),
+                                    pressed= CAnimations("assets/wiz_pres", fps=5),
                                     action = test)
+
+        self.__wizzad.right_bottom((SCREEN_W, SCREEN_H))
 
     def display_menu(self, delta_time):
         """
