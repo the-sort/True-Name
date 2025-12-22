@@ -9,7 +9,8 @@ class CButton:
     """
     def __init__(self,  position            ,
                         idle                ,
-                        action       = None ,
+                        on_press     = None ,
+                        on_release   = None ,
                         width        = 0    ,
                         height       = 0    ,
                         hovered      = ""   ,
@@ -22,7 +23,8 @@ class CButton:
         self.__hovered_img     = self.__load_image(hovered, width, height)
         self.__pressed_img     = self.__load_image(pressed, width, height)
 
-        self.__action = action
+        self.__on_press  = on_press
+        self.__on_release = on_release
 
         self.__state = False
 
@@ -125,15 +127,21 @@ class CButton:
         """
         Calls action
         """
-        if self.__action is not None and self.__state:
-            self.__action()
+        if self.__on_press is not None and self.__state:
+            self.__on_press()
+        elif self.__on_release is not None and not self.__state:
+            self.__on_release()
 
     def right_bottom(self, screen_size):
         """
         Moves button to the
         right bottom corner
         """
-        size = self.__idle_img.get_rect().size
+        print("here")
+        if  self.__state and self.__pressed_img is not None:
+            size = self.__pressed_img.get_rect().size
+        else:
+            size = self.__idle_img.get_rect().size
         self.__position = (screen_size[0] - size[0], screen_size[1] - size[1])
 
 
