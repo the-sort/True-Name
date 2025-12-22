@@ -21,7 +21,8 @@ class CMenu:
                                     idle = CAnimations("assets/wiz_idle", fps = 5),
                                     hovered= CAnimations("assets/wiz_hover", fps = 5),
                                     pressed= CAnimations("assets/wiz_pres", fps=5),
-                                    action = test)
+                                    on_press = self.start_shoping,
+                                    on_release= self.exit_shoping)
 
         self.__wizzad.right_bottom((SCREEN_W, SCREEN_H))
 
@@ -46,8 +47,18 @@ class CMenu:
                 return False
         return True
 
-def test():
-    print("Hello world")
+    def start_shoping(self):
+        """
+        Metod for shoping with wizzard
+        """
+        self.__wizzad.right_bottom((SCREEN_W, SCREEN_H))
+
+    def exit_shoping(self):
+        """
+        Metod for extting shop with wizzard
+        """
+        self.__wizzad.right_bottom((SCREEN_W, SCREEN_H))
+
 
 if __name__ == "__main__":
     RUNNING  = True

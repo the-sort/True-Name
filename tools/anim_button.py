@@ -14,13 +14,17 @@ class CAnimButton(CButton):
     def __init__(   self,
                     pos                         ,
                     idle    : CAnimations       ,
-                    action               = None ,
+                    on_press              = None ,
+                    on_release            = None  ,
                     hovered : CAnimations = None,
                     pressed : CAnimations = None
                 ):
 
-        super().__init__(pos, idle = idle.get_keyframe(), action= action,
-                         hovered= hovered.get_keyframe())
+        super().__init__(pos, idle = idle.get_keyframe(),
+                         on_press= on_press,
+                         on_release= on_release,
+                         hovered= hovered.get_keyframe(),
+                         pressed= pressed.get_keyframe())
 
         self.__idle_anim    =  idle
         self.__hovered_anim = hovered
@@ -39,9 +43,6 @@ class CAnimButton(CButton):
         pressed  = self.is_pressed(mouse_pos, (global_x, global_y))
 
         self._CButton__released(pressed)
-
-        # if pressed:
-        #     self._CButton__call()
 
         if self._CButton__state and self.__pressed_anim is not None:
             self.__pressed_anim.play(screen, delta_time, global_pos)
