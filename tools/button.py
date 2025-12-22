@@ -7,13 +7,13 @@ class CButton:
     """
     Class for working and displaying buttons
     """
-    def __init__(self,  position         ,
-                        idle             ,
-                        action     = None,
-                        width      = 0   ,
-                        height     = 0   ,
-                        hovered    = ""  ,
-                        pressed    = ""
+    def __init__(self,  position            ,
+                        idle                ,
+                        action       = None ,
+                        width        = 0    ,
+                        height       = 0    ,
+                        hovered      = ""   ,
+                        pressed      = ""
                 ):
         """
         position argmuent is tuple of topleft corner
@@ -130,6 +130,15 @@ class CButton:
         if self.__action is not None and self.__state != 1:
             self.__action()
             self.__state = 1
+
+    def right_bottom(self, screen_size):
+        """
+        Moves button to the
+        right bottom corner
+        """
+        size = self.__idle_img.get_rect().size
+        self.__position = (screen_size[0] - size[0], screen_size[1] - size[1])
+
 
 
 if __name__ == "__main__":
