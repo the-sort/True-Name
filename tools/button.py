@@ -24,7 +24,9 @@ class CButton:
 
         self.__action = action
 
-        self.__state = 0 #1 when button is pressed
+        self.__state = False
+
+        self.__was_pressed = False
 
         self.__position = position
 
@@ -39,17 +41,18 @@ class CButton:
         """
         global_pos = (self.__position[0] + global_x, self.__position[1] + global_y)
         mouse_pos   = pygame.mouse.get_pos()
-        l_click     = pygame.mouse.get_pressed()[0]
+
+        pressed = self.is_pressed(mouse_pos, (global_x, global_y))
 
         if delta_time is not None:
             raise ValueError("Invalid value delta_time passed")
 
-        if self.is_pressed(mouse_pos, (global_x, global_y)):
-            self.__call()
-        else:
-            self.__released()
+        self.__released(pressed)
 
-        if l_click  and self.__pressed(mouse_pos, global_pos):
+        # if pressed:
+        #     self.__call()
+
+        if self.__state and self.__pressed_img is not None:
             screen.blit(self.__pressed_img, global_pos)
             return
 
@@ -98,19 +101,14 @@ class CButton:
             return False
         return self.__hovered_img.get_rect(topleft = global_pos).collidepoint(mouse_pos)
 
-    def __pressed(self, mouse_pos : tuple, global_pos : tuple) -> bool:
-        """
-        Checks if player pressed button
-        """
-        if self.__pressed_img is None:
-            return False
-        return self.__pressed_img.get_rect(topleft = global_pos).collidepoint(mouse_pos)
-
-    def __released(self):
+    def __released(self, pressed):
         """
         Set state to 0
         """
-        self.__state = 0
+        if pressed != self.__was_pressed and pressed:
+            self.__state = not self.__state
+            self.__call()
+        self.__was_pressed = pressed
 
 
     def __transform(self, img : pygame.Surface, width, height):
@@ -127,9 +125,8 @@ class CButton:
         """
         Calls action
         """
-        if self.__action is not None and self.__state != 1:
+        if self.__action is not None and self.__state:
             self.__action()
-            self.__state = 1
 
     def right_bottom(self, screen_size):
         """
