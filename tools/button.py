@@ -51,9 +51,6 @@ class CButton:
 
         self.__released(pressed)
 
-        # if pressed:
-        #     self.__call()
-
         if self.__state and self.__pressed_img is not None:
             screen.blit(self.__pressed_img, global_pos)
             return
@@ -63,6 +60,13 @@ class CButton:
             return
 
         screen.blit(self.__idle_img, global_pos)
+
+    def move(self, cordinates):
+        """
+        Changes position of button
+        """
+        self.__position = cordinates
+
 
     def center(self):
         """
@@ -74,6 +78,19 @@ class CButton:
                              self.__position[1] - img_size[1] // 2
                             )
 
+
+    def right_bottom(self, screen_size):
+        """
+        Moves button to the
+        right bottom corner
+        """
+        if  self.__state and self.__pressed_img is not None:
+            size = self.__pressed_img.get_rect().size
+        else:
+            size = self.__idle_img.get_rect().size
+        self.__position = (screen_size[0] - size[0], screen_size[1] - size[1])
+
+
     def is_pressed(self, mouse_pos : tuple, global_off : tuple) -> bool:
         """
         Checks wheter button was pressed
@@ -82,6 +99,45 @@ class CButton:
         l_click     = pygame.mouse.get_pressed()[0]
         return self.__idle_img.get_rect(topleft = pos).collidepoint(mouse_pos) and l_click
 
+    def height(self, state = "idle"):
+        """
+        Returns height of given 
+        state; Base is idle
+        """
+        match state:
+            case "idle":
+                return self.__idle_img.get_rect().height
+            case "hovered":
+                if self.__hovered_img is None:
+                    raise ValueError("No hovered img was loaded")
+                return self.__hovered_img.get_rect().height
+            case "pressed":
+                if self.__pressed_img is None:
+                    raise ValueError("No pressed img was loaded")
+                return self.__pressed_img.get_rect().height
+
+    def width(self, state = "idle"):
+        """
+        Returns width of given 
+        state; Base is idle
+        """
+        match state:
+            case "idle":
+                return self.__idle_img.get_rect().width
+            case "hovered":
+                if self.__hovered_img is None:
+                    raise ValueError("No hovered img was loaded")
+                return self.__hovered_img.get_rect().width
+            case "pressed":
+                if self.__pressed_img is None:
+                    raise ValueError("No pressed img was loaded")
+                return self.__pressed_img.get_rect().width
+
+    def get_idle(self):
+        """
+        Getter for idle img
+        """
+        return self.__idle_img
 
     def __load_image(self, path, width, height):
         """
@@ -131,18 +187,6 @@ class CButton:
             self.__on_press()
         elif self.__on_release is not None and not self.__state:
             self.__on_release()
-
-    def right_bottom(self, screen_size):
-        """
-        Moves button to the
-        right bottom corner
-        """
-        print("here")
-        if  self.__state and self.__pressed_img is not None:
-            size = self.__pressed_img.get_rect().size
-        else:
-            size = self.__idle_img.get_rect().size
-        self.__position = (screen_size[0] - size[0], screen_size[1] - size[1])
 
 
 
