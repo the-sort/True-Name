@@ -80,7 +80,7 @@ class CLevel:
                                     height = 99*6.5
                                 )
         self.__exit.center()
-    def display_level(self, delta_time):
+    def display(self, delta_time):
         """
         Metod called in game loop
         """
@@ -222,7 +222,7 @@ if __name__ == "__main__":
     clock = pygame.time.Clock()
 
     while RUNNING:
-        RUNNING = level.display_level(DELTA_TIME)
+        RUNNING = level.display(DELTA_TIME)
 
         pygame.display.flip()
 
