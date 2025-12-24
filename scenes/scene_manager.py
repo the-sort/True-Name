@@ -1,6 +1,10 @@
 """
 Module for wraping and managing scenes
 """
+from scenes.menu import CMenu
+from scenes.level import CLevel
+
+
 class CSceneManager():
     """
     Scene Manager class
@@ -8,11 +12,20 @@ class CSceneManager():
     def __init__(self):
         self.scene = None
 
-    def change_scene(self, scene):
+    def change_scene(self, manager, scene):
         """
         Method for changing scene
         """
-        self.scene = scene
+        del self.scene
+        match scene:
+            case "EASY":
+                self.scene = CLevel(manager, "EASY")
+            case "MEDIUM":
+                self.scene = CLevel(manager, "MEDIUM")
+            case "HARD":
+                self.scene = CLevel(manager, "HARD")
+            case "MENU":
+                self.scene = CMenu(manager)
 
 if __name__ == "__main":
     ...

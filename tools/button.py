@@ -187,6 +187,13 @@ class CButton:
         """
         self.__visible = False
 
+    def clean(self):
+        """
+        Removes back dependencies
+        """
+        self.__on_press = None
+        self.__on_release = None
+
 
     def __load_image(self, path, width, height):
         """
