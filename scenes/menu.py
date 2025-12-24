@@ -31,9 +31,15 @@ class CMenu():
                                     on_press = lambda : self.inspect_contact(self.__easy),
                                 )
         self.__medium   = CButton(  position = temp_pos,
-                                    idle = "assets/difficultie_posters/MEDIUM_idle.png")
+                                    idle = "assets/difficultie_posters/MEDIUM_idle.png",
+                                    pressed = "assets/difficultie_posters/MEDIUM_pressed.png",
+                                    on_press = lambda : self.inspect_contact(self.__medium),
+                                    )
         self.__hard   = CButton(    position = temp_pos,
-                                    idle = "assets/difficultie_posters/HARD_idle.png")
+                                    idle = "assets/difficultie_posters/HARD_idle.png",
+                                    pressed = "assets/difficultie_posters/HARD_pressed.png",
+                                    on_press = lambda : self.inspect_contact(self.__hard),
+                                    )
 
         self.__wizzad = CAnimButton(pos = (SCREEN_W , SCREEN_H),
                                     idle = CAnimations("assets/wiz_idle", fps = 5),
@@ -173,6 +179,7 @@ class CMenu():
             if skip is not None and button in skip:
                 continue
             getattr(button, method)()
+        pygame.time.delay(25)
 
 
 if __name__ == "__main__":
