@@ -2,8 +2,8 @@
 This script runs main game_loop
 """
 import pygame
-import scenes.level as level
-
+from scenes.scene_manager import CSceneManager
+from scenes.menu import CMenu
 
 if __name__ == "__main__":
 
@@ -12,10 +12,12 @@ if __name__ == "__main__":
 
     pygame.init()
     clock = pygame.time.Clock()
-    buff = level.CLevel("MEDIUM")
+
+    manager = CSceneManager()
+    manager.change_scene(CMenu(manager))
 
     while RUNNING:
-        RUNNING = buff.display_level()
+        RUNNING = manager.scene.display(DELTA_TIME)
 
         pygame.display.flip()
         DELTA_TIME = clock.tick(60) / 1000 #tick is in ms
