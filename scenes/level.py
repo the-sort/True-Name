@@ -11,6 +11,7 @@ from tools.evaluator import CEvaluator
 from tools.player import CPlayer
 from tools.utils import  CDificulties
 from tools.button import CButton
+# from scenes.scene_manager import CSceneManager
 
 SCREEN_W = 1024 # 4 x 3
 SCREEN_H = 768
@@ -19,7 +20,9 @@ class CLevel:
     """
     Metods for handling level
     """
-    def __init__(self, difficultie : str, language = "ENG"):
+    def __init__(self, manager, difficultie : str, language = "ENG"):
+        self.__manager = manager
+
         self.__difficultie = CDificulties(difficultie)
 
         self.__screen = pygame.display.set_mode((SCREEN_W, SCREEN_H))
@@ -133,7 +136,7 @@ class CLevel:
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if event.button == 1:   # left click
                     if self.__exit.is_pressed(event.pos, (self.__x_pos, self.__y_pos)):
-                        return False #END GAME
+                        self.__manager.change_scene(self.__manager, "MENU")
                     self.__brush.down()
                     if  (   self.__end_slider.is_active() and
                             self.__end_slider.collidepoint(global_x, global_y, event.pos)
@@ -214,11 +217,13 @@ class CLevel:
         self.__deactivated_sliders = False
 
 if __name__ == "__main__":
+    from scenes.scene_manager import CSceneManager
+
     RUNNING  = True
     DELTA_TIME = 0.1
 
     pygame.init()
-    level = CLevel("MEDIUM")
+    level = CLevel(CSceneManager(),"MEDIUM")
     clock = pygame.time.Clock()
 
     while RUNNING:

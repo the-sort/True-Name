@@ -3,7 +3,7 @@ This script runs main game_loop
 """
 import pygame
 from scenes.scene_manager import CSceneManager
-from scenes.menu import CMenu
+# from scenes.menu import CMenu
 
 if __name__ == "__main__":
 
@@ -14,7 +14,7 @@ if __name__ == "__main__":
     clock = pygame.time.Clock()
 
     manager = CSceneManager()
-    manager.change_scene(CMenu(manager))
+    manager.change_scene(manager, "MENU")
 
     while RUNNING:
         RUNNING = manager.scene.display(DELTA_TIME)
