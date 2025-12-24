@@ -38,6 +38,8 @@ class CAnimButton(CButton):
         """
         Displays animation to the scene
         """
+        if not self._CButton__visible:
+            return
         global_pos = (self._CButton__position[0] + global_x, self._CButton__position[1] + global_y)
         mouse_pos  = pygame.mouse.get_pos()
         pressed  = self.is_pressed(mouse_pos, (global_x, global_y))

@@ -14,7 +14,9 @@ class CButton:
                         width        = 0    ,
                         height       = 0    ,
                         hovered      = ""   ,
-                        pressed      = ""
+                        pressed      = ""   ,
+                        active       = True ,
+                        visible      = True
                 ):
         """
         position argmuent is tuple of topleft corner
@@ -26,11 +28,14 @@ class CButton:
         self.__on_press  = on_press
         self.__on_release = on_release
 
-        self.__state = False
+        self.__state   = False
 
         self.__was_pressed = False
 
         self.__position = position
+
+        self.__visible = visible
+        self.__active = active
 
 
     def display (self,  screen : pygame.Surface,
@@ -41,6 +46,10 @@ class CButton:
         """
         Metod for displaying button in scene
         """
+
+        if not self.__visible:
+            return
+
         global_pos = (self.__position[0] + global_x, self.__position[1] + global_y)
         mouse_pos   = pygame.mouse.get_pos()
 
@@ -97,7 +106,7 @@ class CButton:
         """
         pos = (self.__position[0] + global_off[0], self.__position[1] + global_off[1])
         l_click     = pygame.mouse.get_pressed()[0]
-        return self.__idle_img.get_rect(topleft = pos).collidepoint(mouse_pos) and l_click
+        return self.__idle_img.get_rect(topleft = pos).collidepoint(mouse_pos) and l_click and self.__active
 
     def height(self, state = "idle"):
         """
@@ -138,6 +147,46 @@ class CButton:
         Getter for idle img
         """
         return self.__idle_img
+
+    def activate(self):
+        """
+        Enable button for display
+        and interaction
+        """
+        self.__active = True
+
+
+    def deactivate(self):
+        """
+        Disable button for display
+        and interaction
+        """
+        self.__active = False
+
+    def postion(self):
+        """
+        Returns position of button
+        """
+        return self.__position
+
+    def make_idle(self):
+        """
+        Sets state to False
+        """
+        self.__state = False
+
+    def show(self):
+        """
+        Sets visible to True
+        """
+        self.__visible = True
+
+    def hide(self):
+        """
+        Sets visible to False
+        """
+        self.__visible = False
+
 
     def __load_image(self, path, width, height):
         """
