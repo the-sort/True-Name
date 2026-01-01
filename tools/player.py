@@ -11,11 +11,13 @@ class CPlayer:
     """
 
     def __init__(self):
-        print("Player Created")
-
-        self.__health = 1000
-        self.__coins  = 999999
-
+        try:
+            with open("profile/player.txt", mode = "r", encoding = "utf-8") as f:
+                self.__health = self.__full_health = int(f.readline())
+                self.__coins = int(f.readline())
+        except (FileNotFoundError, PermissionError):
+            self.__health = self.__full_health = 200
+            self.__coins = 0
 
         transform = (150, 150)
         self.__health_vial = pygame.image.load("assets/health_vial_empty.png")
@@ -28,7 +30,7 @@ class CPlayer:
 
         self.__full_height = self.__health_vial_blood.get_rect().height
         self.__full_width = self.__health_vial_blood.get_rect().width
-        self.__full_health = 1000
+        # self.__full_health = 1000
 
     def display_health(self, screen : pygame.Surface, global_x, global_y):
         """
