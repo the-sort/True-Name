@@ -25,8 +25,8 @@ class CShop:
 
         self.__plus = CButton(  position    = temp_pos,
                                 idle        = "assets/plus_button.png",
-                                active      = True,
-                                visible     = True,
+                                active      = False,
+                                visible     = False,
                                 on_press = self.upgrade_health
                              )
 
@@ -100,6 +100,21 @@ class CShop:
         self.__plus.make_idle()
 
         self.__save_player()
+
+    def activate(self):
+        """
+        Activates shop
+        """
+        self.__plus.activate()
+        self.__plus.show()
+
+    def deactivate(self):
+        """
+        Deactivates shop
+        """
+        self.__plus.deactivate()
+        self.__plus.hide()
+
 
 
     def __render_font(self, string, font_size, color = (255, 255, 255)):
