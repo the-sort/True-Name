@@ -13,9 +13,6 @@ class CPlayer:
     def __init__(self):
         print("Player Created")
 
-
-        # self.__full_health = 200
-
         self.__health = 1000
         self.__coins  = 999999
 
@@ -130,6 +127,11 @@ class CPlayer:
             raise ValueError("Insuffiecient amount of coins")
         self.__coins -= amount
 
+    def heal_to_full(self):
+        """
+        Restores health to full
+        """
+        self.__health = self.full_health
 
     def __del__(self):
         print("Player deleted")

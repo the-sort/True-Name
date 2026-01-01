@@ -214,6 +214,9 @@ class CLevel:
         """
         self.__deactivated_sliders = False
 
+    def __del__(self):
+        self.__manager.player.heal_to_full()
+
 if __name__ == "__main__":
     from scenes.scene_manager import CSceneManager
 
