@@ -106,7 +106,7 @@ class CLevel:
 
         self.__evaluator.guess(self.__screen, self.__x_pos, self.__y_pos)
 
-        self.__player.display_health(self.__screen, self.__x_pos, self.__y_pos)
+        self.__manager.player.display_health(self.__screen, self.__x_pos, self.__y_pos)
 
         if  (   (buff := self.__center_collider.arrived(self.__x_pos, self.__y_pos)) or
                 self.__end_slider.arrived(self.__x_pos, self.__y_pos)
@@ -183,12 +183,13 @@ class CLevel:
                 if (a_canvas := self.__canvases.get_active(event.pos)) is None:
                     continue
                 self.__brush.draw(a_canvas[0], a_canvas[1], event.pos)
-                self.__player.deacrease_health(self.__difficultie.health_drain() * delta_time)
-                self.__player.display_dripping(self.__screen,
-                                               delta_time,
-                                               self.__x_pos,
-                                               self.__y_pos
-                                               ) #deffinietly not 30FPS but looks dope
+
+                self.__manager.player.deacrease_health(self.__difficultie.health_drain() * delta_time)
+                self.__manager.player.display_dripping( self.__screen,
+                                                        delta_time,
+                                                        self.__x_pos,
+                                                        self.__y_pos
+                                                      ) #deffinietly not 30FPS but looks dope
                 pygame.image.save   (   a_canvas[0],
                                         f"profile/input/char{a_canvas[2]}.png"
                                     ) #Preanswer guessing

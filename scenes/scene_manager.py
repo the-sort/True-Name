@@ -3,6 +3,7 @@ Module for wraping and managing scenes
 """
 from scenes.menu import CMenu
 from scenes.level import CLevel
+from tools.player import CPlayer
 
 
 class CSceneManager():
@@ -11,6 +12,7 @@ class CSceneManager():
     """
     def __init__(self):
         self.scene = None
+        self.player = CPlayer()
 
     def change_scene(self, manager, scene):
         """
