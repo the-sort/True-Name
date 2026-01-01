@@ -3,6 +3,7 @@ Script that generates menu
 """
 import pygame
 from tools.anim_button import CAnimButton, CAnimations
+from tools.shop import CShop
 from tools.button      import CButton
 
 SCREEN_W = 1024 # 4 x 3
@@ -23,6 +24,14 @@ class CMenu():
 
         temp_pos = (0,0)
         off_set  = 50
+
+        self.__board = pygame.image.load("assets/bounty_board.png")
+        # self.__shop_frame = pygame.image.load("assets/shop_frame.png")
+        # self.__coin_img = pygame.image.load("assets/coin_scaled.png")
+        # self.__health_img = pygame.image.load("assets/health_vial.png")
+
+        self.__shop = CShop(SCREEN_W, SCREEN_H)
+
         self.__easy     = CButton(  position = temp_pos,
                                     idle = "assets/difficultie_posters/EASY_idle.png",
                                     pressed = "assets/difficultie_posters/EASY_pressed.png",
@@ -54,13 +63,19 @@ class CMenu():
                                     on_release= self.refuse_contract,
                                     visible = False
                                 )
-        self.__accept = CButton(   position= temp_pos,
+        self.__accept = CButton(    position= temp_pos,
                                     idle= "assets/accept.png",
                                     active = False,
                                     on_press = self.accept_contract,
                                     on_release= self.accept_contract,
                                     visible = False
                                 )
+
+        # self.__plus = CButton(  position    = temp_pos,
+        #                         idle        = "assets/plus_button.png",
+        #                         active      = False,
+        #                         visible     = False
+        #                      )
 
         self.__easy.move((250, SCREEN_H - 1.5 * self.__easy.height()))
         self.__medium.move((450, SCREEN_H - 2 * self.__medium.height()))
@@ -71,8 +86,6 @@ class CMenu():
         self.__accept.move(((SCREEN_W//2, SCREEN_H - self.__accept.height() - off_set)))
 
         self.__wizzad.right_bottom((SCREEN_W, SCREEN_H))
-
-        self.__board = pygame.image.load("assets/bounty_board.png")
 
         self.__orig_pos = (0, 0)
 
@@ -85,7 +98,11 @@ class CMenu():
         self.__screen.fill((0,0,0))
         continue_looping = self.handle_events()
 
-        self.__screen.blit(self.__board, self.__center_align((self.__board.get_width(), self.__board.get_height())))
+        if self.__wizzad.state(): #opened shop
+            self.__shop.display(self.__screen, self.__manager)
+
+        else:
+            self.__screen.blit(self.__board, self.__center_align((self.__board.get_width(), self.__board.get_height())))
 
         self.__wizzad.display(self.__screen, 0, 0, delta_time)
 
@@ -113,11 +130,18 @@ class CMenu():
         """
         self.__wizzad.right_bottom((SCREEN_W, SCREEN_H))
 
+        self.__call_on_buttons("deactivate", [self.__easy, self.__medium, self.__hard])
+        self.__call_on_buttons("hide", [self.__easy, self.__medium, self.__hard])
+
+
     def exit_shoping(self):
         """
         Metod for extting shop with wizzard
         """
         self.__wizzad.right_bottom((SCREEN_W, SCREEN_H))
+
+        self.__call_on_buttons("activate", [self.__easy, self.__medium, self.__hard])
+        self.__call_on_buttons("show", [self.__easy, self.__medium, self.__hard])
 
     def inspect_contact(self, contract : CButton):
         """
@@ -161,6 +185,36 @@ class CMenu():
             case self.__hard:
                 self.__call_on_buttons("clean", [self.__easy, self.__medium, self.__hard, self.__wizzad, self.__accept, self.__decline])
                 self.__manager.change_scene(self.__manager, "HARD")
+
+    # def __shop(self):
+    #     """
+    #     Displays and handles shop
+    #     """
+    #     font_size = 25
+    #     off_set   = 50
+
+    #     font = pygame.font.Font("./dictionaries/Gothic_pixel_font_fixed.ttf", font_size)
+    #     coins = font.render(str(self.__manager.player.coins()), True, (255, 255, 255))
+    #     font = pygame.font.Font("./dictionaries/Gothic_pixel_font_fixed.ttf", 15)
+    #     # health = font.render(str(self.__manager.player.health())+"/1000", True, (255, 255, 255))
+    #     health = font.render("1000/1000", True, (255, 255, 255))
+
+    #     shop_frame_size = self.__shop_frame.get_rect().size
+    #     coins_size = coins.get_rect().size
+    #     coin_img_size = self.__coin_img.get_rect().size
+    #     header_size = (coins_size[0] + coin_img_size[0], max(coins_size[1], coin_img_size[1]))
+    #     health_size = health.get_rect().size
+        
+    #     shop_frame_top_left = (0, SCREEN_H // 2 - self.__shop_frame.get_rect().height // 2)
+    #     coins_am_top_left = (shop_frame_top_left[0] + shop_frame_size[0] // 2 - header_size[0] // 2, shop_frame_top_left[1] + header_size[1])
+    #     health_top_left = (shop_frame_top_left[0] + off_set, coins_am_top_left[1] + 2 * off_set)
+    #     health_img_top_left = (health_top_left[0] + health_size[0], health_top_left[1])
+
+    #     self.__screen.blit(self.__shop_frame, shop_frame_top_left)
+    #     self.__screen.blit(coins, coins_am_top_left)
+    #     self.__screen.blit(self.__coin_img, (coins_am_top_left[0] + coins.get_width() + off_set, coins_am_top_left[1]))
+    #     self.__screen.blit(health, health_top_left)
+    #     self.__screen.blit(self.__health_img, health_img_top_left)
 
 
 
