@@ -99,6 +99,8 @@ class CShop:
 
         self.__plus.make_idle()
 
+        self.__save_player()
+
 
     def __render_font(self, string, font_size, color = (255, 255, 255)):
         """
@@ -108,6 +110,11 @@ class CShop:
         render = font.render(string, True, color)
         return render
 
+    def __save_player(self):
+        """
+        Saves player stats
+        """
+        self.__player.save()
 
 
 
