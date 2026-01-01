@@ -11,7 +11,7 @@ import pygame
 from tools.utils import percetage
 from tools.utils import CDificulties
 
-MAX_WORD_LEN = 15
+MAX_WORD_LEN = 9
 MIN_WORD_LEN = 3
 
 
