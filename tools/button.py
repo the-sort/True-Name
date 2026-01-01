@@ -194,6 +194,12 @@ class CButton:
         self.__on_press = None
         self.__on_release = None
 
+    def state(self):
+        """
+        Returns state of button
+        """
+        return self.__state
+
 
     def __load_image(self, path, width, height):
         """
