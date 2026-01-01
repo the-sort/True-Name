@@ -85,5 +85,8 @@ class CPlayer:
         """
         return self.__health
 
+    def __del__(self):
+        print("Player deleted")
+
 if __name__ == "__main__":
-    ... 
+    ...
