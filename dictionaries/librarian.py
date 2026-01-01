@@ -23,7 +23,7 @@ try:
                 separeted = line.split("\t")
                 if  (   len(separeted[0]) <= 2      or
                         not separeted[0].isalpha()  or
-                        len(separeted[0]) > 15
+                        len(separeted[0]) > 9
                     ):
                     continue
                 if int(separeted[1]) < 15:
