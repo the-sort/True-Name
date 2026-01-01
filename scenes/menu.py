@@ -4,8 +4,6 @@ Script that generates menu
 import pygame
 from tools.anim_button import CAnimButton, CAnimations
 from tools.button      import CButton
-from scenes.scene_manager import CSceneManager
-from scenes.level         import CLevel
 
 SCREEN_W = 1024 # 4 x 3
 SCREEN_H = 768
@@ -18,7 +16,7 @@ class CMenu():
     """
     Class for handling menu
     """
-    def __init__(self, manager : CSceneManager):
+    def __init__(self, manager):
         self.__manager = manager
 
         self.__screen = pygame.display.set_mode((SCREEN_W, SCREEN_H))
@@ -155,11 +153,14 @@ class CMenu():
         """
         match self.__active_contract:
             case self.__easy:
-                self.__manager.change_scene(CLevel("EASY"))
+                self.__call_on_buttons("clean", [self.__easy, self.__medium, self.__hard, self.__wizzad, self.__accept, self.__decline])
+                self.__manager.change_scene(self.__manager, "EASY")
             case self.__medium:
-                self.__manager.change_scene(CLevel("MEDIUM"))
+                self.__call_on_buttons("clean", [self.__easy, self.__medium, self.__hard, self.__wizzad, self.__accept, self.__decline])
+                self.__manager.change_scene(self.__manager, "MEDIUM")
             case self.__hard:
-                self.__manager.change_scene(CLevel("HARD"))
+                self.__call_on_buttons("clean", [self.__easy, self.__medium, self.__hard, self.__wizzad, self.__accept, self.__decline])
+                self.__manager.change_scene(self.__manager, "HARD")
 
 
 
@@ -179,10 +180,11 @@ class CMenu():
             if skip is not None and button in skip:
                 continue
             getattr(button, method)()
-        pygame.time.delay(25)
-
+        pygame.time.delay(25) 
 
 if __name__ == "__main__":
+    from scenes.scene_manager import CSceneManager
+
     RUNNING  = True
     DELTA_TIME = 0.1
 
