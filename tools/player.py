@@ -11,7 +11,11 @@ class CPlayer:
     """
 
     def __init__(self):
+        print("Player Created")
+
+
         self.__health = 200
+        self.__coins  = 100
 
 
         transform = (150, 150)
@@ -84,6 +88,30 @@ class CPlayer:
         Getter for atribute health
         """
         return self.__health
+
+    def coins(self):
+        """
+        Returns how many Coins does player
+        have
+        """
+        return self.__coins
+
+    def add_coins(self, amount):
+        """
+        Adds amount of coins to player
+        """
+        if amount <= 0:
+            raise ValueError("Insuffiecient amount of coins")
+        self.__coins += amount
+
+    def substract_coins(self, amount):
+        """
+        Substracts amount of coins from player
+        """
+        if amount <= 0:
+            raise ValueError("Insuffiecient amount of coins")
+        self.__coins += amount
+
 
     def __del__(self):
         print("Player deleted")
