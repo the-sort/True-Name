@@ -14,8 +14,10 @@ class CPlayer:
         print("Player Created")
 
 
-        self.__health = 200
-        self.__coins  = 100
+        # self.__full_health = 200
+
+        self.__health = 1000
+        self.__coins  = 999999
 
 
         transform = (150, 150)
@@ -29,7 +31,7 @@ class CPlayer:
 
         self.__full_height = self.__health_vial_blood.get_rect().height
         self.__full_width = self.__health_vial_blood.get_rect().width
-        self.__full_health = 200
+        self.__full_health = 1000
 
     def display_health(self, screen : pygame.Surface, global_x, global_y):
         """
@@ -83,11 +85,27 @@ class CPlayer:
             return
         self.__health += amount
 
+    def increase_full_health(self, amount = 1):
+        """
+        Metod for increasing player health
+        When amount is <=0 does nothing
+        """
+        if amount <= 0:
+            return
+        self.__full_health += amount
+
+
     def health(self) -> float:
         """
         Getter for atribute health
         """
         return self.__health
+
+    def full_health(self):
+        """
+        Getter for for atribute full health
+        """
+        return self.__full_health
 
     def coins(self):
         """
@@ -110,7 +128,7 @@ class CPlayer:
         """
         if amount <= 0:
             raise ValueError("Insuffiecient amount of coins")
-        self.__coins += amount
+        self.__coins -= amount
 
 
     def __del__(self):
