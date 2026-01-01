@@ -100,9 +100,11 @@ class CMenu():
         continue_looping = self.handle_events()
 
         if self.__wizzad.state(): #opened shop
+            self.__shop.activate()
             self.__shop.display(self.__screen)
 
         else:
+            self.__shop.deactivate()
             self.__screen.blit(self.__board, self.__center_align((self.__board.get_width(), self.__board.get_height())))
 
         self.__wizzad.display(self.__screen, 0, 0, delta_time)
