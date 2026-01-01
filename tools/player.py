@@ -133,8 +133,13 @@ class CPlayer:
         """
         self.__health = self.full_health
 
-    def __del__(self):
-        print("Player deleted")
+    def save(self):
+        """
+        Save player stats
+        """
+        to_save = str(self.__full_health) + "\n" + str(self.__coins)
+        with open("profile/player.txt", mode = "w", encoding = "utf-8") as f:
+            f.write(to_save)
 
 if __name__ == "__main__":
     ...
