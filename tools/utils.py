@@ -40,31 +40,40 @@ class CDificulties:
         """
         return self.__health_drain
 
+    def reward(self):
+        """
+        Returns reward for completing level
+        """
+        return self.__reward
+
     def __set_difficultie(self, difficultie):
         """
         Sets difficultie of table
         """
         match difficultie:
             case "EASY":
-                self.__cols       = 6
-                self.__rows       = 5
-                self.__scale      = 5
-                self.__font_size  = 35
+                self.__cols         = 6
+                self.__rows         = 5
+                self.__scale        = 5
+                self.__font_size    = 35
                 self.__health_drain = -0.25
+                self.__reward       = 50
                 return
             case "MEDIUM":
-                self.__cols       = 8
-                self.__rows       = 6
-                self.__scale      = 4
-                self.__font_size  = 30
+                self.__cols         = 8
+                self.__rows         = 6
+                self.__scale        = 4
+                self.__font_size    = 30
                 self.__health_drain = -0.5
+                self.__reward       = 100
                 return
             case "HARD":
-                self.__cols       = 16
-                self.__rows       = 12
-                self.__scale      = 2
-                self.__font_size  = 15
+                self.__cols         = 16
+                self.__rows         = 12
+                self.__scale        = 2
+                self.__font_size    = 15
                 self.__health_drain = -1
+                self.__reward       = 200
                 return
 
 

@@ -97,7 +97,7 @@ class CLevel:
         continue_looping = self.__event_handler(self.__x_pos, self.__y_pos, delta_time)
 
         self.__exit.display(self.__screen, self.__x_pos, self.__y_pos)
-       
+
         self.__canvases.display_canvases(self.__screen, self.__x_pos, self.__y_pos)
         self.__attempts.display_attempts(self.__x_pos, self.__y_pos)
 
@@ -133,6 +133,8 @@ class CLevel:
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if event.button == 1:   # left click
                     if self.__exit.is_pressed(event.pos, (self.__x_pos, self.__y_pos)):
+                        self.__manager.player.add_coins(self.__difficultie.reward())
+                        self.__manager.player.save()
                         self.__manager.change_scene(self.__manager, "MENU")
                     self.__brush.down()
                     if  (   self.__end_slider.is_active() and
