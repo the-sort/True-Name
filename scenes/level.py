@@ -8,10 +8,8 @@ import tools.canvas as canvas
 import tools.attempts as attempts
 from tools.slider import CSlider as Slider, SLIDER_H
 from tools.evaluator import CEvaluator
-from tools.player import CPlayer
 from tools.utils import  CDificulties
 from tools.button import CButton
-# from scenes.scene_manager import CSceneManager
 
 SCREEN_W = 1024 # 4 x 3
 SCREEN_H = 768
@@ -28,7 +26,6 @@ class CLevel:
         self.__screen = pygame.display.set_mode((SCREEN_W, SCREEN_H))
         self.__table  = tg.CTable(self.__screen, self.__difficultie, language)
         self.__attempts = attempts.CAttempts(self.__screen)
-        self.__player  = CPlayer()
 
         self.__x_pos    = 0
         self.__y_pos    = 0
