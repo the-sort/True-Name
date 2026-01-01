@@ -30,7 +30,7 @@ class CMenu():
         # self.__coin_img = pygame.image.load("assets/coin_scaled.png")
         # self.__health_img = pygame.image.load("assets/health_vial.png")
 
-        self.__shop = CShop(SCREEN_W, SCREEN_H)
+        self.__shop = CShop(self.__manager.player, SCREEN_H)
 
         self.__easy     = CButton(  position = temp_pos,
                                     idle = "assets/difficultie_posters/EASY_idle.png",
@@ -99,7 +99,7 @@ class CMenu():
         continue_looping = self.handle_events()
 
         if self.__wizzad.state(): #opened shop
-            self.__shop.display(self.__screen, self.__manager)
+            self.__shop.display(self.__screen)
 
         else:
             self.__screen.blit(self.__board, self.__center_align((self.__board.get_width(), self.__board.get_height())))
