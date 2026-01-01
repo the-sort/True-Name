@@ -88,6 +88,7 @@ class CMenu():
         self.__wizzad.right_bottom((SCREEN_W, SCREEN_H))
 
         self.__orig_pos = (0, 0)
+        pygame.time.delay(25)
 
     def display(self, delta_time):
         """
@@ -234,7 +235,7 @@ class CMenu():
             if skip is not None and button in skip:
                 continue
             getattr(button, method)()
-        pygame.time.delay(25) 
+        pygame.time.delay(25)
 
 if __name__ == "__main__":
     from scenes.scene_manager import CSceneManager
