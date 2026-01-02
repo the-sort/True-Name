@@ -10,15 +10,17 @@ class CSlider:
     """
     Slider
     """
-    def __init__(self,  screen          ,
-                        left            ,
-                        top             ,
-                        scale_x = 1     ,
-                        scale_y = 1     ,
-                        rotation = 0    ,
-                        active = True   ,
-                        center_x = True ,
-                        center_y = True
+    def __init__(
+                    self            ,
+                    screen          ,
+                    left            ,
+                    top             ,
+                    scale_x = 1     ,
+                    scale_y = 1     ,
+                    rotation = 0    ,
+                    active = True   ,
+                    center_x = True ,
+                    center_y = True
                 ):
         self.__screen = screen
 
@@ -30,7 +32,8 @@ class CSlider:
 
         self.__active   = active
 
-        self.__slider = self.__preprocess_img(scale_x, scale_y, rotation) #slider.png (600x100) by default
+        #slider.png (600x100) by default
+        self.__slider = self.__preprocess_img(scale_x, scale_y, rotation)
 
         if center_x:
             self.__center_x()
@@ -80,12 +83,12 @@ class CSlider:
         """
         size = self.__screen.get_rect().size
         stops = {
-            "TABLE": (0,0),
-            "CANVAS" : (0, -size[1] + SLIDER_H),
-            "END" : (0, -size[1]*2 + 2*SLIDER_H),
-            "ATTEMPTS": (-size[0] + SLIDER_H,0), 
-            "INVENTAR" : (size[0] - SLIDER_H,0)
-        }
+                    "TABLE": (0,0),
+                    "CANVAS" : (0, -size[1] + SLIDER_H),
+                    "END" : (0, -size[1]*2 + 2*SLIDER_H),
+                    "ATTEMPTS": (-size[0] + SLIDER_H,0), 
+                    "INVENTAR" : (size[0] - SLIDER_H,0)
+                }
         return stops[stop]
 
     def move_to(self, where : str, speed : int):
@@ -101,20 +104,27 @@ class CSlider:
         """
         buff = [False, False]
         if self.__speed < 0:
-            if  (   self.__stop[0]  +self.__speed  <= global_x and
+            if  (
+                    self.__stop[0]  +self.__speed  <= global_x and
                     self.__stop[0] -self.__speed  >= global_x
                 ):
                 buff[0] = True
-            if  (   self.__stop[1]  +self.__speed <= global_y and
+
+            if  (
+                    self.__stop[1]  +self.__speed <= global_y and
                     self.__stop[1] -self.__speed  >= global_y
                 ):
                 buff[1] = True
+
         elif self.__speed > 0:
-            if  (   self.__stop[0]  +self.__speed >= global_x and
+            if  (
+                    self.__stop[0]  +self.__speed >= global_x and
                     self.__stop[0] -self.__speed  <= global_x
                 ):
                 buff[0] = True
-            if  (   self.__stop[1]  +self.__speed >= global_y and
+
+            if  (
+                    self.__stop[1]  +self.__speed >= global_y and
                     self.__stop[1] -self.__speed  <= global_y
                 ):
                 buff[1] = True
@@ -156,15 +166,6 @@ class CSlider:
         """
         height = self.__slider.get_height()
         self.__top -= height // 2
-
-    # def flip(self):
-    #     """
-    #     Flips slider
-    #     """
-    #     self.__slider.get
-
-
-
 
 if __name__ == "__main__":
     ...
