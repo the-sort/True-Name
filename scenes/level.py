@@ -44,14 +44,6 @@ class CLevel:
                                             center_x= True,
                                             center_y= False
                                         )
-        self.__left_collider = Slider  (    screen  = self.__screen         ,
-                                            left    = 0                     ,
-                                            top     = SCREEN_H // 2 - 20                     ,
-                                            rotation = 90,
-                                            active  = True,
-                                            center_x= False,
-                                            center_y= True
-                                        )
         self.__right_collider = Slider (    screen  = self.__screen                     ,
                                             left    = SCREEN_W - SLIDER_H ,
                                             top     = SCREEN_H // 2 - 20                                  ,
@@ -90,7 +82,6 @@ class CLevel:
 
 
         self.__center_collider.display_slider(self.__x_pos, self.__y_pos)
-        self.__left_collider.display_slider(self.__x_pos, self.__y_pos)
         self.__right_collider.display_slider(self.__x_pos, self.__y_pos)
         self.__end_slider.display_slider(self.__x_pos, self.__y_pos)
 
@@ -112,10 +103,8 @@ class CLevel:
             self.__y_off = 0
             self.__activate_sliders()
 
-        if  (  (buff :=self.__left_collider.arrived(self.__x_pos, self.__y_pos))  or
-                self.__right_collider.arrived(self.__x_pos, self.__y_pos)
-            ):
-            self.__x_pos, self.__y_pos = self.__left_collider.center() if  buff else self.__right_collider.center()
+        if  self.__right_collider.arrived(self.__x_pos, self.__y_pos):
+            self.__x_pos, self.__y_pos = self.__right_collider.center()
             self.__x_off = 0
             self.__activate_sliders()
 
@@ -162,14 +151,6 @@ class CLevel:
                         else:
                             self.__x_off = 8
                             self.__right_collider.move_to("TABLE", 8)
-                        self.__deactivate_sliders()
-                    elif self.__left_collider.collidepoint(global_x, global_y, event.pos):
-                        if self.__x_pos <= 0:
-                            self.__x_off = 8
-                            self.__left_collider.move_to("INVENTAR", 8)
-                        else:
-                            self.__x_off = -8
-                            self.__left_collider.move_to("TABLE", -8)
                         self.__deactivate_sliders()
             if event.type == pygame.MOUSEBUTTONUP:
                 if event.button == 1:   # left click
