@@ -19,36 +19,36 @@ class CStart():
 
         temp_pos = (0, 0)
 
-        self.__new_game     = CButton   (
-                                            position     = (0, 0)                        ,
-                                            idle         = "assets/start_up/new_game.png",
-                                            on_press     = self.new_game
-                                        )
-        self.__continue     = CButton   (
-                                            position    = (0, SCREEN_H // 2)            ,
-                                            idle        = "assets/start_up/continue.png",
-                                            on_press    = self.scene_to_menu
-                                        )
+        self.__new_game = CButton(
+            position = (0, 0),
+            idle = "assets/start_up/new_game.png",
+            on_press = self.new_game
+        )
+        self.__continue = CButton(
+            position = (0, SCREEN_H // 2),
+            idle = "assets/start_up/continue.png",
+            on_press = self.scene_to_menu
+        )
 
-        self.__accept = CButton (
-                                    position    = temp_pos              ,
-                                    idle        = "assets/accept.png"   ,
-                                    width       = 50                    ,
-                                    height      = 50                    ,
-                                    active      = True                  ,
-                                    visible     = True                  ,
-                                    on_press    = self.accept
-                                )
+        self.__accept = CButton(
+            position = temp_pos,
+            idle = "assets/accept.png",
+            width = 50,
+            height = 50,
+            active = True,
+            visible = True,
+            on_press = self.accept
+        )
 
         self.__decline = CButton(
-                                    position    = temp_pos              ,
-                                    idle        = "assets/decline.png"  ,
-                                    width       = 50                    ,
-                                    height      = 50                    ,
-                                    active      = True                  ,
-                                    visible     = True                  ,
-                                    on_press    = self.decline
-                                )
+            position = temp_pos,
+            idle = "assets/decline.png",
+            width = 50,
+            height = 50,
+            active = True,
+            visible = True,
+            on_press = self.decline
+        )
 
 
         try:
@@ -76,15 +76,12 @@ class CStart():
             question = font.render(text, True, (255, 255, 255))
             size = question.get_rect().size
 
-            question_top_left = (SCREEN_W // 2 - size[0] // 2, SCREEN_H // 2 - size[1] // 2)
+            question_top_left = (SCREEN_W//2 - size[0]//2, SCREEN_H//2 - size[1]//2)
 
-            self.__accept.move  (
-                                    (
-                                        SCREEN_W // 2 - self.__accept.width(),
-                                        question_top_left[1] + size[1]
-                                    )
-                                )
-            self.__decline.move((SCREEN_W // 2, question_top_left[1] + size[1]))
+            self.__accept.move(
+                (SCREEN_W//2 - self.__accept.width(), question_top_left[1] + size[1])
+            )
+            self.__decline.move((SCREEN_W//2, question_top_left[1] + size[1]))
 
             self.__screen.blit(question, question_top_left)
             self.__accept.display(self.__screen, 0, 0)
@@ -92,8 +89,8 @@ class CStart():
             return continue_looping
 
 
-        self.__new_game.display(self.__screen, 0,0)
-        self.__continue.display(self.__screen, 0,0)
+        self.__new_game.display(self.__screen, 0, 0)
+        self.__continue.display(self.__screen, 0, 0)
 
         return continue_looping
 
@@ -161,7 +158,7 @@ class CStart():
 if __name__ == "__main__":
     from scenes.scene_manager import CSceneManager
 
-    RUNNING  = True
+    RUNNING = True
     DELTA_TIME = 0.1
 
     pygame.init()
