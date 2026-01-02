@@ -93,7 +93,7 @@ def percetage(number, percent) -> int:
     """
     return number * percent / 100
 
-def is_blank(image : PIL.Image, background = (255, 255, 255)) -> bool:
+def is_blank(image : PIL, background = (255, 255, 255)) -> bool:
     """
     Checks if given image is blank
     """
