@@ -84,14 +84,14 @@ class CPlayer:
             return
         self.__health += amount
 
-    # def increase_full_health(self, amount = 1):
-    #     """
-    #     Metod for increasing player health
-    #     When amount is <=0 does nothing
-    #     """
-    #     if amount <= 0:
-    #         return
-    #     self.__full_health += amount
+    def increase_full_health(self, amount = 1):
+        """
+        Metod for increasing player health
+        When amount is <=0 does nothing
+        """
+        if amount <= 0:
+            return
+        self.__full_health += amount
 
 
     def health(self) -> float:
