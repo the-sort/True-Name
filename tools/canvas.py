@@ -10,14 +10,14 @@ class CCanvases:
     def __init__(self, screen_height):
         self.__screen_height = screen_height
 
-        self.__width            = 175
-        self.__height           = 175
-        self.__canvases         = [pygame.Surface((self.__width,self.__height)) for _ in range(10)]
-        self.__canvases_rect    = [canvas.get_rect() for canvas in self.__canvases]
+        self.__width = 175
+        self.__height = 175
+        self.__canvases = [pygame.Surface((self.__width, self.__height)) for _ in range(10)]
+        self.__canvases_rect = [canvas.get_rect() for canvas in self.__canvases]
 
         self.__frame = pygame.image.load("assets/frame.png")
 
-        self.__background = (255,255,255)
+        self.__background = (255, 255, 255)
 
         for canvas in self.__canvases:
             canvas.fill(self.__background)
@@ -29,10 +29,10 @@ class CCanvases:
         """
         x_offset = 74
         for i in range(5):
-            l_corner =  (
-                        x_offset + global_x,
-                        (self.__screen_height//2) + self.__screen_height + global_y - self.__height
-                        )
+            l_corner = (
+                x_offset + global_x,
+                (self.__screen_height//2) + self.__screen_height + global_y - self.__height
+            )
 
             screen.blit(self.__canvases[i], l_corner)
             screen.blit(self.__frame, l_corner)
@@ -41,10 +41,10 @@ class CCanvases:
 
         x_offset = 74
         for i in range(5,10):
-            l_corner =  (
-                        x_offset + global_x,
-                        (self.__screen_height//2) + self.__screen_height + global_y
-                        )
+            l_corner = (
+                x_offset + global_x,
+                (self.__screen_height//2) + self.__screen_height + global_y
+            )
             screen.blit(self.__canvases[i], l_corner)
             screen.blit(self.__frame, l_corner)
             self.__canvases_rect[i] = self.__canvases[i].get_rect(topleft = l_corner)
