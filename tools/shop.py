@@ -99,8 +99,6 @@ class CShop:
 
         self.__plus.make_idle()
 
-        self.__save_player()
-
     def activate(self):
         """
         Activates shop
@@ -124,14 +122,6 @@ class CShop:
         font = pygame.font.Font("./dictionaries/Gothic_pixel_font_fixed.ttf", font_size)
         render = font.render(string, True, color)
         return render
-
-    def __save_player(self):
-        """
-        Saves player stats
-        """
-        self.__player.save()
-
-
 
 if __name__ == "__main__":
     pass
