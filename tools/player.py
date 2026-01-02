@@ -30,7 +30,7 @@ class CPlayer:
 
         self.__full_height = self.__health_vial_blood.get_rect().height
         self.__full_width = self.__health_vial_blood.get_rect().width
-        # self.__full_health = 1000
+        self.__full_vial_blood =  self.__health_vial_blood
 
     def display_health(self, screen : pygame.Surface, global_x, global_y):
         """
@@ -133,7 +133,9 @@ class CPlayer:
         """
         Restores health to full
         """
-        self.__health = self.full_health
+        print(self.__full_health)
+        self.__health = self.__full_health + 1
+        self.__health_vial_blood = self.__full_vial_blood
 
     def save(self):
         """
