@@ -22,18 +22,22 @@ class CSummary:
         button_size = (350, 150)
         off_set = 10
 
-        self.__continue = CButton   (   position     = (SCREEN_W // 2 - button_size[0] // 2, SCREEN_H - button_size[1]),
-                                        idle         = "assets/summary/continue_scaled.png",
+        continue_pos = (SCREEN_W // 2 - button_size[0] // 2, SCREEN_H - button_size[1])
+        self.__continue = CButton   (
+                                        position     = continue_pos                         ,
+                                        idle         = "assets/summary/continue_scaled.png" ,
                                         on_press = self.go_to_menu
                                     )
 
-        self.__retry = CButton      (   position     = (SCREEN_W // 2 - button_size[0] // 2, SCREEN_H - 2 * button_size[1] - off_set),
-                                        idle         = "assets/summary/retry.png",
-                                        on_press = lambda : self.restart_level(difficultie),
-                                        visible = False if completed else True,
-                                        active = False if completed else True,
+        retry_pos = (SCREEN_W // 2 - button_size[0] // 2, SCREEN_H - 2 * button_size[1] - off_set)
+        self.__retry = CButton      (
+                                        position     = retry_pos                            ,
+                                        idle         = "assets/summary/retry.png"           ,
+                                        on_press = lambda : self.restart_level(difficultie) ,
+                                        visible = False if completed else True              ,
+                                        active = False if completed else True
                                     )
-        
+
         self.__coin_img = pygame.image.load("assets/coin_scaled.png")
 
         self.__header = self.__create_header(completed)
@@ -55,7 +59,8 @@ class CSummary:
         self.__screen.blit(self.__header, (SCREEN_W // 2 - self.__header_size[0] // 2, 0))
         self.__screen.blit(self.__sub_header, (0, self.__header_size[1] + off_set))
 
-        self.__screen.blit(self.__coin_img, (0 + self.__sub_header_size[0] + off_set, self.__header_size[1] + off_set))
+        coin_img_pos = (self.__sub_header_size[0] + off_set, self.__header_size[1] + off_set)
+        self.__screen.blit(self.__coin_img, coin_img_pos)
 
         self.__continue.display(self.__screen, 0, 0)
         self.__retry.display(self.__screen, 0, 0)
@@ -100,8 +105,10 @@ class CSummary:
 
         if completed:
             text = "Level Complete"
+
         else:
             text = "Game Over"
+
         return font.render(text, True, color)
 
     def __create_sub_header(self, difficultie, completed, color = (255, 255, 255)):
