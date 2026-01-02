@@ -10,15 +10,15 @@ class CAnimations:
     animation and playing it
     """
 
-    def __init__(self, path, fps = 30):
-        directory     = os.listdir(path)
-        self.__am_frames     = len(directory)
+    def __init__(self, path, fps=30):
+        directory = os.listdir(path)
+        self.__am_frames = len(directory)
 
         self.__frames = [pygame.image.load(path + "/" + frame) for frame in directory]
 
         self.__frame_index = 0
-        self.__timer       = 0
-        self.__frame_time  = fps / self.__am_frames
+        self.__timer = 0
+        self.__frame_time = fps/self.__am_frames
 
     def rescale(self, transform):
         """
@@ -26,7 +26,7 @@ class CAnimations:
         """
         self.__frames = [pygame.transform.scale(frame, transform) for frame in self.__frames]
 
-    def play(self, screen : pygame.Surface, delta_time, cordinates : tuple):
+    def play(self, screen: pygame.Surface, delta_time, cordinates: tuple):
         """
         Plays animation in scene
         """
@@ -34,11 +34,11 @@ class CAnimations:
 
         if self.__timer >= self.__frame_time:
             self.__timer -= self.__frame_time
-            self.__frame_index = (self.__frame_index + 1) % self.__am_frames
+            self.__frame_index = (self.__frame_index + 1)%self.__am_frames
 
         screen.blit(self.__frames[self.__frame_index], cordinates)
 
-    def get_rect(self, top_left = 0):
+    def get_rect(self, top_left=0):
         """
         Return rect of first frame 
         in animation
