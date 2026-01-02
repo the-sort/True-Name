@@ -19,6 +19,7 @@ class CSceneManager():
         Method for changing scene
         """
         del self.scene
+        self.player.save()
         match scene:
             case "EASY":
                 self.scene = CLevel(manager, "EASY")
