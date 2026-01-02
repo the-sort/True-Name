@@ -101,5 +101,7 @@ if __name__ == "__main__":
                 RUNNING_LOSS += loss.item() * labels.size(0)
         valid_loss = RUNNING_LOSS / len(valid_loader.dataset)
         valid_losses.append(valid_loss)
-        print(f"""Epoch {epoch + 1}/{NUM_EPOCHS} - Train loss : {train_loss}, Validation loss : {valid_loss}""")
+        print(f"Epoch {epoch + 1}/{NUM_EPOCHS} \
+              - Train loss : {train_loss}, \
+                Validation loss : {valid_loss}")
     torch.save(model.state_dict(), "model.pth")
