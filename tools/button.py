@@ -8,29 +8,28 @@ class CButton:
     Class for working and displaying buttons
     """
     def __init__(
-                    self                ,
-                    position            ,
-                    idle                ,
-                    on_press     = None ,
-                    on_release   = None ,
-                    width        = 0    ,
-                    height       = 0    ,
-                    hovered      = ""   ,
-                    pressed      = ""   ,
-                    active       = True ,
-                    visible      = True
-                ):
+            self,
+            position,
+            idle,
+            on_press = None,
+            on_release = None,
+            width = 0   ,
+            height = 0   ,
+            hovered = ""  ,
+            pressed = ""  ,
+            active = True,
+            visible = True):
         """
         position argmuent is tuple of topleft corner
         """
-        self.__idle_img        = self.__load_image(idle, width, height)
-        self.__hovered_img     = self.__load_image(hovered, width, height)
-        self.__pressed_img     = self.__load_image(pressed, width, height)
+        self.__idle_img = self.__load_image(idle, width, height)
+        self.__hovered_img = self.__load_image(hovered, width, height)
+        self.__pressed_img = self.__load_image(pressed, width, height)
 
-        self.__on_press  = on_press
+        self.__on_press = on_press
         self.__on_release = on_release
 
-        self.__state   = False
+        self.__state = False
 
         self.__was_pressed = False
 
@@ -41,12 +40,11 @@ class CButton:
 
 
     def display (
-                    self,
-                    screen : pygame.Surface,
-                    global_x,
-                    global_y,
-                    delta_time = None
-                ):
+            self,
+            screen : pygame.Surface,
+            global_x,
+            global_y,
+            delta_time=None):
         """
         Metod for displaying button in scene
         """
@@ -55,7 +53,7 @@ class CButton:
             return
 
         global_pos = (self.__position[0] + global_x, self.__position[1] + global_y)
-        mouse_pos   = pygame.mouse.get_pos()
+        mouse_pos = pygame.mouse.get_pos()
 
         pressed = self.is_pressed(mouse_pos, (global_x, global_y))
 
@@ -87,10 +85,10 @@ class CButton:
         possition cordinates
         """
         img_size = self.__idle_img.get_rect().size
-        self.__position =   (
-                                self.__position[0] - img_size[0] // 2,
-                                self.__position[1] - img_size[1] // 2
-                            )
+        self.__position = (
+            self.__position[0] - img_size[0] // 2,
+            self.__position[1] - img_size[1] // 2
+        )
 
 
     def right_bottom(self, screen_size):
@@ -98,7 +96,7 @@ class CButton:
         Moves button to the
         right bottom corner
         """
-        if  self.__state and self.__pressed_img is not None:
+        if self.__state and self.__pressed_img is not None:
             size = self.__pressed_img.get_rect().size
 
         else:
@@ -107,19 +105,19 @@ class CButton:
         self.__position = (screen_size[0] - size[0], screen_size[1] - size[1])
 
 
-    def is_pressed(self, mouse_pos : tuple, global_off : tuple) -> bool:
+    def is_pressed(self, mouse_pos: tuple, global_off: tuple) -> bool:
         """
         Checks wheter button was pressed
         """
         pos = (self.__position[0] + global_off[0], self.__position[1] + global_off[1])
-        l_click     = pygame.mouse.get_pressed()[0]
-        return  (
-                    self.__idle_img.get_rect(topleft = pos).collidepoint(mouse_pos) and
-                    l_click and
-                    self.__active
-                )
+        l_click = pygame.mouse.get_pressed()[0]
+        return(
+            self.__idle_img.get_rect(topleft = pos).collidepoint(mouse_pos) and
+            l_click and
+            self.__active
+        )
 
-    def height(self, state = "idle"):
+    def height(self, state="idle"):
         """
         Returns height of given 
         state; Base is idle
@@ -138,7 +136,7 @@ class CButton:
 
                 return self.__pressed_img.get_rect().height
 
-    def width(self, state = "idle"):
+    def width(self, state="idle"):
         """
         Returns width of given 
         state; Base is idle
@@ -230,7 +228,7 @@ class CButton:
         img = pygame.image.load(path)
         return self.__transform(img, width, height)
 
-    def __hovered(self, mouse_pos : tuple, global_pos : tuple) -> bool:
+    def __hovered(self, mouse_pos: tuple, global_pos: tuple) -> bool:
         """
         Checks if player hovers over button
         """
@@ -250,7 +248,7 @@ class CButton:
         self.__was_pressed = pressed
 
 
-    def __transform(self, img : pygame.Surface, width, height):
+    def __transform(self, img: pygame.Surface, width, height):
         """
         Transform button to desired scale
         """
