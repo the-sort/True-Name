@@ -22,13 +22,12 @@ class CMenu():
 
         self.__screen = pygame.display.set_mode((SCREEN_W, SCREEN_H))
 
+        self.__quit = False
+
         temp_pos = (0,0)
         off_set  = 50
 
         self.__board = pygame.image.load("assets/bounty_board.png")
-        # self.__shop_frame = pygame.image.load("assets/shop_frame.png")
-        # self.__coin_img = pygame.image.load("assets/coin_scaled.png")
-        # self.__health_img = pygame.image.load("assets/health_vial.png")
 
         self.__shop = CShop(self.__manager.player, SCREEN_H)
 
@@ -71,11 +70,14 @@ class CMenu():
                                     visible = False
                                 )
 
-        # self.__plus = CButton(  position    = temp_pos,
-        #                         idle        = "assets/plus_button.png",
-        #                         active      = False,
-        #                         visible     = False
-        #                      )
+        self.__leave = CButton(  position    = temp_pos,
+                                 idle        = "assets/decline.png",
+                                 width       = 75,
+                                 height      = 75,
+                                 active      = True,
+                                 visible     = True,
+                                 on_press    = self.leave
+                             )
 
         self.__easy.move((250, SCREEN_H - 1.5 * self.__easy.height()))
         self.__medium.move((450, SCREEN_H - 2 * self.__medium.height()))
@@ -84,6 +86,7 @@ class CMenu():
         self.__hard.move((temp_pos[0], 100))
         self.__decline.move((SCREEN_W//2 - self.__decline.width(), SCREEN_H - self.__decline.height() - off_set))
         self.__accept.move(((SCREEN_W//2, SCREEN_H - self.__accept.height() - off_set)))
+        self.__leave.move((SCREEN_W - self.__leave.width(), 0))
 
         self.__wizzad.right_bottom((SCREEN_W, SCREEN_H))
 
@@ -96,6 +99,9 @@ class CMenu():
         intended to be called in 
         main game_loop 
         """
+        if self.__quit: #Player pressed leave button
+            return False
+
         self.__screen.fill((0,0,0))
         continue_looping = self.handle_events()
 
@@ -116,6 +122,8 @@ class CMenu():
 
         self.__decline.display(self.__screen, 0, 0)
         self.__accept.display(self.__screen, 0, 0)
+
+        self.__leave.display(self.__screen, 0, 0)
         return continue_looping
 
     def handle_events(self) -> bool:
@@ -189,37 +197,11 @@ class CMenu():
                 self.__call_on_buttons("clean", [self.__easy, self.__medium, self.__hard, self.__wizzad, self.__accept, self.__decline])
                 self.__manager.change_scene(self.__manager, "HARD")
 
-    # def __shop(self):
-    #     """
-    #     Displays and handles shop
-    #     """
-    #     font_size = 25
-    #     off_set   = 50
-
-    #     font = pygame.font.Font("./dictionaries/Gothic_pixel_font_fixed.ttf", font_size)
-    #     coins = font.render(str(self.__manager.player.coins()), True, (255, 255, 255))
-    #     font = pygame.font.Font("./dictionaries/Gothic_pixel_font_fixed.ttf", 15)
-    #     # health = font.render(str(self.__manager.player.health())+"/1000", True, (255, 255, 255))
-    #     health = font.render("1000/1000", True, (255, 255, 255))
-
-    #     shop_frame_size = self.__shop_frame.get_rect().size
-    #     coins_size = coins.get_rect().size
-    #     coin_img_size = self.__coin_img.get_rect().size
-    #     header_size = (coins_size[0] + coin_img_size[0], max(coins_size[1], coin_img_size[1]))
-    #     health_size = health.get_rect().size
-        
-    #     shop_frame_top_left = (0, SCREEN_H // 2 - self.__shop_frame.get_rect().height // 2)
-    #     coins_am_top_left = (shop_frame_top_left[0] + shop_frame_size[0] // 2 - header_size[0] // 2, shop_frame_top_left[1] + header_size[1])
-    #     health_top_left = (shop_frame_top_left[0] + off_set, coins_am_top_left[1] + 2 * off_set)
-    #     health_img_top_left = (health_top_left[0] + health_size[0], health_top_left[1])
-
-    #     self.__screen.blit(self.__shop_frame, shop_frame_top_left)
-    #     self.__screen.blit(coins, coins_am_top_left)
-    #     self.__screen.blit(self.__coin_img, (coins_am_top_left[0] + coins.get_width() + off_set, coins_am_top_left[1]))
-    #     self.__screen.blit(health, health_top_left)
-    #     self.__screen.blit(self.__health_img, health_img_top_left)
-
-
+    def leave(self):
+        """
+        Leave game using leave button
+        """
+        self.__quit = True
 
     def __center_align(self, size):
         """
