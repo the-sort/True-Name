@@ -4,6 +4,7 @@ completed level or not
 """
 import pygame
 from tools.button import CButton
+from tools.utils import CDificulties
 
 SCREEN_W = 500
 SCREEN_H = 500
@@ -13,16 +14,24 @@ class CSummary:
     Class for displaying and handling
     post level summary
     """
-    def __init__(self, manager, completed):
+    def __init__(self, manager, completed, difficultie):
         self.__manager = manager
 
         self.__screen = pygame.display.set_mode((SCREEN_W, SCREEN_H))
 
-        button_size = (250, 150)
+        button_size = (350, 150)
+        off_set = 10
 
         self.__continue = CButton   (   position     = (SCREEN_W // 2 - button_size[0] // 2, SCREEN_H - button_size[1]),
-                                        idle         = "assets/continue_scaled.png",
+                                        idle         = "assets/summary/continue_scaled.png",
                                         on_press = self.go_to_menu
+                                    )
+        
+        self.__retry = CButton      (   position     = (SCREEN_W // 2 - button_size[0] // 2, SCREEN_H - 2 * button_size[1] - off_set),
+                                        idle         = "assets/summary/retry.png",
+                                        on_press = lambda : self.restart_level(difficultie),
+                                        visible = False if completed else True,
+                                        active = False if completed else True,
                                     )
 
         self.__header = self.__create_header(completed)
@@ -38,6 +47,7 @@ class CSummary:
 
         self.__screen.blit(self.__header, (SCREEN_W // 2 - self.__header_size[0] // 2, 0))
         self.__continue.display(self.__screen, 0, 0)
+        self.__retry.display(self.__screen, 0, 0)
 
         continue_looping = self.__event_handler()
 
@@ -49,6 +59,13 @@ class CSummary:
         to send Player to menu
         """
         self.__manager.change_scene(self.__manager, "MENU")
+
+    def restart_level(self, difficultie):
+        """
+        Metod for retry button
+        to restart level
+        """
+        self.__manager.change_scene(self.__manager, difficultie)
 
 
     def __event_handler(self) -> bool:
@@ -82,7 +99,7 @@ if __name__ == "__main__":
 
     pygame.init()
     t_manager = CSceneManager()
-    t_manager.change_scene(t_manager, "LOOSE")
+    t_manager.change_scene(t_manager, "VICTORY", "EASY")
 
     clock = pygame.time.Clock()
 

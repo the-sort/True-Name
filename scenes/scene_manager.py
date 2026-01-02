@@ -16,7 +16,7 @@ class CSceneManager():
         self.scene = None
         self.player = CPlayer()
 
-    def change_scene(self, manager, scene):
+    def change_scene(self, manager, scene, difficultie = None):
         """
         Method for changing scene
         """
@@ -37,9 +37,9 @@ class CSceneManager():
             case "START":
                 self.scene = CStart(manager)
             case "VICTORY":
-                self.scene = CSummary(manager, True)
+                self.scene = CSummary(manager, True, difficultie)
             case "LOOSE":
-                self.scene = CSummary(manager, False)
+                self.scene = CSummary(manager, False, difficultie)
             case _:
                 raise ValueError("Given scene does not exist")
 
