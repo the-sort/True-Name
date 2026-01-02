@@ -11,26 +11,25 @@ class CSlider:
     Slider
     """
     def __init__(
-                    self            ,
-                    screen          ,
-                    left            ,
-                    top             ,
-                    scale_x = 1     ,
-                    scale_y = 1     ,
-                    rotation = 0    ,
-                    active = True   ,
-                    center_x = True ,
-                    center_y = True
-                ):
+            self,
+            screen,
+            left,
+            top,
+            scale_x = 1,
+            scale_y = 1,
+            rotation = 0,
+            active = True,
+            center_x = True,
+            center_y = True):
         self.__screen = screen
 
         self.__left = left
-        self.__top  = top
+        self.__top = top
 
-        self.__stop     = (0,0)
-        self.__speed    = 0
+        self.__stop = (0, 0)
+        self.__speed = 0
 
-        self.__active   = active
+        self.__active = active
 
         #slider.png (600x100) by default
         self.__slider = self.__preprocess_img(scale_x, scale_y, rotation)
@@ -77,21 +76,21 @@ class CSlider:
         rect = self.__slider.get_rect(topleft = topleft)
         return rect.collidepoint(pos)
 
-    def __assign_stop(self, stop : str) -> tuple:
+    def __assign_stop(self, stop: str) -> tuple:
         """
         Assigns stops
         """
         size = self.__screen.get_rect().size
         stops = {
-                    "TABLE": (0,0),
-                    "CANVAS" : (0, -size[1] + SLIDER_H),
-                    "END" : (0, -size[1]*2 + 2*SLIDER_H),
-                    "ATTEMPTS": (-size[0] + SLIDER_H,0), 
-                    "INVENTAR" : (size[0] - SLIDER_H,0)
-                }
+            "TABLE": (0,0),
+            "CANVAS" : (0, -size[1] + SLIDER_H),
+            "END" : (0, -size[1]*2 + 2*SLIDER_H),
+            "ATTEMPTS": (-size[0] + SLIDER_H,0), 
+            "INVENTAR" : (size[0] - SLIDER_H,0)
+        }
         return stops[stop]
 
-    def move_to(self, where : str, speed : int):
+    def move_to(self, where: str, speed: int):
         """
         Sets destination where to move
         """
@@ -104,29 +103,21 @@ class CSlider:
         """
         buff = [False, False]
         if self.__speed < 0:
-            if  (
-                    self.__stop[0]  +self.__speed  <= global_x and
-                    self.__stop[0] -self.__speed  >= global_x
-                ):
+            if (self.__stop[0]  +self.__speed  <= global_x and
+                self.__stop[0] -self.__speed  >= global_x):
                 buff[0] = True
 
-            if  (
-                    self.__stop[1]  +self.__speed <= global_y and
-                    self.__stop[1] -self.__speed  >= global_y
-                ):
+            if (self.__stop[1]  +self.__speed <= global_y and
+                self.__stop[1] -self.__speed  >= global_y):
                 buff[1] = True
 
         elif self.__speed > 0:
-            if  (
-                    self.__stop[0]  +self.__speed >= global_x and
-                    self.__stop[0] -self.__speed  <= global_x
-                ):
+            if (self.__stop[0]  +self.__speed >= global_x and
+                self.__stop[0] -self.__speed  <= global_x):
                 buff[0] = True
 
-            if  (
-                    self.__stop[1]  +self.__speed >= global_y and
-                    self.__stop[1] -self.__speed  <= global_y
-                ):
+            if (self.__stop[1]  +self.__speed >= global_y and
+                self.__stop[1] -self.__speed  <= global_y):
                 buff[1] = True
 
         if buff[0] and buff[1]:
@@ -146,8 +137,8 @@ class CSlider:
         """
         img = pygame.image.load("assets/slider/slider.png")
 
-        width  = img.get_width()  * scale_x
-        height = img.get_height() * scale_y
+        width = img.get_width()*scale_x
+        height = img.get_height()*scale_y
 
         img = pygame.transform.scale(img, (width, height))
         img = pygame.transform.rotate(img, rotation)
@@ -158,14 +149,14 @@ class CSlider:
         Centers slider in x_axis
         """
         width = self.__slider.get_width()
-        self.__left -= width // 2
+        self.__left -= width//2
 
     def __center_y(self):
         """
         Centers slider in y_axis
         """
         height = self.__slider.get_height()
-        self.__top -= height // 2
+        self.__top -= height//2
 
 if __name__ == "__main__":
     ...
