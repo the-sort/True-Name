@@ -31,79 +31,99 @@ class CMenu():
 
         self.__shop = CShop(self.__manager.player, SCREEN_H)
 
-        self.__easy     = CButton(  position = temp_pos,
-                                    idle = "assets/difficultie_posters/EASY_idle.png",
-                                    pressed = "assets/difficultie_posters/EASY_pressed.png",
-                                    on_press = lambda : self.inspect_contact(self.__easy),
-                                )
-        self.__medium   = CButton(  position = temp_pos,
-                                    idle = "assets/difficultie_posters/MEDIUM_idle.png",
-                                    pressed = "assets/difficultie_posters/MEDIUM_pressed.png",
-                                    on_press = lambda : self.inspect_contact(self.__medium),
+        self.__easy     = CButton   (
+                                        position = temp_pos                                     ,
+                                        idle = "assets/difficultie_posters/EASY_idle.png"       ,
+                                        pressed = "assets/difficultie_posters/EASY_pressed.png" ,
+                                        on_press = lambda : self.inspect_contact(self.__easy)   ,
                                     )
-        self.__hard   = CButton(    position = temp_pos,
-                                    idle = "assets/difficultie_posters/HARD_idle.png",
-                                    pressed = "assets/difficultie_posters/HARD_pressed.png",
-                                    on_press = lambda : self.inspect_contact(self.__hard),
+        self.__medium   = CButton   (
+                                        position = temp_pos                                        ,
+                                        idle = "assets/difficultie_posters/MEDIUM_idle.png"        ,
+                                        pressed = "assets/difficultie_posters/MEDIUM_pressed.png"  ,
+                                        on_press = lambda : self.inspect_contact(self.__medium)    ,
+                                    )
+        self.__hard   = CButton(
+                                    position = temp_pos                                     ,
+                                    idle = "assets/difficultie_posters/HARD_idle.png"       ,
+                                    pressed = "assets/difficultie_posters/HARD_pressed.png" ,
+                                    on_press = lambda : self.inspect_contact(self.__hard)   ,
+                                )
+
+        self.__wizzad = CAnimButton (
+                                        pos = (SCREEN_W , SCREEN_H)                         ,
+                                        idle = CAnimations("assets/wiz_idle", fps = 5)      ,
+                                        hovered= CAnimations("assets/wiz_hover", fps = 5)   ,
+                                        pressed= CAnimations("assets/wiz_pres", fps=5)      ,
+                                        on_press = self.start_shoping                       ,
+                                        on_release= self.exit_shoping
                                     )
 
-        self.__wizzad = CAnimButton(pos = (SCREEN_W , SCREEN_H),
-                                    idle = CAnimations("assets/wiz_idle", fps = 5),
-                                    hovered= CAnimations("assets/wiz_hover", fps = 5),
-                                    pressed= CAnimations("assets/wiz_pres", fps=5),
-                                    on_press = self.start_shoping,
-                                    on_release= self.exit_shoping)
 
-
-        self.__decline = CButton(   position = temp_pos,
-                                    idle = "assets/decline.png",
-                                    active = False,
-                                    on_press = self.refuse_contract,
-                                    on_release= self.refuse_contract,
-                                    visible = False
-                                )
-        self.__accept = CButton(    position= temp_pos,
-                                    idle= "assets/accept.png",
-                                    active = False,
-                                    on_press = self.accept_contract,
+        self.__decline = CButton    (
+                                        position = temp_pos             ,
+                                        idle = "assets/decline.png"     ,
+                                        active = False                  ,
+                                        on_press = self.refuse_contract ,
+                                        on_release= self.refuse_contract,
+                                        visible = False
+                                    )
+        self.__accept = CButton(
+                                    position= temp_pos              ,
+                                    idle= "assets/accept.png"       ,
+                                    active = False                  ,
+                                    on_press = self.accept_contract ,
                                     on_release= self.accept_contract,
                                     visible = False
                                 )
 
-        self.__leave = CButton(  position    = temp_pos,
-                                 idle        = "assets/decline.png",
-                                 width       = 75,
-                                 height      = 75,
-                                 active      = True,
-                                 visible     = True,
-                                 on_press    = self.leave
-                             )
+        self.__leave = CButton (
+                                  position    = temp_pos            ,
+                                  idle        = "assets/decline.png",
+                                  width       = 75                  ,
+                                  height      = 75                  ,
+                                  active      = True                ,
+                                  visible     = True                ,
+                                  on_press    = self.leave
+                                )
 
         #Buttons for Leave game checking
-        self.__confirm = CButton( position    = temp_pos,
-                                  idle        = "assets/accept.png",
-                                  width       = 150,
-                                  height      = 150,
-                                  active      = False,
-                                  visible     = True
-                             )
-        
-        self.__refuse = CButton( position    = temp_pos,
-                                 idle        = "assets/decline.png",
-                                 width       = 150,
-                                 height      = 150,
-                                 active      = False,
-                                 visible     = True,
-                                 on_press    = self.refuse
-                             )
+        self.__confirm = CButton    (
+                                        position    = temp_pos              ,
+                                        idle        = "assets/accept.png"   ,
+                                        width       = 150                   ,
+                                        height      = 150                   ,
+                                        active      = False                 ,
+                                        visible     = True
+                                    )
+
+        self.__refuse = CButton(
+                                    position    = temp_pos              ,
+                                    idle        = "assets/decline.png"  ,
+                                    width       = 150                   ,
+                                    height      = 150                   ,
+                                    active      = False                 ,
+                                    visible     = True                  ,
+                                    on_press    = self.refuse
+                                )
 
         self.__easy.move((250, SCREEN_H - 1.5 * self.__easy.height()))
         self.__medium.move((450, SCREEN_H - 2 * self.__medium.height()))
 
         temp_pos = self.__center_align((self.__hard.width(), self.__hard.height()))
         self.__hard.move((temp_pos[0], 100))
-        self.__decline.move((SCREEN_W//2 - self.__decline.width(), SCREEN_H - self.__decline.height() - off_set))
-        self.__accept.move(((SCREEN_W//2, SCREEN_H - self.__accept.height() - off_set)))
+        self.__decline.move (
+                                (
+                                    SCREEN_W // 2 - self.__decline.width(),
+                                    SCREEN_H - self.__decline.height() - off_set
+                                )
+                            )
+        self.__accept.move  (
+                                (
+                                    SCREEN_W // 2,
+                                    SCREEN_H - self.__accept.height() - off_set
+                                )
+                            )
         self.__leave.move((SCREEN_W - self.__leave.width(), 0))
 
         self.__wizzad.right_bottom((SCREEN_W, SCREEN_H))
@@ -126,11 +146,19 @@ class CMenu():
             question = font.render("Do you really wanna quit game ?", True, (255, 255, 255))
             size = question.get_rect().size
 
-            question_top_left = (SCREEN_W // 2 - size[0] // 2, SCREEN_H // 2 - size[1] // 2)
+            question_top_left = (
+                                    SCREEN_W // 2 - size[0] // 2,
+                                    SCREEN_H // 2 - size[1] // 2
+                                )
 
             self.__screen.blit(question, question_top_left)
 
-            self.__confirm.move((SCREEN_W // 2 - self.__confirm.width(), question_top_left[1] + size[1]))
+            self.__confirm.move (
+                                    (
+                                        SCREEN_W // 2 - self.__confirm.width(),
+                                        question_top_left[1] + size[1]
+                                    )
+                                )
             self.__refuse.move((SCREEN_W // 2, question_top_left[1] + size[1]))
 
             self.__confirm.display(self.__screen, 0, 0)
@@ -139,8 +167,14 @@ class CMenu():
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     return False
-                if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1 and self.__confirm.is_pressed(event.pos, (0, 0)):
+
+                if  (
+                        event.type == pygame.MOUSEBUTTONDOWN    and
+                        event.button == 1                       and
+                        self.__confirm.is_pressed(event.pos, (0, 0))
+                    ):
                     return False
+
             return True
 
         self.handle_events()
@@ -151,7 +185,14 @@ class CMenu():
 
         else:
             self.__shop.deactivate()
-            self.__screen.blit(self.__board, self.__center_align((self.__board.get_width(), self.__board.get_height())))
+            self.__screen.blit  (   self.__board,
+                                    self.__center_align (
+                                                            (
+                                                                self.__board.get_width(),
+                                                                self.__board.get_height()
+                                                            )
+                                                        )
+                                )
 
         self.__wizzad.display(self.__screen, 0, 0, delta_time)
 
@@ -180,8 +221,14 @@ class CMenu():
         """
         self.__wizzad.right_bottom((SCREEN_W, SCREEN_H))
 
-        self.__call_on_buttons("deactivate", [self.__easy, self.__medium, self.__hard])
-        self.__call_on_buttons("hide", [self.__easy, self.__medium, self.__hard])
+        self.__call_on_buttons  (
+                                    "deactivate",
+                                    [self.__easy, self.__medium, self.__hard]
+                                )
+        self.__call_on_buttons  (
+                                    "hide", 
+                                    [self.__easy, self.__medium, self.__hard]
+                                )
 
 
     def exit_shoping(self):
@@ -190,8 +237,13 @@ class CMenu():
         """
         self.__wizzad.right_bottom((SCREEN_W, SCREEN_H))
 
-        self.__call_on_buttons("activate", [self.__easy, self.__medium, self.__hard])
-        self.__call_on_buttons("show", [self.__easy, self.__medium, self.__hard])
+        self.__call_on_buttons  (
+                                    "activate", 
+                                    [self.__easy, self.__medium, self.__hard]
+                                )
+        self.__call_on_buttons  (   "show",
+                                    [self.__easy, self.__medium, self.__hard]
+                                )
 
     def inspect_contact(self, contract : CButton):
         """
@@ -201,10 +253,22 @@ class CMenu():
         self.__orig_pos = contract.postion()
         contract.move(pos)
 
-        self.__call_on_buttons("deactivate", [self.__easy, self.__medium, self.__hard, self.__wizzad])
-        self.__call_on_buttons("hide", [self.__easy, self.__medium, self.__hard], [contract])
-        self.__call_on_buttons("show", [self.__accept, self.__decline])
-        self.__call_on_buttons("activate", [self.__accept, self.__decline])
+        self.__call_on_buttons  (
+                                    "deactivate", 
+                                    [self.__easy, self.__medium, self.__hard, self.__wizzad]
+                                )
+        self.__call_on_buttons  (
+                                    "hide", 
+                                    [self.__easy, self.__medium, self.__hard], [contract]
+                                )
+        self.__call_on_buttons  (
+                                    "show", 
+                                    [self.__accept, self.__decline]
+                                )
+        self.__call_on_buttons  (
+                                    "activate", 
+                                    [self.__accept, self.__decline]
+                                )
 
         self.__active_contract = contract
 
@@ -215,25 +279,67 @@ class CMenu():
         self.__active_contract.move(self.__orig_pos)
         self.__active_contract.make_idle()
 
-        self.__call_on_buttons("activate", [self.__easy, self.__medium, self.__hard, self.__wizzad])
-        self.__call_on_buttons("show", [self.__easy, self.__medium, self.__hard])
-        self.__call_on_buttons("hide", [self.__accept, self.__decline])
-        self.__call_on_buttons("deactivate", [self.__accept, self.__decline])
+        self.__call_on_buttons  (
+                                    "activate", 
+                                    [self.__easy, self.__medium, self.__hard, self.__wizzad]
+                                )
+        self.__call_on_buttons  (
+                                    "show", 
+                                    [self.__easy, self.__medium, self.__hard]
+                                )
+        self.__call_on_buttons  (
+                                    "hide", 
+                                    [self.__accept, self.__decline]
+                                )
+        self.__call_on_buttons  (
+                                    "deactivate", 
+                                    [self.__accept, self.__decline]
+                                )
 
     def accept_contract(self):
-        """
+        """                
         Changes Scene to desired 
         level
         """
         match self.__active_contract:
             case self.__easy:
-                self.__call_on_buttons("clean", [self.__easy, self.__medium, self.__hard, self.__wizzad, self.__accept, self.__decline])
+                self.__call_on_buttons  (
+                                            "clean", 
+                                            [
+                                                self.__easy,
+                                                self.__medium,
+                                                self.__hard,
+                                                self.__wizzad,
+                                                self.__accept,
+                                                self.__decline
+                                            ]
+                                        )
                 self.__manager.change_scene(self.__manager, "EASY")
             case self.__medium:
-                self.__call_on_buttons("clean", [self.__easy, self.__medium, self.__hard, self.__wizzad, self.__accept, self.__decline])
+                self.__call_on_buttons  (
+                                            "clean", 
+                                            [
+                                                self.__easy,
+                                                self.__medium,
+                                                self.__hard,
+                                                self.__wizzad,
+                                                self.__accept,
+                                                self.__decline
+                                            ]
+                                        )
                 self.__manager.change_scene(self.__manager, "MEDIUM")
             case self.__hard:
-                self.__call_on_buttons("clean", [self.__easy, self.__medium, self.__hard, self.__wizzad, self.__accept, self.__decline])
+                self.__call_on_buttons  (
+                                            "clean", 
+                                            [
+                                                self.__easy,
+                                                self.__medium,
+                                                self.__hard,
+                                                self.__wizzad,
+                                                self.__accept,
+                                                self.__decline
+                                            ]
+                                        )
                 self.__manager.change_scene(self.__manager, "HARD")
 
     def leave(self):
@@ -258,9 +364,6 @@ class CMenu():
 
         self.__refuse.make_idle()
         pygame.time.delay(100)
-        # self.__call_on_buttons("activate", [self.__easy, self.__medium, self.__hard, self.__wizzad])
-        # self.__call_on_buttons("show", [self.__easy, self.__medium, self.__hard])
-
 
     def __center_align(self, size):
         """
@@ -277,6 +380,7 @@ class CMenu():
         for button in buttons:
             if skip is not None and button in skip:
                 continue
+
             getattr(button, method)()
         pygame.time.delay(25)
 
