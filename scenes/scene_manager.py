@@ -4,6 +4,7 @@ Module for wraping and managing scenes
 from scenes.menu import CMenu
 from scenes.level import CLevel
 from scenes.start import CStart
+from scenes.summary import CSummary
 from tools.player import CPlayer
 
 
@@ -35,6 +36,12 @@ class CSceneManager():
                 self.scene = CMenu(manager)
             case "START":
                 self.scene = CStart(manager)
+            case "VICTORY":
+                self.scene = CSummary(manager, True)
+            case "LOOSE":
+                self.scene = CSummary(manager, False)
+            case _:
+                raise ValueError("Given scene does not exist")
 
 if __name__ == "__main":
     ...
