@@ -143,5 +143,17 @@ class CPlayer:
         with open("profile/player.txt", mode = "w", encoding = "utf-8") as f:
             f.write(to_save)
 
+    def refresh_stats(self):
+        """
+        Refreshes stats from file
+        """
+        try:
+            with open("profile/player.txt", mode = "r", encoding = "utf-8") as f:
+                self.__health = self.__full_health = int(f.readline())
+                self.__coins = int(f.readline())
+        except (FileNotFoundError, PermissionError):
+            self.__health = self.__full_health = 200
+            self.__coins = 0
+
 if __name__ == "__main__":
     ...
