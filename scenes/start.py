@@ -56,6 +56,10 @@ class CStart():
         """
         Change Scene to menu
         """
+
+        while pygame.mouse.get_pressed()[0]:
+            pygame.event.get()
+
         self.__manager.change_scene(self.__manager, "MENU")
 
 
