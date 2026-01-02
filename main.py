@@ -14,7 +14,7 @@ if __name__ == "__main__":
     clock = pygame.time.Clock()
 
     manager = CSceneManager()
-    manager.change_scene(manager, "MENU")
+    manager.change_scene(manager, "START")
 
     while RUNNING:
         RUNNING = manager.scene.display(DELTA_TIME)

@@ -15,7 +15,9 @@ class CStart():
         self.__manager = manager
         self.__screen = pygame.display.set_mode((SCREEN_W, SCREEN_H))
 
+        self.__reset = False
 
+        temp_pos = (0, 0)
 
         self.__new_game     = CButton(  position     = (0,0),
                                         idle         = "assets/start_up/new_game.png",
@@ -26,10 +28,30 @@ class CStart():
                                         on_press    = self.scene_to_menu
                                     )
 
+        self.__accept = CButton( position    = temp_pos,
+                                  idle        = "assets/accept.png",
+                                  width       = 50,
+                                  height      = 50,
+                                  active      = True,
+                                  visible     = True,
+                                  on_press = self.accept
+                             )
+
+        self.__decline = CButton( position    = temp_pos,
+                                 idle        = "assets/decline.png",
+                                 width       = 50,
+                                 height      = 50,
+                                 active      = True,
+                                 visible     = True,
+                                 on_press = self.decline
+                             )
+
+
         try:
-            with open("profile/player.txt", mode = "r", encoding = "utf-8") as f:
-                ...
+            with open("profile/player.txt", mode = "r", encoding = "utf-8"):
+                self.__exist = True
         except FileNotFoundError:
+            self.__exist = False
             self.__continue.deactivate()
             self.__continue.hide()
 
@@ -40,8 +62,24 @@ class CStart():
         """
         self.__screen.fill((0,0,0))
 
-
         continue_looping = self.__event_handler()
+
+        if self.__exist and self.__reset:
+            font_size = 13
+            font = pygame.font.Font("./dictionaries/Gothic_pixel_font_fixed.ttf", font_size)
+            question = font.render("Do you want to overwrite existing Save ?", True, (255, 255, 255))
+            size = question.get_rect().size
+
+            question_top_left = (SCREEN_W // 2 - size[0] // 2, SCREEN_H // 2 - size[1] // 2)
+
+            self.__accept.move((SCREEN_W // 2 - self.__accept.width(), question_top_left[1] + size[1]))
+            self.__decline.move((SCREEN_W // 2, question_top_left[1] + size[1]))
+
+            self.__screen.blit(question, question_top_left)
+            self.__accept.display(self.__screen, 0, 0)
+            self.__decline.display(self.__screen, 0, 0)
+            return continue_looping
+
 
         self.__new_game.display(self.__screen, 0,0)
         self.__continue.display(self.__screen, 0,0)
@@ -67,7 +105,7 @@ class CStart():
 
         self.__manager.change_scene(self.__manager, "MENU")
 
-    def new_game(self):
+    def accept(self):
         """
         Change Scene to menu and resets 
         Player stats
@@ -77,6 +115,35 @@ class CStart():
             f.write(base_stats)
         self.__manager.player.refresh_stats()
         self.scene_to_menu()
+
+        self.__reset = True
+
+    def new_game(self):
+        """
+        Method for accept button
+        """
+        if not self.__exist:
+            self.accept()
+
+        self.__reset = True
+
+        self.__new_game.deactivate()
+        self.__continue.deactivate()
+
+    def decline(self):
+        """
+        Method for decline button
+        """
+        self.__reset = False
+
+        self.__new_game.activate()
+        self.__continue.activate()
+
+        self.__new_game.make_idle()
+        self.__decline.make_idle()
+
+        while pygame.mouse.get_pressed()[0]:
+            pygame.event.get()
 
 
 if __name__ == "__main__":
