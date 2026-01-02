@@ -3,6 +3,7 @@ Module for wraping and managing scenes
 """
 from scenes.menu import CMenu
 from scenes.level import CLevel
+from scenes.start import CStart
 from tools.player import CPlayer
 
 
@@ -29,6 +30,8 @@ class CSceneManager():
                 self.scene = CLevel(manager, "HARD")
             case "MENU":
                 self.scene = CMenu(manager)
+            case "START":
+                self.scene = CStart(manager)
 
 if __name__ == "__main":
     ...
