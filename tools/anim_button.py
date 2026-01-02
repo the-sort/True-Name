@@ -11,20 +11,24 @@ class CAnimButton(CButton):
     """
     Button with animations
     """
-    def __init__(   self,
+    def __init__(
+                    self                        ,
                     pos                         ,
                     idle    : CAnimations       ,
-                    on_press              = None ,
-                    on_release            = None  ,
+                    on_press              = None,
+                    on_release            = None,
                     hovered : CAnimations = None,
                     pressed : CAnimations = None
                 ):
 
-        super().__init__(pos, idle = idle.get_keyframe(),
-                         on_press= on_press,
-                         on_release= on_release,
-                         hovered= hovered.get_keyframe(),
-                         pressed= pressed.get_keyframe())
+        super().__init__(
+                            pos                             ,
+                            idle = idle.get_keyframe()      ,
+                            on_press= on_press              ,
+                            on_release= on_release          ,
+                            hovered= hovered.get_keyframe() ,
+                            pressed= pressed.get_keyframe()
+                        )
 
         self.__idle_anim    =  idle
         self.__hovered_anim = hovered
@@ -40,6 +44,7 @@ class CAnimButton(CButton):
         """
         if not self._CButton__visible:
             return
+
         global_pos = (self._CButton__position[0] + global_x, self._CButton__position[1] + global_y)
         mouse_pos  = pygame.mouse.get_pos()
         pressed  = self.is_pressed(mouse_pos, (global_x, global_y))
@@ -53,6 +58,7 @@ class CAnimButton(CButton):
         if  self._CButton__hovered(mouse_pos, global_pos):
             self.__hovered_anim.play(screen, delta_time, global_pos)
             return
+
         self.__idle_anim.play(screen, delta_time, global_pos)
 
 
