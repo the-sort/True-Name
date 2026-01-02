@@ -22,21 +22,21 @@ class CSummary:
         button_size = (350, 150)
         off_set = 10
 
-        continue_pos = (SCREEN_W // 2 - button_size[0] // 2, SCREEN_H - button_size[1])
-        self.__continue = CButton   (
-                                        position     = continue_pos                         ,
-                                        idle         = "assets/summary/continue_scaled.png" ,
-                                        on_press = self.go_to_menu
-                                    )
+        continue_pos = (SCREEN_W//2 - button_size[0]//2, SCREEN_H - button_size[1])
+        self.__continue = CButton(
+            position = continue_pos,
+            idle = "assets/summary/continue_scaled.png",
+            on_press = self.go_to_menu
+        )
 
-        retry_pos = (SCREEN_W // 2 - button_size[0] // 2, SCREEN_H - 2 * button_size[1] - off_set)
-        self.__retry = CButton      (
-                                        position     = retry_pos                            ,
-                                        idle         = "assets/summary/retry.png"           ,
-                                        on_press = lambda : self.restart_level(difficultie) ,
-                                        visible = False if completed else True              ,
-                                        active = False if completed else True
-                                    )
+        retry_pos = (SCREEN_W//2 - button_size[0]//2, SCREEN_H - 2*button_size[1] - off_set)
+        self.__retry = CButton(
+            position = retry_pos,
+            idle = "assets/summary/retry.png",
+            on_press = lambda : self.restart_level(difficultie),
+            visible = False if completed else True,
+            active = False if completed else True
+        )
 
         self.__coin_img = pygame.image.load("assets/coin_scaled.png")
 
@@ -56,7 +56,7 @@ class CSummary:
 
         self.__screen.fill((0, 0, 0))
 
-        self.__screen.blit(self.__header, (SCREEN_W // 2 - self.__header_size[0] // 2, 0))
+        self.__screen.blit(self.__header, (SCREEN_W//2 - self.__header_size[0]//2, 0))
         self.__screen.blit(self.__sub_header, (0, self.__header_size[1] + off_set))
 
         coin_img_pos = (self.__sub_header_size[0] + off_set, self.__header_size[1] + off_set)
@@ -129,7 +129,7 @@ class CSummary:
 if __name__ == "__main__":
     from scenes.scene_manager import CSceneManager
 
-    RUNNING  = True
+    RUNNING = True
     DELTA_TIME = 0.1
 
     pygame.init()
