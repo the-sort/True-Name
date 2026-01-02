@@ -79,6 +79,24 @@ class CMenu():
                                  on_press    = self.leave
                              )
 
+        #Buttons for Leave game checking
+        self.__confirm = CButton( position    = temp_pos,
+                                  idle        = "assets/accept.png",
+                                  width       = 150,
+                                  height      = 150,
+                                  active      = False,
+                                  visible     = True
+                             )
+        
+        self.__refuse = CButton( position    = temp_pos,
+                                 idle        = "assets/decline.png",
+                                 width       = 150,
+                                 height      = 150,
+                                 active      = False,
+                                 visible     = True,
+                                 on_press    = self.refuse
+                             )
+
         self.__easy.move((250, SCREEN_H - 1.5 * self.__easy.height()))
         self.__medium.move((450, SCREEN_H - 2 * self.__medium.height()))
 
@@ -91,7 +109,7 @@ class CMenu():
         self.__wizzad.right_bottom((SCREEN_W, SCREEN_H))
 
         self.__orig_pos = (0, 0)
-        pygame.time.delay(25)
+        pygame.time.delay(100)
 
     def display(self, delta_time):
         """
@@ -99,10 +117,32 @@ class CMenu():
         intended to be called in 
         main game_loop 
         """
-        if self.__quit: #Player pressed leave button
-            return False
-
         self.__screen.fill((0,0,0))
+
+        if self.__quit: #Player pressed leave button
+
+            font_size = 35
+            font = pygame.font.Font("./dictionaries/Gothic_pixel_font_fixed.ttf", font_size)
+            question = font.render("Do you really wanna quit game ?", True, (255, 255, 255))
+            size = question.get_rect().size
+
+            question_top_left = (SCREEN_W // 2 - size[0] // 2, SCREEN_H // 2 - size[1] // 2)
+
+            self.__screen.blit(question, question_top_left)
+
+            self.__confirm.move((SCREEN_W // 2 - self.__confirm.width(), question_top_left[1] + size[1]))
+            self.__refuse.move((SCREEN_W // 2, question_top_left[1] + size[1]))
+
+            self.__confirm.display(self.__screen, 0, 0)
+            self.__refuse.display(self.__screen, 0, 0)
+
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    return False
+                if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1 and self.__confirm.is_pressed(event.pos, (0, 0)):
+                    return False
+            return True
+
         self.handle_events()
 
         if self.__wizzad.state(): #opened shop
@@ -200,8 +240,27 @@ class CMenu():
         """
         Leave game using leave button
         """
+
         self.__manager.player.save()
         self.__quit = True
+
+        self.__confirm.activate()
+        self.__refuse.activate()
+
+        self.__leave.make_idle()
+
+    def refuse(self):
+        """
+        Method for refuse method calling
+        """
+
+        self.__quit = False
+
+        self.__refuse.make_idle()
+        pygame.time.delay(100)
+        # self.__call_on_buttons("activate", [self.__easy, self.__medium, self.__hard, self.__wizzad])
+        # self.__call_on_buttons("show", [self.__easy, self.__medium, self.__hard])
+
 
     def __center_align(self, size):
         """
