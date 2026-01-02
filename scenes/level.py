@@ -170,6 +170,8 @@ class CLevel:
                                                         self.__x_pos,
                                                         self.__y_pos
                                                       ) #deffinietly not 30FPS but looks dope
+                if self.__manager.player.health() <= 0:
+                    self.__manager.change_scene(self.__manager, "MENU")
                 pygame.image.save   (   a_canvas[0],
                                         f"profile/input/char{a_canvas[2]}.png"
                                     ) #Preanswer guessing

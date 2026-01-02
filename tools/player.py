@@ -133,7 +133,6 @@ class CPlayer:
         """
         Restores health to full
         """
-        print(self.__full_health)
         self.__health = self.__full_health + 1
         self.__health_vial_blood = self.__full_vial_blood
 
