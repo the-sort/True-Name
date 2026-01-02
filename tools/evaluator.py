@@ -53,7 +53,7 @@ class CEvaluator:
             try:
                 img = Image.open(f"profile/input/char{i}.png").convert("L").convert("RGB")
             except FileNotFoundError:
-                img = Image.open("profile/input/blank.png").convert("L").convert("RGB")
+                img = Image.open("assets/blank.png").convert("L").convert("RGB")
             if is_blank(image = img, background = (255, 255, 255)):
                 continue
             self.__images.append(transform(img).unsqueeze(0))
@@ -62,7 +62,7 @@ class CEvaluator:
         """
         Saves all chars in profile/input as blanks
         """
-        img = Image.open("profile/input/blank.png").convert("L").convert("RGB")
+        img = Image.open("assets/blank.png").convert("L").convert("RGB")
         for i in range(10):
             img.save(f"profile/input/char{i}.png")
         print("Saving Evaluator")
