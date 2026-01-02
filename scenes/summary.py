@@ -95,7 +95,7 @@ class CSummary:
 
         return True
 
-    def __create_header(self, completed, color = (255, 255, 255)):
+    def __create_header(self, completed, color=(255, 255, 255)):
         """
         Metod for prerendering header text
         """

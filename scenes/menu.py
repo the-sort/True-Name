@@ -232,7 +232,7 @@ class CMenu():
             [self.__easy, self.__medium, self.__hard]
         )
 
-    def inspect_contact(self, contract : CButton):
+    def inspect_contact(self, contract: CButton):
         """
         Moves contract to center of screen
         """
