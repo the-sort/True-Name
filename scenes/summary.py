@@ -74,6 +74,8 @@ class CSummary:
         Metod for continue button
         to send Player to menu
         """
+        while pygame.mouse.get_pressed()[0]:
+            pygame.event.get()
         self.__manager.change_scene(self.__manager, "MENU")
 
     def restart_level(self, difficultie):
@@ -81,6 +83,8 @@ class CSummary:
         Metod for retry button
         to restart level
         """
+        while pygame.mouse.get_pressed()[0]:
+            pygame.event.get()
         self.__manager.change_scene(self.__manager, difficultie)
 
 
