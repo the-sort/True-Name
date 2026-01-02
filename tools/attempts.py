@@ -43,16 +43,28 @@ class CAttempts:
         for attempt in self.__attempts:
             if attempt == "":
                 continue
+
             text = str(attempt[0])
             text_surface = font.render(text, True, color)
-
-            self.__screen.blit  (text_surface, (x_off + global_x + self.__screen_width - SLIDER_H,
-                                                y_off + global_y)
+            self.__screen.blit  (
+                                    text_surface,
+                                    (
+                                        x_off + global_x + self.__screen_width - SLIDER_H,
+                                                y_off + global_y
+                                    )
                                 )
+
             text = "LIKNESS  =  " + str(attempt[1])
             text_surface = font.render(text, True, color)
-            self.__screen.blit  (text_surface, ((2 * self.__screen_width - (text_surface.get_width() + font_size + SLIDER_H)) + global_x,
-                                                y_off + global_y))
+            text_pos =  (
+                            (
+                                2 * self.__screen_width
+                                -
+                                (text_surface.get_width() + font_size + SLIDER_H)
+                            ) + global_x,
+                            y_off + global_y
+                        )
+            self.__screen.blit  (text_surface, text_pos)
             y_off += font_size + font.get_height()
 
 if __name__ == "__main__":
