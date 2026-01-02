@@ -26,6 +26,13 @@ class CStart():
                                         on_press    = self.scene_to_menu
                                     )
 
+        try:
+            with open("profile/player.txt", mode = "r", encoding = "utf-8") as f:
+                ...
+        except FileNotFoundError:
+            self.__continue.deactivate()
+            self.__continue.hide()
+
 
     def display(self, __delta_time):
         """
