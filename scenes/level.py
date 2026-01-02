@@ -18,7 +18,7 @@ class CLevel:
     """
     Metods for handling level
     """
-    def __init__(self, manager, difficultie : str, language = "ENG"):
+    def __init__(self, manager, difficultie: str, language="ENG"):
         self.__manager = manager
 
         self.__difficultie = CDificulties(difficultie)
