@@ -124,6 +124,8 @@ class CLevel:
                     if self.__exit.is_pressed(event.pos, (self.__x_pos, self.__y_pos)):
                         self.__manager.player.add_coins(self.__difficultie.reward())
                         self.__manager.player.save()
+                        while pygame.mouse.get_pressed()[0]:
+                            pygame.event.get()
                         self.__manager.change_scene(self.__manager, "MENU")
                     self.__brush.down()
                     if  (   self.__end_slider.is_active() and
@@ -171,7 +173,7 @@ class CLevel:
                                                         self.__y_pos
                                                       ) #deffinietly not 30FPS but looks dope
                 if self.__manager.player.health() <= 0:
-                    self.__manager.change_scene(self.__manager, "MENU")
+                    break
                 pygame.image.save   (   a_canvas[0],
                                         f"profile/input/char{a_canvas[2]}.png"
                                     ) #Preanswer guessing
@@ -184,6 +186,10 @@ class CLevel:
                     self.__canvases = canvas.CCanvases(SCREEN_H)
                     self.__attempts.add((answer, likness[1]))
 
+        if self.__manager.player.health() <= 0:
+            while pygame.mouse.get_pressed()[0]:
+                pygame.event.get()
+            self.__manager.change_scene(self.__manager, "MENU")
 
         return True
 
@@ -198,7 +204,6 @@ class CLevel:
         activates all sliders
         """
         self.__deactivated_sliders = False
-
     def __del__(self):
         self.__manager.player.heal_to_full()
 
