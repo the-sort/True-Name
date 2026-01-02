@@ -19,13 +19,11 @@ class CStart():
 
         self.__new_game     = CButton(  position     = (0,0),
                                         idle         = "assets/start_up/new_game.png",
-                                        on_press     = self.scene_to_menu,
-                                        on_release   = self.scene_to_menu
+                                        on_press     = self.new_game
                                     )
         self.__continue     = CButton(  position    = (0, SCREEN_H // 2),
                                         idle        = "assets/start_up/continue.png",
-                                        on_press    = self.scene_to_menu,
-                                        on_release   = self.scene_to_menu
+                                        on_press    = self.scene_to_menu
                                     )
 
 
@@ -61,6 +59,17 @@ class CStart():
             pygame.event.get()
 
         self.__manager.change_scene(self.__manager, "MENU")
+
+    def new_game(self):
+        """
+        Change Scene to menu and resets 
+        Player stats
+        """
+        base_stats = "200\n0"
+        with open("profile/player.txt", mode = "w", encoding = "utf-8") as f:
+            f.write(base_stats)
+        self.__manager.player.refresh_stats()
+        self.scene_to_menu()
 
 
 if __name__ == "__main__":
