@@ -103,7 +103,7 @@ class CMenu():
             return False
 
         self.__screen.fill((0,0,0))
-        continue_looping = self.handle_events()
+        self.handle_events()
 
         if self.__wizzad.state(): #opened shop
             self.__shop.activate()
@@ -124,7 +124,7 @@ class CMenu():
         self.__accept.display(self.__screen, 0, 0)
 
         self.__leave.display(self.__screen, 0, 0)
-        return continue_looping
+        return True
 
     def handle_events(self) -> bool:
         """
@@ -132,8 +132,7 @@ class CMenu():
         """
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                return False
-        return True
+                self.leave()
 
     def start_shoping(self):
         """
@@ -201,6 +200,7 @@ class CMenu():
         """
         Leave game using leave button
         """
+        self.__manager.player.save()
         self.__quit = True
 
     def __center_align(self, size):
