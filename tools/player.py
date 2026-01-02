@@ -58,8 +58,16 @@ class CPlayer:
         top_left = (75 + global_x, size[1] + global_y)
         top_right = (-75 + size[0] + global_x -  self.__full_width, size[1] + global_y)
 
-        self.__health_vial_animation.play(screen, delta_time, (top_left[0], top_left[1] + self.__full_height))
-        self.__health_vial_animation.play(screen, delta_time, (top_right[0], top_right[1] + self.__full_height))
+        self.__health_vial_animation.play   (
+                                                screen,
+                                                delta_time,
+                                                (top_left[0], top_left[1] + self.__full_height)
+                                            )
+        self.__health_vial_animation.play   (
+                                                screen,
+                                                delta_time,
+                                                (top_right[0], top_right[1] + self.__full_height)
+                                            )
 
     def deacrease_health(self, amount = -1):
         """
@@ -68,6 +76,7 @@ class CPlayer:
         """
         if amount >= 0:
             return
+
         self.__health += amount
 
         transform = self.__health_vial_blood.get_rect().size
@@ -82,6 +91,7 @@ class CPlayer:
         """
         if amount <= 0:
             return
+
         self.__health += amount
 
     def increase_full_health(self, amount = 1):
@@ -91,6 +101,7 @@ class CPlayer:
         """
         if amount <= 0:
             return
+
         self.__full_health += amount
 
 
@@ -119,6 +130,7 @@ class CPlayer:
         """
         if amount <= 0:
             raise ValueError("Insuffiecient amount of coins")
+
         self.__coins += amount
 
     def substract_coins(self, amount):
@@ -127,6 +139,7 @@ class CPlayer:
         """
         if amount <= 0:
             raise ValueError("Insuffiecient amount of coins")
+
         self.__coins -= amount
 
     def heal_to_full(self):
