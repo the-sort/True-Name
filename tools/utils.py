@@ -46,12 +46,19 @@ class CDificulties:
         """
         return self.__reward
 
+    def difficultie(self) -> str:
+        """
+        Returns set difficultie
+        """
+        return self.__difficultie
+
     def __set_difficultie(self, difficultie):
         """
         Sets difficultie of table
         """
         match difficultie:
             case "EASY":
+                self.__difficultie  = "EASY"
                 self.__cols         = 6
                 self.__rows         = 5
                 self.__scale        = 5
@@ -60,6 +67,7 @@ class CDificulties:
                 self.__reward       = 50
                 return
             case "MEDIUM":
+                self.__difficultie  = "MEDIUM"
                 self.__cols         = 8
                 self.__rows         = 6
                 self.__scale        = 4
@@ -68,6 +76,7 @@ class CDificulties:
                 self.__reward       = 100
                 return
             case "HARD":
+                self.__difficultie  = "HARD"
                 self.__cols         = 16
                 self.__rows         = 12
                 self.__scale        = 2
