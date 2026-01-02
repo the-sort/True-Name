@@ -26,16 +26,21 @@ class CSummary:
                                         idle         = "assets/summary/continue_scaled.png",
                                         on_press = self.go_to_menu
                                     )
-        
+
         self.__retry = CButton      (   position     = (SCREEN_W // 2 - button_size[0] // 2, SCREEN_H - 2 * button_size[1] - off_set),
                                         idle         = "assets/summary/retry.png",
                                         on_press = lambda : self.restart_level(difficultie),
                                         visible = False if completed else True,
                                         active = False if completed else True,
                                     )
+        
+        self.__coin_img = pygame.image.load("assets/coin_scaled.png")
 
         self.__header = self.__create_header(completed)
         self.__header_size = self.__header.get_rect().size
+
+        self.__sub_header = self.__create_sub_header(difficultie, completed)
+        self.__sub_header_size = self.__sub_header.get_rect().size
 
 
     def display(self, _delta_time):
@@ -43,9 +48,15 @@ class CSummary:
         Metod for displaying class in
         game loop
         """
+        off_set = 10
+
         self.__screen.fill((0, 0, 0))
 
         self.__screen.blit(self.__header, (SCREEN_W // 2 - self.__header_size[0] // 2, 0))
+        self.__screen.blit(self.__sub_header, (0, self.__header_size[1] + off_set))
+
+        self.__screen.blit(self.__coin_img, (0 + self.__sub_header_size[0] + off_set, self.__header_size[1] + off_set))
+
         self.__continue.display(self.__screen, 0, 0)
         self.__retry.display(self.__screen, 0, 0)
 
@@ -80,6 +91,10 @@ class CSummary:
         return True
 
     def __create_header(self, completed, color = (255, 255, 255)):
+        """
+        Metod for prerendering header text
+        """
+
         font_size = 35
         font = pygame.font.Font("./dictionaries/Gothic_pixel_font_fixed.ttf", font_size)
 
@@ -89,6 +104,19 @@ class CSummary:
             text = "Game Over"
         return font.render(text, True, color)
 
+    def __create_sub_header(self, difficultie, completed, color = (255, 255, 255)):
+        """
+        Metod for prerendering 
+        sub header text
+        """
+        font_size = 25
+        font = pygame.font.Font("./dictionaries/Gothic_pixel_font_fixed.ttf", font_size)
+        difficultie = CDificulties(difficultie)
+
+        reward = str(difficultie.reward()) if completed else "0"
+
+        text = f"REWARD:    {reward}"
+        return font.render(text, True, color)
 
 
 if __name__ == "__main__":
@@ -99,7 +127,7 @@ if __name__ == "__main__":
 
     pygame.init()
     t_manager = CSceneManager()
-    t_manager.change_scene(t_manager, "VICTORY", "EASY")
+    t_manager.change_scene(t_manager, "LOOSE", "HARD")
 
     clock = pygame.time.Clock()
 
