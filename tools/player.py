@@ -30,9 +30,9 @@ class CPlayer:
 
         self.__full_height = self.__health_vial_blood.get_rect().height
         self.__full_width = self.__health_vial_blood.get_rect().width
-        self.__full_vial_blood =  self.__health_vial_blood
+        self.__full_vial_blood = self.__health_vial_blood
 
-    def display_health(self, screen : pygame.Surface, global_x, global_y):
+    def display_health(self, screen: pygame.Surface, global_x, global_y):
         """
         Metod used for displaying
         actual health state of player
@@ -58,18 +58,18 @@ class CPlayer:
         top_left = (75 + global_x, size[1] + global_y)
         top_right = (-75 + size[0] + global_x -  self.__full_width, size[1] + global_y)
 
-        self.__health_vial_animation.play   (
-                                                screen,
-                                                delta_time,
-                                                (top_left[0], top_left[1] + self.__full_height)
-                                            )
-        self.__health_vial_animation.play   (
-                                                screen,
-                                                delta_time,
-                                                (top_right[0], top_right[1] + self.__full_height)
-                                            )
+        self.__health_vial_animation.play(
+            screen,
+            delta_time,
+            (top_left[0], top_left[1] + self.__full_height)
+        )
+        self.__health_vial_animation.play(
+            screen,
+            delta_time,
+            (top_right[0], top_right[1] + self.__full_height)
+        )
 
-    def deacrease_health(self, amount = -1):
+    def deacrease_health(self, amount=-1):
         """
         Metod for deacreasing player health
         When amount is >=0 does nothing
@@ -80,11 +80,11 @@ class CPlayer:
         self.__health += amount
 
         transform = self.__health_vial_blood.get_rect().size
-        transform  = (transform[0], abs(self.__full_height * self.__health / self.__full_health))
+        transform = (transform[0], abs(self.__full_height*self.__health/self.__full_health))
 
         self.__health_vial_blood = pygame.transform.scale(self.__health_vial_blood, transform)
 
-    def increase_health(self, amount = 1):
+    def increase_health(self, amount=1):
         """
         Metod for increasing player health
         When amount is <=0 does nothing
@@ -94,7 +94,7 @@ class CPlayer:
 
         self.__health += amount
 
-    def increase_full_health(self, amount = 1):
+    def increase_full_health(self, amount=1):
         """
         Metod for increasing player health
         When amount is <=0 does nothing
