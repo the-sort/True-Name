@@ -24,9 +24,9 @@ class CEvaluator:
         self.__guess = ""
         self.__changed = False
 
-        self.__class_to_index = {v: k for k, v in
-                                    ImageFolder("dictionaries/letters/train/").class_to_idx.items()
-                                }
+        self.__class_to_index = {v : k for k, v in
+            ImageFolder("dictionaries/letters/train/").class_to_idx.items()
+        }
         self.__clean_input()
 
 
@@ -35,7 +35,7 @@ class CEvaluator:
         Initializes pretrained model
         """
         self.__device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
-        self.__model  = CSimpleLetterClassifier().to(self.__device)
+        self.__model = CSimpleLetterClassifier().to(self.__device)
         self.__model.load_state_dict(torch.load("model.pth", weights_only=True))
         self.__model.eval()
 
@@ -44,10 +44,9 @@ class CEvaluator:
         Preproces users drawing for model
         """
         self.__images = []
-        transform = transforms.Compose  ([
-                                            transforms.Resize((128, 128)),
-                                            transforms.ToTensor()
-                                        ])
+        transform = transforms.Compose(
+            [transforms.Resize((128, 128)), transforms.ToTensor()]
+        )
 
         for i in range(10):
             try:
@@ -65,7 +64,7 @@ class CEvaluator:
         img = Image.open("assets/blank.png").convert("L").convert("RGB")
         for i in range(10):
             img.save(f"profile/input/char{i}.png")
-        print("Saving Evaluator")
+        # print("Saving Evaluator")
         self.__guess = ""
 
 
@@ -103,13 +102,13 @@ class CEvaluator:
             self.__guess = self.make_string(False)
             self.__changed = False
         font_size = 25
-        color   = (255, 255, 255)
+        color = (255, 255, 255)
         font = pygame.font.Font("./dictionaries/Gothic_pixel_font_fixed.ttf", font_size)
         guess_surface = font.render(self.__guess, True, color)
         guess_pos = (
-                        (screen.get_width() // 2) - (guess_surface.get_width()/2) + global_x,
-                        screen.get_height() + SLIDER_H  - guess_surface.get_height()//1.5 + global_y
-                    )
+            (screen.get_width() // 2) - (guess_surface.get_width()/2) + global_x,
+            screen.get_height() + SLIDER_H  - guess_surface.get_height()//1.5 + global_y
+        )
         screen.blit (guess_surface, guess_pos)
 
 
