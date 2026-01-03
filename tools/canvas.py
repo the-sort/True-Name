@@ -7,8 +7,9 @@ class CCanvases:
     """
     Class for handling drawing canvas
     """
-    def __init__(self, screen_height):
+    def __init__(self, screen_height, path = "profile/input/"):
         self.__screen_height = screen_height
+        self.__path = path
 
         self.__width = 175
         self.__height = 175
@@ -68,7 +69,7 @@ class CCanvases:
         if (canva := self.get_active(pos)) is None:
             return
         canva[0].fill(self.__background)
-        pygame.image.save(canva[0], f"profile/input/char{canva[2]}.png")
+        pygame.image.save(canva[0], self.__path + f"char{canva[2]}.png")
 
     def save(self):
         """
@@ -76,7 +77,7 @@ class CCanvases:
         """
         x = 0
         for canvas in self.__canvases:
-            pygame.image.save(canvas, "profile/input/char" + str(x) + ".png")
+            pygame.image.save(canvas, self.__path + f"char{x}.png")
             x += 1
         print("SAVING CANVAS")
 
