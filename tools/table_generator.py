@@ -20,7 +20,7 @@ class CTable:
     """
     table filled with random words
     """
-    def __init__(self, screen, difficultie : CDificulties, language):
+    def __init__(self, screen, difficultie: CDificulties, language):
         self.__set_dim(difficultie)
 
         self.__screen = screen
@@ -49,32 +49,33 @@ class CTable:
                 likeness += 1
         return (False, likeness)
 
-    def display_table(self, global_x = 0, global_y = 0):
+    def display_table(self, global_x=0, global_y=0):
         """
         Metod used to display table
         """
-        screen_center = pygame.Rect (
-                            percetage(self.__screen.get_width(), 5),
-                            0,
-                            self.__screen.get_width() - 2 * percetage(self.__screen.get_width(), 5),
-                            self.__screen.get_height() -  percetage(self.__screen.get_height(), 5)
-                                    )
+        screen_center = pygame.Rect(
+            percetage(self.__screen.get_width(), 5),
+            0,
+            self.__screen.get_width() - 2*percetage(self.__screen.get_width(), 5),
+            self.__screen.get_height() -  percetage(self.__screen.get_height(), 5)
+        )
         window = pygame.image.load("window.png")
-        window = pygame.transform.scale (window, (   window.get_width() * self.__scale,
-                                                    window.get_height() * self.__scale )
-                                        )
+        window = pygame.transform.scale(
+            window,
+            (window.get_width() * self.__scale, window.get_height() * self.__scale )
+        )
 
         font = pygame.font.Font("./dictionaries/Gothic_pixel_font_fixed.ttf", self.__font_size)
 
-        y = (screen_center.centery - (window.get_height() * self.__rows // 2)) + global_y
+        y = (screen_center.centery - (window.get_height()*self.__rows//2)) + global_y
         for line in self.__table:
-            x = (screen_center.centerx - (window.get_width() * self.__cols //2)) + global_x
+            x = (screen_center.centerx - (window.get_width()*self.__cols//2)) + global_x
             for col in line:
-                col_surface = font.render(col, True, (255,255,255))
-                x_off = (window.get_width() - col_surface.get_width()) // 2
-                y_off = (window.get_height() - col_surface.get_height()) //2
-                self.__screen.blit(window,(x,y))
-                self.__screen.blit(col_surface, (x + x_off ,y + y_off))
+                col_surface = font.render(col, True, (255, 255, 255))
+                x_off = (window.get_width() - col_surface.get_width())//2
+                y_off = (window.get_height() - col_surface.get_height())//2
+                self.__screen.blit(window, (x, y))
+                self.__screen.blit(col_surface, (x + x_off , y + y_off))
                 x += window.get_width()
             y += window.get_height()
 
@@ -86,14 +87,14 @@ class CTable:
         """
         return self.__health_drain
 
-    def __set_dim(self, difficultie : CDificulties):
+    def __set_dim(self, difficultie: CDificulties):
         """
         Sets dimension and scales of table
         """
-        self.__cols         = difficultie.cols()
-        self.__rows         = difficultie.rows()
-        self.__scale        = difficultie.scale()
-        self.__font_size    = difficultie.font_size()
+        self.__cols = difficultie.cols()
+        self.__rows = difficultie.rows()
+        self.__scale = difficultie.scale()
+        self.__font_size = difficultie.font_size()
 
 
     def __read_dict(self, language) -> None:
@@ -121,11 +122,11 @@ class CTable:
         for row in self.__table:
             index = 0
             while index < self.__cols:
-                num = random.randint(0,10)
+                num = random.randint(0, 10)
                 if self.__cols - index < 3:
                     index = self.__put_chars(row, index, self.__cols - index)
                     break
-                if num  % 2 == 0 or num % 3 == 0:
+                if num % 2 == 0 or num % 3 == 0:
                     index = self.__put_word(row, possible_solutions, index)
                 else:
                     index = self.__put_chars(row, index)
@@ -133,12 +134,12 @@ class CTable:
 
 
 
-    def __put_word(self, row : list, possible_solutions : list, index : int) -> int:
+    def __put_word(self, row: list, possible_solutions: list, index: int) -> int:
         """
         puts word into given row
         """
         try:
-            word_len = random.randint(MIN_WORD_LEN,  min(self.__cols - index - 1, MAX_WORD_LEN))
+            word_len = random.randint(MIN_WORD_LEN, min(self.__cols - index - 1, MAX_WORD_LEN))
         except ValueError:
             word_len = 3
         word = self.__dictionary[word_len][random.randint(0, len(self.__dictionary[word_len]) - 1)]
@@ -148,7 +149,7 @@ class CTable:
             index += 1
         return index
 
-    def __put_chars(self, row : list, index : int, am_chars = 0) -> int:
+    def __put_chars(self, row: list, index: int, am_chars = 0) -> int:
         """
         puts chars into given row
         """
