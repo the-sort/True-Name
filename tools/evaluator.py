@@ -18,16 +18,18 @@ class CEvaluator:
     class used for evalutating user drawn picture
     """
 
-    def __init__(self):
+    def __init__(self, path="profile/input/", clean_up=True):
         self.__set_model()
         self.__images = []
         self.__guess = ""
         self.__changed = False
+        self.__path = path
 
         self.__class_to_index = {v : k for k, v in
             ImageFolder("dictionaries/letters/train/").class_to_idx.items()
         }
-        self.__clean_input()
+        if clean_up:
+            self.__clean_input()
 
 
     def __set_model(self):
@@ -50,7 +52,7 @@ class CEvaluator:
 
         for i in range(10):
             try:
-                img = Image.open(f"profile/input/char{i}.png").convert("L").convert("RGB")
+                img = Image.open(self.__path + f"char{i}.png").convert("L").convert("RGB")
             except FileNotFoundError:
                 img = Image.open("assets/blank.png").convert("L").convert("RGB")
             if is_blank(image = img, background = (255, 255, 255)):
@@ -63,7 +65,7 @@ class CEvaluator:
         """
         img = Image.open("assets/blank.png").convert("L").convert("RGB")
         for i in range(10):
-            img.save(f"profile/input/char{i}.png")
+            img.save(self.__path + f"char{i}.png")
         # print("Saving Evaluator")
         self.__guess = ""
 
