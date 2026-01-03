@@ -54,3 +54,11 @@ def test_is_blank():
     """
     assert utils.is_blank(blank)
     assert not utils.is_blank(coin)
+
+def test_percentage():
+    """
+    Unit test for percetange function
+    """
+    assert utils.percetage(100, 20) == 20
+    assert utils.percetage(500, 50) == 250
+    assert utils.percetage(150, 32) == 48
