@@ -62,7 +62,7 @@ if __name__ == "__main__":
 
     device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
-    NUM_EPOCHS = 5
+    NUM_EPOCHS = 15
     train_losses = []
     valid_losses = []
 
@@ -104,4 +104,4 @@ if __name__ == "__main__":
         print(f"Epoch {epoch + 1}/{NUM_EPOCHS} \
               - Train loss : {train_loss}, \
                 Validation loss : {valid_loss}")
-    torch.save(model.state_dict(), "model.pth")
+    torch.save(model.state_dict(), "model1.pth")
