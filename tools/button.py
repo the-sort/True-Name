@@ -60,7 +60,7 @@ class CButton:
         if delta_time is not None:
             raise ValueError("Invalid value delta_time passed")
 
-        self.__released(pressed)
+        self.released(pressed)
 
         if self.__state and self.__pressed_img is not None:
             screen.blit(self.__pressed_img, global_pos)
@@ -237,7 +237,7 @@ class CButton:
 
         return self.__hovered_img.get_rect(topleft = global_pos).collidepoint(mouse_pos)
 
-    def __released(self, pressed):
+    def released(self, pressed):
         """
         Set state to 0
         """
