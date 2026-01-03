@@ -11,9 +11,10 @@ class CStart():
     """
     Class for displaying and handling Start_up scene
     """
-    def __init__(self, manager):
+    def __init__(self, manager, path = "profile/player.txt"):
         self.__manager = manager
         self.__screen = pygame.display.set_mode((SCREEN_W, SCREEN_H))
+        self.__path = path
 
         self.__reset = False
 
@@ -52,7 +53,7 @@ class CStart():
 
 
         try:
-            with open("profile/player.txt", mode = "r", encoding = "utf-8"):
+            with open(self.__path, mode = "r", encoding = "utf-8"):
                 self.__exist = True
 
         except FileNotFoundError:
@@ -113,6 +114,7 @@ class CStart():
             pygame.event.get()
 
         self.__manager.change_scene(self.__manager, "MENU")
+        return "MENU"
 
     def accept(self):
         """
@@ -120,7 +122,7 @@ class CStart():
         Player stats
         """
         base_stats = "200\n0"
-        with open("profile/player.txt", mode = "w", encoding = "utf-8") as f:
+        with open(self.__path, mode = "w", encoding = "utf-8") as f:
             f.write(base_stats)
         self.__manager.player.refresh_stats()
         self.scene_to_menu()
