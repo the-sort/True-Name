@@ -13,6 +13,7 @@ dependecies:
     Numpy:python3 -m pip install numpy
     Pytorch, pyvision: python3 -m pip install torch torchvision
     timm : pip install timm
+    Pytest : https://docs.pytest.org/en/stable/index.html
 
 font:
     Gothic_pixel_font (edited): https://osadam.itch.io/gothic-pixelart-font
