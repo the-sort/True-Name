@@ -103,13 +103,13 @@ class CShop:
 
         self.__plus.display(screen, 0, 0)
 
-    def upgrade_health(self):
+    def upgrade_health(self) -> bool:
         """
         Checks if player has enough money
         then upgrades his health
         """
         if self.__prize_int > self.__player.coins() or self.__player.full_health() >= 2000:
-            return
+            return False
 
         self.__player.increase_full_health(100)
         self.__player.substract_coins(self.__prize_int)
@@ -121,6 +121,7 @@ class CShop:
         self.__prize = self.__render_font(str(self.__prize_int), 17)
 
         self.__plus.make_idle()
+        return True
 
     def activate(self):
         """

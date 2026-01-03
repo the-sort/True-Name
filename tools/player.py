@@ -10,9 +10,10 @@ class CPlayer:
     his stats and inventar
     """
 
-    def __init__(self):
+    def __init__(self, path="profile/player.txt"):
+        self.__path = path
         try:
-            with open("profile/player.txt", mode = "r", encoding = "utf-8") as f:
+            with open(self.__path, mode = "r", encoding = "utf-8") as f:
                 self.__health = self.__full_health = int(f.readline())
                 self.__coins = int(f.readline())
         except (FileNotFoundError, PermissionError):
@@ -154,7 +155,7 @@ class CPlayer:
         Save player stats
         """
         to_save = str(self.__full_health) + "\n" + str(self.__coins)
-        with open("profile/player.txt", mode = "w", encoding = "utf-8") as f:
+        with open(self.__path, mode = "w", encoding = "utf-8") as f:
             f.write(to_save)
 
     def refresh_stats(self):
@@ -162,7 +163,7 @@ class CPlayer:
         Refreshes stats from file
         """
         try:
-            with open("profile/player.txt", mode = "r", encoding = "utf-8") as f:
+            with open(self.__path, mode = "r", encoding = "utf-8") as f:
                 self.__health = self.__full_health = int(f.readline())
                 self.__coins = int(f.readline())
         except (FileNotFoundError, PermissionError):
