@@ -241,11 +241,13 @@ class CButton:
         """
         Set state to 0
         """
+        out = None
         if pressed != self.__was_pressed and pressed:
             self.__state = not self.__state
-            self.__call()
+            out = self.__call()
 
         self.__was_pressed = pressed
+        return out
 
 
     def __transform(self, img: pygame.Surface, width, height):
@@ -265,10 +267,12 @@ class CButton:
         Calls action
         """
         if self.__on_press is not None and self.__state:
-            self.__on_press()
+            return self.__on_press()
 
         elif self.__on_release is not None and not self.__state:
-            self.__on_release()
+            return self.__on_release()
+
+        return None
 
 
 
