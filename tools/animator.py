@@ -38,12 +38,12 @@ class CAnimations:
 
         screen.blit(self.__frames[self.__frame_index], cordinates)
 
-    def get_rect(self, top_left=0):
+    def get_rect(self, top_left= (0, 0)):
         """
         Return rect of first frame 
         in animation
         """
-        return self.__frames[0].get_rect(top_left)
+        return self.__frames[0].get_rect(topleft = top_left)
 
     def get_keyframe(self):
         """
