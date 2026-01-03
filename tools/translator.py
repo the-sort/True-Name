@@ -28,7 +28,7 @@ class CSimpleLetterClassifier(nn.Module):
     Class for pytorch model which will clasify users handwritten
     latter into char
     """
-    def __init__(self, num_classes = 52):
+    def __init__(self, num_classes=52):
         super(CSimpleLetterClassifier, self).__init__()
 
         self.base_model = timm.create_model("efficientnet_b0", pretrained = True)
@@ -48,9 +48,9 @@ class CSimpleLetterClassifier(nn.Module):
 
 if __name__ == "__main__":
     # Setup Dataset
-    transform = transforms.Compose  ([  transforms.Resize((128,128)),
-                                        transforms.ToTensor()
-                                    ])
+    transform = transforms.Compose(
+        [transforms.Resize((128,128)), transforms.ToTensor()]
+    )
     TRAIN_FOLDER = "dictionaries/letters/train/"
     VALID_FOLDER = "dictionaries/letters/validate/"
 
@@ -66,11 +66,11 @@ if __name__ == "__main__":
     train_losses = []
     valid_losses = []
 
-    model = CSimpleLetterClassifier(num_classes= 52)
+    model = CSimpleLetterClassifier(num_classes = 52)
     model.to(device)
 
     criterion = nn.CrossEntropyLoss()# Loss function
-    optimizer = optim.Adam(model.parameters(), lr=0.001)
+    optimizer = optim.Adam(model.parameters(), lr = 0.001)
 
     for epoch in range(NUM_EPOCHS):
         model.train()
