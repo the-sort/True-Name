@@ -84,8 +84,8 @@ if __name__ == "__main__":
             loss = criterion(output, labels)
             loss.backward()
             optimizer.step()
-            RUNNING_LOSS += loss.item() * labels.size(0)
-        train_loss = RUNNING_LOSS / len(train_loader.dataset)
+            RUNNING_LOSS += loss.item()*labels.size(0)
+        train_loss = RUNNING_LOSS/len(train_loader.dataset)
         train_losses.append(train_loss)
 
         # Validation phase
@@ -98,8 +98,8 @@ if __name__ == "__main__":
 
                 outputs = model(images)
                 loss = criterion(outputs, labels)
-                RUNNING_LOSS += loss.item() * labels.size(0)
-        valid_loss = RUNNING_LOSS / len(valid_loader.dataset)
+                RUNNING_LOSS += loss.item()*labels.size(0)
+        valid_loss = RUNNING_LOSS /len(valid_loader.dataset)
         valid_losses.append(valid_loss)
         print(f"Epoch {epoch + 1}/{NUM_EPOCHS} \
               - Train loss : {train_loss}, \
