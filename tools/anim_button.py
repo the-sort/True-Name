@@ -23,10 +23,10 @@ class CAnimButton(CButton):
         super().__init__(
             pos,
             idle = idle.get_keyframe(),
-            on_press= on_press,
-            on_release= on_release,
-            hovered= hovered.get_keyframe(),
-            pressed= pressed.get_keyframe()
+            on_press = on_press,
+            on_release = on_release,
+            hovered = "" if hovered is None else hovered.get_keyframe(),
+            pressed = "" if pressed is None else pressed.get_keyframe()
         )
 
         self.__idle_anim = idle
