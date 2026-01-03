@@ -12,9 +12,11 @@ class CSceneManager():
     """
     Scene Manager class
     """
-    def __init__(self):
+    def __init__(self, testing = False):
         self.scene = None
         self.player = CPlayer()
+
+        self.__testing = testing
 
     def change_scene(self, manager, scene, difficultie = None):
         """
@@ -22,24 +24,31 @@ class CSceneManager():
         """
         del self.scene
 
-        if scene != "START":
+        if scene != "START" and not self.__testing:
             self.player.save()
 
         match scene:
             case "EASY":
                 self.scene = CLevel(manager, "EASY")
+                return "EASY"
             case "MEDIUM":
                 self.scene = CLevel(manager, "MEDIUM")
+                return "MEDIUM"
             case "HARD":
                 self.scene = CLevel(manager, "HARD")
+                return "HARD"
             case "MENU":
                 self.scene = CMenu(manager)
+                return "MENU"
             case "START":
                 self.scene = CStart(manager)
+                return "START"
             case "VICTORY":
                 self.scene = CSummary(manager, True, difficultie)
+                return "VICTORY"
             case "LOOSE":
                 self.scene = CSummary(manager, False, difficultie)
+                return "LOOSE"
             case _:
                 raise ValueError("Given scene does not exist")
 
