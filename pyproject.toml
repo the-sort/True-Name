@@ -1,0 +1,4 @@
+[tool.pytest.ini_options]
+filterwarnings = [
+    "ignore: .*The pkg_resources package is slated for removal as early as 2025-11-30.*"
+]
