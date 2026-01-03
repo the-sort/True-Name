@@ -7,7 +7,7 @@ from scenes.scene_manager import CSceneManager
 
 if __name__ == "__main__":
 
-    RUNNING  = True
+    RUNNING = True
     DELTA_TIME = 0.1
 
     pygame.init()
