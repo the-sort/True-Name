@@ -49,7 +49,7 @@ class CAnimButton(CButton):
         mouse_pos = pygame.mouse.get_pos()
         pressed = self.is_pressed(mouse_pos, (global_x, global_y))
 
-        self._CButton__released(pressed)
+        self.released(pressed)
 
         if self._CButton__state and self.__pressed_anim is not None:
             self.__pressed_anim.play(screen, delta_time, global_pos)
