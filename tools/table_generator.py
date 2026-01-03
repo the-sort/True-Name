@@ -29,8 +29,6 @@ class CTable:
 
         self.__read_dict(language)
         self.__solution = self.__fill_table()
-        # for line in self.__table:
-        #     print(line)
 
     def check_solution(self, guessed_word) -> tuple:
         """
@@ -86,6 +84,19 @@ class CTable:
         from player
         """
         return self.__health_drain
+
+    def solution(self):
+        """
+        Returns solution of table
+        """
+        return self.__solution
+
+    def table(self):
+        """
+        Returns table
+        """
+        return self.__table
+
 
     def __set_dim(self, difficultie: CDificulties):
         """
