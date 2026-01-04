@@ -4,11 +4,11 @@ model to convert user drawn picture
 and compare it to given string
 """
 
+import json
 import torch
 import torchvision.transforms as transforms
 from PIL import Image
 import pygame
-from torchvision.datasets import ImageFolder
 from tools.translator import CSimpleLetterClassifier
 from tools.utils import is_blank
 from tools.slider import SLIDER_H
@@ -25,11 +25,17 @@ class CEvaluator:
         self.__changed = False
         self.__path = path
 
-        self.__class_to_index = {v : k for k, v in
-            ImageFolder("dictionaries/letters/train/").class_to_idx.items()
-        }
+        self.__class_to_index = self.__assign_index()
         if clean_up:
             self.__clean_input()
+
+    def __assign_index(self):
+        """
+        Assign letter to index
+        """
+        with open("dictionaries/classes.json", "r", encoding="utf-8") as f:
+            classes = json.load(f)
+        return classes
 
 
     def __set_model(self):
