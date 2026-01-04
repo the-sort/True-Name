@@ -79,7 +79,7 @@ class CCanvases:
         for canvas in self.__canvases:
             pygame.image.save(canvas, self.__path + f"char{x}.png")
             x += 1
-        print("SAVING CANVAS")
+        # print("SAVING CANVAS")
 
     def size_of_one(self) -> tuple:
         """

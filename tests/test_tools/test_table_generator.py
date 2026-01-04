@@ -7,7 +7,7 @@ from tools import table_generator
 from tools.utils import CDificulties
 
 
-@pytest.fixture(scope="session", autouse=True)
+@pytest.fixture(scope = "session", autouse = True)
 def pygame_init():
     """
     Initializing pygame
