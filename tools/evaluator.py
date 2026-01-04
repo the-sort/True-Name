@@ -38,7 +38,14 @@ class CEvaluator:
         """
         self.__device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
         self.__model = CSimpleLetterClassifier().to(self.__device)
-        self.__model.load_state_dict(torch.load("model1.pth", weights_only=True))
+        self.__model.load_state_dict(torch.load(
+                                        "model1.pth", 
+                                        weights_only=True,
+                                        map_location =
+                                            "cuda:0" if torch.cuda.is_available()
+                                            else "cpu"
+                                    )
+        )
         self.__model.eval()
 
     def __preproces_input(self):
