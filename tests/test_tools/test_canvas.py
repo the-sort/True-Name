@@ -8,7 +8,7 @@ from tools.canvas import CCanvases
 
 PATH = "tests/profiles/canvases/"
 canvas = CCanvases(10, PATH)
-display = pygame.display.set_mode((10,10))
+display = pygame.display.set_mode((10, 10))
 
 def test_display():
     """

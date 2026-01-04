@@ -7,7 +7,7 @@ from tools.attempts import CAttempts
 
 screen = pygame.display.set_mode((10, 10))
 
-@pytest.fixture(scope="session", autouse=True)
+@pytest.fixture(scope = "session", autouse = True)
 def pygame_init():
     """
     Initializing pygame

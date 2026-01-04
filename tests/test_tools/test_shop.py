@@ -6,7 +6,7 @@ import pygame
 from tools.shop import CShop
 from tools.player import CPlayer
 
-@pytest.fixture(scope="session", autouse=True)
+@pytest.fixture(scope = "session", autouse = True)
 def pygame_init():
     """
     Initializing pygame
@@ -18,7 +18,7 @@ def screen():
     """
     Initializing screen
     """
-    display = pygame.display.set_mode((10,10))
+    display = pygame.display.set_mode((10, 10))
     return display
 
 
