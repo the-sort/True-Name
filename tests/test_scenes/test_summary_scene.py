@@ -6,7 +6,7 @@ import pygame
 from scenes.summary import CSummary
 from scenes.scene_manager import CSceneManager
 
-@pytest.fixture(scope="session", autouse=True)
+@pytest.fixture(scope = "session", autouse = True)
 def pygame_init():
     """
     Initializing pygame

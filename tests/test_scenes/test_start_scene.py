@@ -8,7 +8,7 @@ from scenes.scene_manager import CSceneManager
 
 PATH = "tests/profiles/new_player.txt"
 
-@pytest.fixture(scope="session", autouse=True)
+@pytest.fixture(scope = "session", autouse = True)
 def pygame_init():
     """
     Initializing pygame
