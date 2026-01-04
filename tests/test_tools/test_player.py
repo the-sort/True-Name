@@ -1,8 +1,8 @@
 """
 Unit test for player tool
 """
-from tools.player import CPlayer
 import pytest
+from tools.player import CPlayer
 
 player = CPlayer("tests/profiles/model_player.txt")
 

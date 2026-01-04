@@ -34,6 +34,7 @@ def test_display():
     """
     try:
         easy_table.display_table()
+        assert True
     except ImportError:
         pytest.fail("Display table method is not Implemented")
 

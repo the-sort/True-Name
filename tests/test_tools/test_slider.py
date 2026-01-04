@@ -5,7 +5,7 @@ import pygame
 import pytest
 from tools.slider import CSlider
 
-screen = pygame.display.set_mode((10,10))
+screen = pygame.display.set_mode((10, 10))
 
 slider_t = CSlider(screen, 0, 0, active = True)
 slider_f = CSlider(screen, 0, 0, active = False)
@@ -39,5 +39,6 @@ def test_display():
     """
     try:
         slider_t.display_slider(0, 0)
+        assert True
     except ImportError:
         pytest.fail("Display table method is not Implemented")
