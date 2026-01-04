@@ -8,7 +8,8 @@ Simple videogame where player tries to guess word from table, using nothing more
 
 ## Dependencies
 
-* [Pygames](https://www.pygame.org/wiki/GettingStarted) <pre><code>python3 -m pip install -U pygame --user</code></pre>
+* [Pygames](https://www.pygame.org/wiki/GettingStarted) <pre><code>python3 -m pip install -U pygame --user</code></pre> alternatively <pre><code>pip install pygame-ce</code></pre>
+
 
 * [Pillow](https://pillow.readthedocs.io/en/stable/) <pre><code>python3 -m pip install --upgrade pip
 python3 -m pip install --upgrade Pillow</code></pre>
@@ -29,7 +30,7 @@ python3 -m pip install --upgrade Pillow</code></pre>
 
 ### Start menu
 
-* Clicking on NEW GAME button your **health** and **coins** will be reseted. When playing for the first time you will have no other choice. 
+* Clicking on NEW GAME button will reset your **health** and **coins**. When playing for the first time you will have no other choice. 
 
 * Clicking on Continue button you will continue with same **health** and **coins** as when you stopped playing.
 
@@ -43,16 +44,16 @@ python3 -m pip install --upgrade Pillow</code></pre>
 
     ![contract](/assets/readme/contract.png)
 
-* By clicking on **wizzard** you enter shop where you can upgrade your **health** in exchange for a few **coins**. By clicking on **wizzard** again you return back to menu.
+* By clicking on **wizzard** you enter shop where you can upgrade your **health** in exchange for a few **coins**. By clicking on **wizzard** again, you return back to menu.
 
     ![shop](/assets/readme/shop.png)
 
 ### Level
 
-To **exit** level and earn **reward** you need to guess one specific word from the table. Each level consists of 3 parts plus 1 exit gate. To move between areas use **movement vines** on sides of your screen.
+To **exit** level and earn **reward**, you need to guess one specific word from the table. Each level consists of 3 parts plus 1 exit gate. To move between areas use **movement vines** on sides of your screen.
 ![level - movement](/assets/slider/slider.png)
 
-* **Table** area is where you will look for **english word**, **name** or **activity**.
+* **Table** area is where you will look for **english word**, **name**, **activity** or **short**.
 
     ![level - table](/assets/readme/level_table.png)
 
@@ -60,11 +61,11 @@ To **exit** level and earn **reward** you need to guess one specific word from t
 
     ![level - canvas](/assets/readme/level_canvas.png)
 
-* **Evaluation** area is place where your answers will be evaluated. Each word has **likness** atribute. **Likness** means on how many possitions has word matching letters with the word you are looking for.*(Let's imagine you are looking for word: table, and you guess word: turn. Word turn has likness = 1 because it is matching with the word you are looking for on 1 position. That position is the first postion. For example word cable would have likness = 3 because it is matching with the word you are looking for on different 3 positons.)*
+* **Evaluation** area is place where your answers will be evaluated. Each word has **likness** atribute. **Likness** represents count of letter postitions at which guessed word matches the word you are looking for.*(Let's imagine you are looking for word: table, and you guess word: turn. Word turn has likness = 1 because it is matching with the word you are looking for on 1 position. That position is the first postion. For example word cable would have likness = 3 because it is matching with the word you are looking for on different 3 positons.)*
 
     ![level - guess](/assets/readme/level_guess.png)
 
-* After guessing right word, the word will stay written inside frames in **canvas** area. Also new **movement vines** will appear in **canvas** area. By clicking on them you will move to **exit** area. After clicking on the **door** you will **exit** level and gain promised **reward**.
+* After guessing the right word, the word will stay written inside frames in the **canvas** area. Also new **movement vines** will appear in the **canvas** area. By clicking on them you will move to the **exit** area. After clicking on the **door** you will **exit** level and gain promised **reward**.
 
     ![level - exit](/assets/readme/level_exit.png)
 
