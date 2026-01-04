@@ -7,7 +7,7 @@ from scenes.scene_manager import CSceneManager
 
 manager = CSceneManager(testing = True)
 
-@pytest.fixture(scope="session", autouse=True)
+@pytest.fixture(scope = "session", autouse = True)
 def pygame_init():
     """
     Initializing pygame
