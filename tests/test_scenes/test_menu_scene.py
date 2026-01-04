@@ -6,7 +6,7 @@ import pygame
 from scenes.menu import CMenu
 from scenes.scene_manager import CSceneManager
 
-@pytest.fixture(scope="session", autouse=True)
+@pytest.fixture(scope = "session", autouse = True)
 def pygame_init():
     """
     Initializing pygame
@@ -14,20 +14,20 @@ def pygame_init():
     pygame.font.init()
 
 @pytest.fixture
-def start() -> CMenu:
+def menu() -> CMenu:
     """
-    Initializing start scene
+    Initializing menu scene
     """
     return CMenu(manager = CSceneManager())
 
-def test_display(start):
+def test_display(menu):
     """
     Unit test for checking display metod pressence
     """
-    t_start = start
+    t_menu = menu
 
     try:
-        t_start.display(0)
+        t_menu.display(0)
         assert True
     except ImportError:
         pytest.fail("Display metod is missing")
