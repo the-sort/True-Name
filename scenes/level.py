@@ -220,6 +220,7 @@ class CLevel:
                 else:
                     self.__canvases = canvas.CCanvases(SCREEN_H)
                     self.__attempts.add((answer, likness[1]))
+                    self.__table.add_revealed(answer)
 
         if self.__manager.player.health() <= 0:
             while pygame.mouse.get_pressed()[0]:

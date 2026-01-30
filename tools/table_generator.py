@@ -26,6 +26,12 @@ class CTable:
         self.__screen = screen
         self.__table = [["" for j in range(self.__cols)] for i in range(self.__rows)]
         self.__dictionary = [[] for _ in range(MAX_WORD_LEN + 1)]
+        self.__revealed = set(
+            [
+                "(", ")", "~", "!", "@", "#", "$", "%", "&", "_", 
+                "+", "/", "-", "{", "}", "|", ":", "<", ">", "?"
+            ]
+            )
 
         self.__read_dict(language)
         self.__solution = self.__fill_table()
@@ -69,13 +75,23 @@ class CTable:
         for line in self.__table:
             x = (screen_center.centerx - (window.get_width()*self.__cols//2)) + global_x
             for col in line:
-                col_surface = font.render(col, True, (255, 255, 255))
+                if col in self.__revealed:
+                    col_surface = font.render(col, True, (255, 255, 255))
+                else:
+                    col_surface = font.render(" ", True, (255, 255, 255))
                 x_off = (window.get_width() - col_surface.get_width())//2
                 y_off = (window.get_height() - col_surface.get_height())//2
                 self.__screen.blit(window, (x, y))
                 self.__screen.blit(col_surface, (x + x_off , y + y_off))
                 x += window.get_width()
             y += window.get_height()
+
+    def add_revealed(self, guessed_word):
+        """
+        add new reavealed character
+        """
+        for char in guessed_word:
+            self.__revealed.add(char)
 
     def health_drain(self):
         """
