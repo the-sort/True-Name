@@ -66,6 +66,18 @@ class CLevel:
                                 center_x = True,
                                 center_y = False
         )
+        self.__escape_slider = Slider(
+                                    screen = self.__screen,
+                                    left = 0,
+                                    top = SCREEN_H // 2 - 20,
+                                    scale_x = 1,
+                                    scale_y =  1,
+                                    rotation = 90,
+                                    active = True,
+                                    center_x = False,
+                                    center_y = True
+        )
+        
         self.__deactivated_sliders = False
 
         self.__exit = CButton(
@@ -91,6 +103,7 @@ class CLevel:
         self.__center_collider.display_slider(self.__x_pos, self.__y_pos)
         self.__right_collider.display_slider(self.__x_pos, self.__y_pos)
         self.__end_slider.display_slider(self.__x_pos, self.__y_pos)
+        self.__escape_slider.display_slider(self.__x_pos, self.__y_pos)
 
         continue_looping = self.__event_handler(self.__x_pos, self.__y_pos, delta_time)
 

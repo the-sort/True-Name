@@ -86,7 +86,8 @@ class CSlider:
             "CANVAS" : (0, -size[1] + SLIDER_H),
             "END" : (0, -size[1]*2 + 2*SLIDER_H),
             "ATTEMPTS": (-size[0] + SLIDER_H,0), 
-            "INVENTAR" : (size[0] - SLIDER_H,0)
+            "INVENTAR" : (size[0] - SLIDER_H,0),
+            "ESCAPE" : (size[0] - SLIDER_H, 0)
         }
         return stops[stop]
 
